@@ -1,52 +1,60 @@
 import 'package:flutter/material.dart';
-import 'package:shle_share/login_screen.dart';
-import 'package:shle_share/signup_screen.dart';
+import 'package:shle_share/Sign_in.dart';
+import 'package:shle_share/Sign_up.dart';
 
-class StartScreen extends StatelessWidget {
-  const StartScreen({super.key, required this.switchscreen});
-  final Function switchscreen;
+class StartScreen extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() {
+    return _StartScreenState();
+  }
+}
+
+class _StartScreenState extends State<StartScreen> {
+  void _openSignInOverlay() {
+    showModalBottomSheet(
+      isScrollControlled: true,
+      context: context,
+      builder: (ctx) => (SignIn()),
+    );
+  }
+
+  void _openSignUpOverlay() {
+    showModalBottomSheet(
+      isScrollControlled: true,
+      context: context,
+      builder: (ctx) => (SignUp()),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Center(
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           Text('welcom'),
-          const SizedBox(
-            height: 100,
-          ),
           Image.network(
             'https://cdn-icons-png.flaticon.com/512/1728/1728914.png',
-            height: 150,
-            width: 150,
-          ),
-          const SizedBox(
             height: 300,
+            width: 300,
           ),
-          ElevatedButton(
-              onPressed: () {
-                switchscreen(SignupPage());
-              },
-              style: ElevatedButton.styleFrom(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 150, vertical: 15),
-                  backgroundColor: Color.fromARGB(255, 56, 33, 16),
-                  foregroundColor: Colors.white),
-              child: Text('Sign up')),
-          const SizedBox(
-            height: 10,
-          ),
-          ElevatedButton(
-              onPressed: () {
-                switchscreen(LoginPage());
-              },
-              style: ElevatedButton.styleFrom(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 150, vertical: 15),
-                backgroundColor: Colors.white,
-                foregroundColor: Color.fromARGB(255, 56, 33, 16),
+          Column(
+            //buttons
+            children: [
+              ElevatedButton(
+                  onPressed: _openSignUpOverlay,
+                  style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 150, vertical: 15),
+                  ),
+                  child: Text('Sign up')),
+              const SizedBox(
+                height: 10,
               ),
-              child: Text('Sign in')),
+              OutlinedButton(
+                  onPressed: _openSignInOverlay, child: Text('Sign in')),
+            ],
+          )
         ],
       ),
     );
