@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:shle_share/Home/home_screen.dart';
 import 'package:shle_share/shelfshare.dart';
+import 'package:shle_share/startup_screen.dart';
 
 var kColorScheme =
     ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 56, 33, 16));
 var kDarkColorScheme =
-    ColorScheme.fromSeed(seedColor: Color.fromARGB(255, 23, 14, 7));
+    ColorScheme.fromSeed(seedColor: Color.fromARGB(255, 123, 81, 48));
 void main() {
   runApp(const MyApp());
 }
@@ -18,6 +20,10 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       darkTheme: ThemeData.dark().copyWith(
         colorScheme: kDarkColorScheme,
+        appBarTheme: const AppBarTheme().copyWith(
+          backgroundColor: kDarkColorScheme.secondary,
+          foregroundColor: kDarkColorScheme.onSecondary,
+        ),
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
             backgroundColor: kColorScheme.secondary,
@@ -35,8 +41,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData().copyWith(
           colorScheme: kColorScheme,
           appBarTheme: const AppBarTheme().copyWith(
-            backgroundColor: kColorScheme.secondaryContainer,
-            foregroundColor: kColorScheme.onSecondaryContainer,
+            backgroundColor: kColorScheme.secondary,
+            foregroundColor: kColorScheme.onSecondary,
           ),
           elevatedButtonTheme: ElevatedButtonThemeData(
             style: ElevatedButton.styleFrom(
@@ -51,7 +57,7 @@ class MyApp extends StatelessWidget {
             foregroundColor: kColorScheme.primary,
             padding: const EdgeInsets.symmetric(horizontal: 150, vertical: 15),
           ))),
-      home: const ShelfShare(),
+      home: StartScreen(),
     );
   }
 }

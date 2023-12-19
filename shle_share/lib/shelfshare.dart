@@ -11,13 +11,7 @@ class ShelfShare extends StatefulWidget {
 }
 
 class _ShelfShareState extends State<ShelfShare> {
-  Widget? activeScreen;
-
-  // @override
-  // void initState() {
-  //   activeScreen = StartScreen(switchscreen: SwitchScreen);
-  //   super.initState();
-  // }
+  Widget activeScreen = StartScreen();
 
   void SwitchScreen(Widget active) {
     setState(() {
@@ -29,8 +23,7 @@ class _ShelfShareState extends State<ShelfShare> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        // color: Color.fromARGB(255, 235, 232, 231),
-        child: StartScreen(),
+        child: activeScreen,
       ),
     );
   }

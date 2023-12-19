@@ -28,34 +28,36 @@ class _StartScreenState extends State<StartScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          Text('welcom'),
-          Image.network(
-            'https://cdn-icons-png.flaticon.com/512/1728/1728914.png',
-            height: 300,
-            width: 300,
-          ),
-          Column(
-            //buttons
-            children: [
-              ElevatedButton(
-                  onPressed: _openSignUpOverlay,
-                  style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 150, vertical: 15),
-                  ),
-                  child: Text('Sign up')),
-              const SizedBox(
-                height: 10,
-              ),
-              OutlinedButton(
-                  onPressed: _openSignInOverlay, child: Text('Sign in')),
-            ],
-          )
-        ],
+    return Scaffold(
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Text('welcom'),
+            Image.network(
+              'https://cdn-icons-png.flaticon.com/512/1728/1728914.png',
+              height: 300,
+              width: 300,
+            ),
+            Column(
+              //buttons
+              children: [
+                ElevatedButton(
+                    onPressed: _openSignUpOverlay,
+                    style: ElevatedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 150, vertical: 15),
+                    ),
+                    child: Text('Sign up')),
+                const SizedBox(
+                  height: 10,
+                ),
+                OutlinedButton(
+                    onPressed: _openSignInOverlay, child: Text('Sign in')),
+              ],
+            )
+          ],
+        ),
       ),
     );
   }

@@ -13,17 +13,18 @@ class _SignInState extends State<SignIn> {
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
   bool _isPasswordVisible = false;
+
+  void _goToMain() {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (ctx) => const HomeScreen(),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     var deviceHight = MediaQuery.of(context).size.height;
-
-    void _openHomeOverlay() {
-      showModalBottomSheet(
-        isScrollControlled: true,
-        context: context,
-        builder: (ctx) => (HomeScreen()),
-      );
-    }
 
     return Container(
       height: deviceHight / 1.25,
@@ -83,7 +84,7 @@ class _SignInState extends State<SignIn> {
                     onPressed: () {
                       print(
                           'username: ${_usernameController.text} \npassword: ${_passwordController.text} ');
-                      _openHomeOverlay();
+                      _goToMain();
                     },
                     style: ElevatedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(

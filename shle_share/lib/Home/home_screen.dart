@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:shle_share/Home/navItem.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -11,14 +10,13 @@ class HomeScreen extends StatefulWidget {
 
 class _homeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
-  BottomNavigationBarType _bottomNavType = BottomNavigationBarType.fixed;
+  final BottomNavigationBarType _bottomNavType = BottomNavigationBarType.fixed;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
         title: const Text('Home Screen'),
-        actions: [IconButton(onPressed: () {}, icon: const Icon(Icons.add))],
       ),
       body: Center(
         child: Column(
@@ -33,9 +31,8 @@ class _homeScreenState extends State<HomeScreen> {
       ),
       bottomNavigationBar: BottomNavigationBar(
           currentIndex: _selectedIndex,
-          selectedItemColor: const Color(0xff6200ee),
-          unselectedItemColor: const Color(0xff757575),
           type: _bottomNavType,
+          unselectedItemColor: ThemeData().unselectedWidgetColor,
           onTap: (index) {
             setState(() {
               _selectedIndex = index;
