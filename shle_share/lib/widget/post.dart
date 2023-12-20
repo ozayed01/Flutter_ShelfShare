@@ -4,28 +4,31 @@ class Post extends StatelessWidget {
   const Post({
     super.key,
     this.ImgUrl,
-    required this.booktitle,
+    required this.bookDtails,
     required this.username,
     required this.name,
     required this.userImgUrl,
+    required this.exhangeText,
   });
 
   final String? ImgUrl;
-  final String booktitle;
+  final List<String> bookDtails;
   final String name;
   final String username;
   final String userImgUrl;
+  final String exhangeText;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       color: Colors.black54,
       width: 500,
-      height: 300,
+      height: 190,
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         SizedBox(
-          height: 20,
+          height: 5,
         ),
+
         Row(
           children: [
             SizedBox(
@@ -35,8 +38,8 @@ class Post extends StatelessWidget {
               borderRadius: BorderRadius.circular(100),
               child: Image.network(
                 userImgUrl,
-                height: 70,
-                width: 70,
+                height: 50,
+                width: 50,
               ),
             ),
             const SizedBox(
@@ -60,10 +63,26 @@ class Post extends StatelessWidget {
         //     width: 500,
         //   )
         SizedBox(
-          height: 100,
+          height: 20,
+        ),
+        Text(' Request Title : $exhangeText'),
+        SizedBox(
+          height: 20,
         ),
 
-        Text(booktitle)
+        Row(
+          children: [
+            Column(
+              children: [
+                for (var book in bookDtails)
+                  Text(
+                    ' $book',
+                    style: Theme.of(context).textTheme.titleMedium,
+                  ),
+              ],
+            ),
+          ],
+        ),
       ]),
     );
   }
