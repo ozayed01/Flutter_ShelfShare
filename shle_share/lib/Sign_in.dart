@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:shle_share/Home/home_screen.dart';
+import 'package:shle_share/BottomBar/bottom_bar.dart';
 
 class SignIn extends StatefulWidget {
   @override
@@ -15,10 +15,11 @@ class _SignInState extends State<SignIn> {
   bool _isPasswordVisible = false;
 
   void _goToMain() {
-    Navigator.of(context).push(
+    Navigator.of(context).pushAndRemoveUntil(
       MaterialPageRoute(
-        builder: (ctx) => const HomeScreen(),
+        builder: (ctx) => const BottomBar(),
       ),
+      (route) => false,
     );
   }
 
