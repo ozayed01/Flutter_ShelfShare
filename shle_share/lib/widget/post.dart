@@ -22,7 +22,12 @@ class Post extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var deviceWidth = MediaQuery.of(context).size.width;
-    final List<String> details = ['Book:', "Author:", "Realase:"];
+    final List<String> details = ['Book: ', "Author: ", "Realase Date: "];
+
+    for (int i = 0; i < 3; i++) {
+      details[i] = details[i] + bookDtails[i];
+    }
+
     return Card(
       margin: const EdgeInsets.symmetric(vertical: 2, horizontal: 4),
       shape: RoundedRectangleBorder(
@@ -101,18 +106,6 @@ class Post extends StatelessWidget {
                     ],
                   ),
                 ),
-                Column(
-                  children: [
-                    for (var book in bookDtails)
-                      Text(
-                        book,
-                        style: Theme.of(context).textTheme.titleMedium,
-                      ),
-                  ],
-                ),
-                SizedBox(
-                  width: deviceWidth / 4.5,
-                ),
                 if (bookimgUrl != null)
                   ClipRRect(
                     borderRadius: BorderRadius.circular(20),
@@ -121,7 +114,8 @@ class Post extends StatelessWidget {
                       height: 120,
                       width: 100,
                     ),
-                  )
+                  ),
+                const SizedBox(width: 20)
               ],
             ),
             //end of book details
