@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:shle_share/BottomBar/bottom_bar.dart';
-import 'package:shle_share/shelfshare.dart';
 import 'package:shle_share/startup_screen.dart';
 
 var kColorScheme =

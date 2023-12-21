@@ -14,6 +14,13 @@ class _SignInState extends State<SignIn> {
   final _passwordController = TextEditingController();
   bool _isPasswordVisible = false;
 
+  @override
+  void dispose() {
+    _usernameController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
+
   void _goToMain() {
     Navigator.of(context).pushAndRemoveUntil(
       MaterialPageRoute(

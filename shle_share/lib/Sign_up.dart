@@ -9,10 +9,22 @@ class SignUp extends StatefulWidget {
 
 class _SignUpState extends State<SignUp> {
   final _fullNameController = TextEditingController();
-  final _EmailController = TextEditingController();
+  final _emailController = TextEditingController();
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
   final _ConfPasswordController = TextEditingController();
+
+  @override
+  void dispose() {
+    _fullNameController.dispose();
+    _emailController.dispose();
+    _usernameController.dispose();
+    _passwordController.dispose();
+    _ConfPasswordController.dispose();
+
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     var deviceHight = MediaQuery.of(context).size.height;
@@ -45,7 +57,7 @@ class _SignUpState extends State<SignUp> {
             ),
             const SizedBox(height: 10),
             TextField(
-              controller: _EmailController,
+              controller: _emailController,
               decoration: InputDecoration(
                 label: const Text(
                   'Email',
@@ -103,7 +115,7 @@ class _SignUpState extends State<SignUp> {
                 ElevatedButton(
                     onPressed: () {
                       print(
-                          'Full name: ${_fullNameController.text} \nEmail: ${_EmailController.text} \nusername: ${_usernameController.text} \npassword: ${_passwordController.text} \nconfiPass : ${_ConfPasswordController.text} ');
+                          'Full name: ${_fullNameController.text} \nEmail: ${_emailController.text} \nusername: ${_usernameController.text} \npassword: ${_passwordController.text} \nconfiPass : ${_ConfPasswordController.text} ');
                     },
                     style: ElevatedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(

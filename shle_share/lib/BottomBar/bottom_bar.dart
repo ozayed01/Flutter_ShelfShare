@@ -24,7 +24,7 @@ class _BottomBarState extends State<BottomBar> {
 
   @override
   Widget build(BuildContext context) {
-    Widget activePage = const HomeScreen();
+    Widget activePage = HomeScreen();
     var activePageTitle = 'Home';
 
     if (_selectedIndex == 1) {
@@ -41,9 +41,6 @@ class _BottomBarState extends State<BottomBar> {
       activePageTitle = 'Profile';
     }
     return Scaffold(
-      appBar: AppBar(
-        title: Text(activePageTitle),
-      ),
       body: activePage,
       bottomNavigationBar: BottomNavigationBar(
         selectedItemColor: Theme.of(context).colorScheme.primary,

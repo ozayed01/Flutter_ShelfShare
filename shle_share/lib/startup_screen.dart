@@ -34,11 +34,8 @@ class _StartScreenState extends State<StartScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Text('welcom'),
-            Image.asset(
-              'assets/images/book.png',
-              color: const Color.fromARGB(197, 134, 63, 11),
-              width: 300,
-            ),
+            Image.asset('assets/images/book.png',
+                color: const Color.fromARGB(197, 134, 63, 11)),
             Column(
               //buttons
               children: [

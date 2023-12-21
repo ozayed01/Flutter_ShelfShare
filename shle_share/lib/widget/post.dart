@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class Post extends StatelessWidget {
   const Post({
     super.key,
-    this.ImgUrl,
+    this.bookimgUrl,
     required this.bookDtails,
     required this.username,
     required this.name,
@@ -11,79 +11,153 @@ class Post extends StatelessWidget {
     required this.exhangeText,
   });
 
-  final String? ImgUrl;
+  final String? bookimgUrl;
   final List<String> bookDtails;
   final String name;
   final String username;
   final String userImgUrl;
   final String exhangeText;
+  final bool isfavOn = false;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.black54,
-      width: 500,
-      height: 190,
-      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        SizedBox(
-          height: 5,
+    var deviceWidth = MediaQuery.of(context).size.width;
+    final List<String> details = ['Book:', "Author:", "Realase:"];
+    return Card(
+      margin: const EdgeInsets.symmetric(vertical: 2, horizontal: 4),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(8),
+        side: BorderSide(
+          width: 1,
+          color: Theme.of(context).colorScheme.onBackground.withOpacity(0.2),
         ),
-
-        Row(
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(5),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            SizedBox(
-              width: 10,
-            ),
-            ClipRRect(
-              borderRadius: BorderRadius.circular(100),
-              child: Image.network(
-                userImgUrl,
-                height: 50,
-                width: 50,
-              ),
-            ),
             const SizedBox(
-              width: 5,
+              height: 5,
             ),
-            Column(children: [
-              Text(
-                name,
-                style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                      letterSpacing: 1.2,
-                    ),
-              ),
-              Text(username),
-            ]),
-          ],
-        ),
-        // if (ImgUrl != null)
-        //   Image.network(
-        //     ImgUrl!,
-        //     height: 150,
-        //     width: 500,
-        //   )
-        SizedBox(
-          height: 20,
-        ),
-        Text(' Request Title : $exhangeText'),
-        SizedBox(
-          height: 20,
-        ),
-
-        Row(
-          children: [
-            Column(
+            //pic and user Details
+            Row(
               children: [
-                for (var book in bookDtails)
-                  Text(
-                    ' $book',
-                    style: Theme.of(context).textTheme.titleMedium,
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(100),
+                  child: Image.network(
+                    userImgUrl,
+                    height: 50,
+                    width: 50,
                   ),
+                ),
+                const SizedBox(
+                  width: 5,
+                ),
+                Column(
+                  children: [
+                    Text(
+                      name,
+                      style:
+                          Theme.of(context).textTheme.headlineSmall?.copyWith(
+                                letterSpacing: 1.2,
+                              ),
+                    ),
+                    Text(username),
+                  ],
+                ),
+                Spacer(),
+                IconButton(onPressed: () {}, icon: Icon(Icons.more_horiz))
               ],
             ),
+            //pic and user details end
+            //requst
+            const SizedBox(
+              height: 20,
+            ),
+            Text(
+              'Request : $exhangeText',
+              style: Theme.of(context)
+                  .textTheme
+                  .headlineSmall
+                  ?.copyWith(fontSize: 18, fontWeight: FontWeight.bold),
+              textAlign: TextAlign.left,
+            ),
+            const SizedBox(
+              height: 17,
+            ),
+
+            Row(
+              children: [
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      for (var detail in details)
+                        Text(
+                          detail,
+                          style: Theme.of(context).textTheme.titleMedium,
+                        ),
+                    ],
+                  ),
+                ),
+                Column(
+                  children: [
+                    for (var book in bookDtails)
+                      Text(
+                        book,
+                        style: Theme.of(context).textTheme.titleMedium,
+                      ),
+                  ],
+                ),
+                SizedBox(
+                  width: deviceWidth / 4.5,
+                ),
+                if (bookimgUrl != null)
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    child: Image.network(
+                      bookimgUrl!,
+                      height: 120,
+                      width: 100,
+                    ),
+                  )
+              ],
+            ),
+            //end of book details
+
+            Row(
+              children: [
+                const SizedBox(
+                  width: 3,
+                ),
+                IconButton(
+                    onPressed: () {},
+                    icon: Icon(
+                        (isfavOn)
+                            ? Icons.favorite
+                            : Icons.favorite_border_outlined,
+                        size: 25,
+                        color: (isfavOn)
+                            ? Colors.red
+                            : Theme.of(context).colorScheme.onBackground)),
+                IconButton(
+                    onPressed: () {},
+                    icon: const Icon(
+                      Icons.comment,
+                      size: 25,
+                    )),
+                IconButton(
+                    onPressed: () {},
+                    icon: const Icon(
+                      Icons.share,
+                      size: 25,
+                    )),
+              ],
+            )
           ],
         ),
-      ]),
+      ),
     );
   }
 }
