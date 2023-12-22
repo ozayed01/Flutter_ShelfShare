@@ -37,7 +37,7 @@ class _BottomBarState extends State<BottomBar> {
       activePage = const ChatScreen();
       activePageTitle = 'Chat';
     } else if (_selectedIndex == 4) {
-      activePage = const ProfileScreen();
+      activePage = ProfileScreen();
       activePageTitle = 'Profile';
     }
     return Scaffold(
