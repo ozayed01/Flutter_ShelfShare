@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:shle_share/startup_screen.dart';
+import 'package:shle_share/Screens/startup_screen.dart';
 
 var kColorScheme =
     ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 56, 33, 16));

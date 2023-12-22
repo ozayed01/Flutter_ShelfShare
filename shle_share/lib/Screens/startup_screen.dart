@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:shle_share/Sign_in.dart';
-import 'package:shle_share/Sign_up.dart';
+import 'package:shle_share/Screens/Sign_in.dart';
+import 'package:shle_share/Screens/Sign_up.dart';
 
 class StartScreen extends StatefulWidget {
   @override

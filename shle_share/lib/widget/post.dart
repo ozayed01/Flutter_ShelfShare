@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shle_share/widget/user_profile.dart';
 
 class Post extends StatelessWidget {
   const Post({
@@ -17,13 +18,12 @@ class Post extends StatelessWidget {
   final String username;
   final String userImgUrl;
   final String exhangeText;
-  final bool isfavOn = false;
 
   @override
   Widget build(BuildContext context) {
     var deviceWidth = MediaQuery.of(context).size.width;
     final List<String> details = ['Book: ', "Author: ", "Realase Date: "];
-
+    var isfavOn = true;
     for (int i = 0; i < 3; i++) {
       details[i] = details[i] + bookDtails[i];
     }
@@ -46,34 +46,41 @@ class Post extends StatelessWidget {
               height: 5,
             ),
             //pic and user Details
-            Row(
-              children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(100),
-                  child: Image.network(
-                    userImgUrl,
-                    height: 50,
-                    width: 50,
-                  ),
-                ),
-                const SizedBox(
-                  width: 5,
-                ),
-                Column(
-                  children: [
-                    Text(
-                      name,
-                      style:
-                          Theme.of(context).textTheme.headlineSmall?.copyWith(
-                                letterSpacing: 1.2,
-                              ),
+            InkWell(
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => const UserProfile()),
+                );
+              },
+              child: Row(
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(100),
+                    child: Image.network(
+                      userImgUrl,
+                      height: 50,
+                      width: 50,
                     ),
-                    Text(username),
-                  ],
-                ),
-                Spacer(),
-                IconButton(onPressed: () {}, icon: Icon(Icons.more_horiz))
-              ],
+                  ),
+                  const SizedBox(
+                    width: 5,
+                  ),
+                  Column(
+                    children: [
+                      Text(
+                        name,
+                        style:
+                            Theme.of(context).textTheme.headlineSmall?.copyWith(
+                                  letterSpacing: 1.2,
+                                ),
+                      ),
+                      Text(username),
+                    ],
+                  ),
+                  Spacer(),
+                  IconButton(onPressed: () {}, icon: Icon(Icons.more_vert))
+                ],
+              ),
             ),
             //pic and user details end
             //requst
@@ -126,7 +133,13 @@ class Post extends StatelessWidget {
                   width: 3,
                 ),
                 IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      if (isfavOn == true) {
+                        isfavOn = false;
+                      } else {
+                        isfavOn = true;
+                      }
+                    },
                     icon: Icon(
                         (isfavOn)
                             ? Icons.favorite
