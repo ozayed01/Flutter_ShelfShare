@@ -68,7 +68,7 @@ class ProfileScreen extends StatelessWidget {
             ),
             const TabBar(
               tabs: [
-                Tab(icon: Icon(Icons.loop_rounded)),
+                Tab(icon: Icon(Icons.menu_book_outlined)),
                 Tab(icon: Icon(Icons.book_outlined)),
               ],
             ),

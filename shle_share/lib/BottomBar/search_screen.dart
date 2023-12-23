@@ -11,11 +11,18 @@ class SearchScreen extends StatelessWidget {
           height: 40,
           width: 350,
           child: TextField(
+            keyboardType: TextInputType.emailAddress,
+            onSubmitted: (value) {
+              print(_searchControllr.text);
+            },
             controller: _searchControllr,
             style: TextStyle(color: Theme.of(context).colorScheme.onBackground),
             decoration: InputDecoration(
               filled: true,
-              hintText: 'Search here...',
+              hintText: 'Search',
+              prefixIcon: const Icon(
+                Icons.search,
+              ),
               fillColor: Colors.white,
               border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
@@ -24,11 +31,13 @@ class SearchScreen extends StatelessWidget {
           ),
         ),
         actions: [
-          IconButton(
-              onPressed: () {
-                print(_searchControllr.text);
-              },
-              icon: Icon(Icons.search))
+          TextButton(
+            onPressed: () {},
+            child: Text(
+              'Search',
+              style: TextStyle(color: Theme.of(context).colorScheme.background),
+            ),
+          ),
         ],
       ),
       body: const Text("this is search"),
