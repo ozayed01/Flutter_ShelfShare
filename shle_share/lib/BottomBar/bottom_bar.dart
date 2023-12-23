@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:shle_share/BottomBar/BookShelf_screen.dart';
+import 'package:shle_share/BottomBar/Profile/BookShelf_screen.dart';
 import 'package:shle_share/BottomBar/chat_screen.dart';
 import 'package:shle_share/BottomBar/home_screen.dart';
-import 'package:shle_share/BottomBar/profile_Screen.dart';
+import 'package:shle_share/BottomBar/Profile/profile_Screen.dart';
 import 'package:shle_share/BottomBar/search_screen.dart';
 
 class BottomBar extends StatefulWidget {
@@ -31,13 +31,16 @@ class _BottomBarState extends State<BottomBar> {
       activePage = const SearchScreen();
       activePageTitle = 'Search';
     } else if (_selectedIndex == 2) {
-      activePage = const BookShelfScreen();
-      activePageTitle = 'Book Shelf';
-    } else if (_selectedIndex == 3) {
       activePage = const ChatScreen();
       activePageTitle = 'Chat';
-    } else if (_selectedIndex == 4) {
-      activePage = ProfileScreen();
+    } else if (_selectedIndex == 3) {
+      activePage = const ProfileScreen(
+        fullName: 'osama',
+        username: 'ozayed',
+        userImg:
+            'https://i.pinimg.com/564x/74/04/54/74045452c48b83ccb393a763d3e20872.jpg',
+        userBio: 'I love Books so much | ADHD & Autsim ',
+      );
       activePageTitle = 'Profile';
     }
     return Scaffold(
@@ -50,7 +53,6 @@ class _BottomBarState extends State<BottomBar> {
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
           BottomNavigationBarItem(icon: Icon(Icons.search), label: 'Search'),
-          BottomNavigationBarItem(icon: Icon(Icons.book), label: 'Book Shelf'),
           BottomNavigationBarItem(icon: Icon(Icons.message), label: 'Measges'),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
         ],
