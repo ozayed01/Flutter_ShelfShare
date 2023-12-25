@@ -37,24 +37,25 @@ class MyApp extends StatelessWidget {
         ),
       ),
       theme: ThemeData().copyWith(
-          colorScheme: kColorScheme,
-          appBarTheme: const AppBarTheme().copyWith(
-            backgroundColor: kColorScheme.secondary,
-            foregroundColor: kColorScheme.onSecondary,
+        colorScheme: kColorScheme,
+        appBarTheme: const AppBarTheme().copyWith(
+          backgroundColor: kColorScheme.secondary,
+          foregroundColor: kColorScheme.onSecondary,
+        ),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: kColorScheme.primary,
+            foregroundColor: kColorScheme.onPrimary,
+            padding: const EdgeInsets.symmetric(horizontal: 150, vertical: 15),
           ),
-          elevatedButtonTheme: ElevatedButtonThemeData(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: kColorScheme.primary,
-              foregroundColor: kColorScheme.onPrimary,
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 150, vertical: 15),
-            ),
-          ),
-          outlinedButtonTheme: OutlinedButtonThemeData(
-              style: OutlinedButton.styleFrom(
+        ),
+        outlinedButtonTheme: OutlinedButtonThemeData(
+          style: OutlinedButton.styleFrom(
             foregroundColor: kColorScheme.primary,
             padding: const EdgeInsets.symmetric(horizontal: 150, vertical: 15),
-          ))),
+          ),
+        ),
+      ),
       home: StartScreen(),
     );
   }

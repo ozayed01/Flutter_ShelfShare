@@ -29,7 +29,7 @@ class Post extends StatelessWidget {
     }
 
     return Card(
-      margin: const EdgeInsets.symmetric(vertical: 2, horizontal: 4),
+      margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 7),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(8),
         side: BorderSide(
