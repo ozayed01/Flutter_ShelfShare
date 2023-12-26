@@ -10,7 +10,7 @@ class BookShelfScreen extends StatelessWidget {
       body: GridView(
         padding: const EdgeInsets.all(8),
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
+          crossAxisCount: 3,
           childAspectRatio: 0.6,
           crossAxisSpacing: 10,
           mainAxisSpacing: 10,

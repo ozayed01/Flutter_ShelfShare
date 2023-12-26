@@ -10,10 +10,10 @@ class RequestedBook extends StatelessWidget {
         body: GridView(
       padding: const EdgeInsets.all(5),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
+        crossAxisCount: 3,
         childAspectRatio: 0.6,
-        crossAxisSpacing: 20,
-        mainAxisSpacing: 20,
+        crossAxisSpacing: 15,
+        mainAxisSpacing: 15,
       ),
       children: [
         for (var book in BookList)

@@ -21,7 +21,7 @@ class ProfileScreen extends StatelessWidget {
       length: 2,
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Your Profile'),
+          title: const Text('Your Profile'),
           actions: [
             IconButton(
                 onPressed: () {}, icon: const Icon(Icons.more_vert_outlined))
