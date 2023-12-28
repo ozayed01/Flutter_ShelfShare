@@ -52,7 +52,7 @@ class BookView extends StatelessWidget {
 
     return InkWell(
       onTap: () {
-        _selectBook(context, 'Fire and Blood');
+        _selectBook(context, title);
       },
       child: Stack(children: [
         Hero(

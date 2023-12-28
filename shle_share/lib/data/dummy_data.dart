@@ -7,7 +7,7 @@ final BookList = [
   BookLibrary(BookName: 'The Great Gatsby', isFin: true, isReq: false),
   BookLibrary(BookName: 'Don Quixote', isFin: false, isReq: true),
   BookLibrary(BookName: 'In Search of Lost Time', isFin: false, isReq: true),
-  BookLibrary(BookName: 'A song of Ice and Fire', isFin: true, isReq: false)
+  BookLibrary(BookName: 'A game of Thrones', isFin: true, isReq: false)
 ];
 
 final Posts = [
