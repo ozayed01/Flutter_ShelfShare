@@ -1,22 +1,58 @@
 import 'package:flutter/material.dart';
-import 'package:shle_share/BottomBar/home_Screen.dart';
-import 'package:shle_share/widget/post.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:shle_share/providers/post_pro.dart';
+import 'package:shle_share/widget/post.dart';
+import 'package:shle_share/data/dummy_data.dart';
+import 'package:books_finder/books_finder.dart';
 
 final formatter = DateFormat.yMd();
 
-class AddRequest extends StatefulWidget {
+class AddRequest extends ConsumerStatefulWidget {
   @override
-  State<StatefulWidget> createState() {
+  ConsumerState<AddRequest> createState() {
     return _addRequestState();
   }
 }
 
-class _addRequestState extends State<AddRequest> {
+class _addRequestState extends ConsumerState<AddRequest> {
   final _requestTextController = TextEditingController();
+  final _bookNameController = TextEditingController();
   var Date = DateTime.now();
-  get formattedDate {
-    return formatter.format(Date);
+
+  String formattedDate(DateTime date) {
+    return formatter.format(date);
+  }
+
+  void _addPost(String bookName) async {
+    final List<Book> booklist = await queryBooks(
+      bookName,
+      queryType: QueryType.intitle,
+      maxResults: 1,
+      printType: PrintType.books,
+      orderBy: OrderBy.relevance,
+    );
+    final enteredText = _requestTextController.text;
+    final user = Posts[0];
+    final post = Post(
+      bookDtails: [
+        booklist[0].info.title,
+        booklist[0].info.authors[0],
+        formattedDate(booklist[0].info.publishedDate!)
+      ],
+      username: user.username,
+      name: user.name,
+      userImgUrl: user.userImgUrl,
+      bookimgUrl: '${booklist[0].info.imageLinks['thumbnail']}',
+      exhangeText: enteredText,
+      Date: formattedDate(Date),
+    );
+    print(booklist[0].info.imageLinks['thumbnail']);
+    if (enteredText.isEmpty) {
+      return;
+    }
+    ref.read(postProvider.notifier).addPost(post);
+    Navigator.pop(context);
   }
 
   @override
@@ -42,17 +78,34 @@ class _addRequestState extends State<AddRequest> {
                     style: Theme.of(context).textTheme.headlineSmall),
               ),
             ),
-            Container(
-              margin: const EdgeInsets.all(12),
-              height: 5 * 24.0,
-              child: const TextField(
-                maxLines: 5,
-                keyboardType: TextInputType.multiline,
-                decoration:
-                    InputDecoration(filled: true, hintText: 'Write Here...'),
+            TextField(
+              controller: _requestTextController,
+              decoration: InputDecoration(
+                label: const Text(
+                  'Type Your Request',
+                  style: TextStyle(fontSize: 17),
+                ),
+                prefixIcon: const Icon(Icons.help),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(18),
+                ),
               ),
             ),
             const SizedBox(height: 10),
+            TextField(
+              controller: _bookNameController,
+              decoration: InputDecoration(
+                label: const Text(
+                  'Book Name',
+                  style: TextStyle(fontSize: 17),
+                ),
+                prefixIcon: const Icon(Icons.book),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(18),
+                ),
+              ),
+            ),
+            const SizedBox(height: 20),
             Row(
               children: [
                 Spacer(),
@@ -67,7 +120,7 @@ class _addRequestState extends State<AddRequest> {
                 ),
                 ElevatedButton(
                     onPressed: () {
-                      Navigator.pop(context);
+                      _addPost(_bookNameController.text);
                     },
                     style: ElevatedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(

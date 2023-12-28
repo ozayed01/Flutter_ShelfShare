@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shle_share/Screens/startup_screen.dart';
 
 var kColorScheme =
@@ -7,7 +8,7 @@ var kDarkColorScheme =
     ColorScheme.fromSeed(seedColor: Color.fromARGB(255, 123, 81, 48));
 
 void main() {
-  runApp(const MyApp());
+  runApp(const ProviderScope(child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {

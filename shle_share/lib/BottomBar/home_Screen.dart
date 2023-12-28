@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shle_share/data/dummy_data.dart';
+import 'package:shle_share/providers/post_pro.dart';
 import 'package:shle_share/widget/add_requst.dart';
 import 'package:shle_share/widget/post.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final userPosts = ref.watch(postProvider);
     void _openAddRequestOverlay() {
       showModalBottomSheet(
         isScrollControlled: true,
@@ -28,13 +31,16 @@ class HomeScreen extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            for (var post in Posts)
+            for (var post in userPosts)
               Post(
-                  bookDtails: post.bookDtails,
-                  username: post.username,
-                  name: post.name,
-                  userImgUrl: post.userImgUrl,
-                  exhangeText: post.exhangeText),
+                bookDtails: post.bookDtails,
+                username: post.username,
+                name: post.name,
+                bookimgUrl: post.bookimgUrl,
+                userImgUrl: post.userImgUrl,
+                exhangeText: post.exhangeText,
+                Date: post.Date,
+              ),
           ],
         ),
       ),

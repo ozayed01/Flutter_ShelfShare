@@ -4,20 +4,22 @@ import 'package:shle_share/widget/user_profile.dart';
 class Post extends StatelessWidget {
   const Post({
     super.key,
-    this.bookimgUrl,
+    required this.bookimgUrl,
     required this.bookDtails,
     required this.username,
     required this.name,
     required this.userImgUrl,
     required this.exhangeText,
+    required this.Date,
   });
 
-  final String? bookimgUrl;
+  final String bookimgUrl;
   final List<String> bookDtails;
   final String name;
   final String username;
   final String userImgUrl;
   final String exhangeText;
+  final String Date;
 
   @override
   Widget build(BuildContext context) {
@@ -113,15 +115,14 @@ class Post extends StatelessWidget {
                     ],
                   ),
                 ),
-                if (bookimgUrl != null)
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(20),
-                    child: Image.network(
-                      bookimgUrl!,
-                      height: 120,
-                      width: 100,
-                    ),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(20),
+                  child: Image.network(
+                    bookimgUrl,
+                    height: 120,
+                    width: 100,
                   ),
+                ),
                 const SizedBox(width: 20)
               ],
             ),
@@ -160,6 +161,8 @@ class Post extends StatelessWidget {
                       Icons.share,
                       size: 25,
                     )),
+                const Spacer(),
+                Text(Date)
               ],
             )
           ],

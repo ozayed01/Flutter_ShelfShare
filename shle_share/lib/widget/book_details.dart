@@ -1,11 +1,11 @@
 import 'dart:ui';
-
-import 'package:flutter/material.dart';
+import 'package:scrollable_text_indicator/scrollable_text_indicator.dart';
 import 'package:shle_share/models/book.dart';
+import 'package:flutter/material.dart';
 
 class BookDetails extends StatelessWidget {
   const BookDetails({super.key, required this.book});
-  final Book book;
+  final MyBook book;
 
   @override
   Widget build(BuildContext context) {
@@ -54,30 +54,34 @@ class BookDetails extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(width: 20),
-                        Flexible(
-                          child: Text(
-                            book.bookdetails[2],
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyMedium!
-                                .copyWith(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .background,
-                                    fontWeight: FontWeight.w900),
+                        SizedBox(
+                          height: 300,
+                          width: 220,
+                          child: ScrollableTextIndicator(
+                            text: Text(
+                              book.bookDescription,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium!
+                                  .copyWith(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .background,
+                                      fontWeight: FontWeight.w900),
+                            ),
                           ),
                         ),
                       ],
                     ),
                     const SizedBox(height: 20),
                     Text(
-                      'The Auther:' + book.bookdetails[0],
+                      'The Auther:' + book.bookAuthor,
                       style: Theme.of(context).textTheme.titleLarge!.copyWith(
                           color: Theme.of(context).colorScheme.background),
                     ),
                     const SizedBox(height: 15),
                     Text(
-                      'Relase Date :' + book.bookdetails[1],
+                      'Relase Date :' + book.relaseDate,
                       style: Theme.of(context).textTheme.titleLarge!.copyWith(
                           color: Theme.of(context).colorScheme.background),
                     ),

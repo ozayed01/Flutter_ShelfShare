@@ -1,7 +1,11 @@
+import 'package:books_finder/books_finder.dart';
 import 'package:flutter/material.dart';
 import 'package:shle_share/models/book.dart';
 import 'package:shle_share/widget/book_details.dart';
 import 'package:transparent_image/transparent_image.dart';
+import 'package:intl/intl.dart';
+
+final formatter = DateFormat.yMd();
 
 class BookView extends StatelessWidget {
   const BookView({
@@ -10,32 +14,45 @@ class BookView extends StatelessWidget {
     required this.title,
     required this.bookImg,
     required this.isFin,
-    required this.isReq,
   });
   final String id;
   final String title;
   final String bookImg;
   final bool isFin;
-  final bool isReq;
 
   @override
   Widget build(BuildContext context) {
-    Book _book = Book(bookImg: bookImg, id: id, title: title, bookdetails: [
-      'Name...',
-      '20/02/2020',
-      'Express yourself with a custom text design created just for you by a professional designer. Need ideas? We’ve collected some amazing examples of text images from our global community of designers. Get inspired and start planning the perfect text design today.'
-    ]);
-    void _selectBook(BuildContext context) {
+    String formattedDate(DateTime date) {
+      return formatter.format(date);
+    }
+
+    void _selectBook(BuildContext context, String bookName) async {
+      final List<Book> booklist = await queryBooks(
+        bookName,
+        queryType: QueryType.intitle,
+        maxResults: 1,
+        printType: PrintType.books,
+        orderBy: OrderBy.relevance,
+      );
       Navigator.of(context).push(
         MaterialPageRoute(
-          builder: (context) => BookDetails(book: _book),
+          builder: (context) => BookDetails(
+            book: MyBook(
+              id: id,
+              title: booklist[0].info.title,
+              bookImg: '${booklist[0].info.imageLinks['thumbnail']}',
+              bookAuthor: booklist[0].info.authors[0],
+              relaseDate: formattedDate(booklist[0].info.publishedDate!),
+              bookDescription: booklist[0].info.description,
+            ),
+          ),
         ),
       );
     }
 
     return InkWell(
       onTap: () {
-        _selectBook(context);
+        _selectBook(context, 'Fire and Blood');
       },
       child: Stack(children: [
         Hero(
