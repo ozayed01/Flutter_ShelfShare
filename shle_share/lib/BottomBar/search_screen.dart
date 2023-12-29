@@ -89,9 +89,17 @@ class _SearchScreenState extends State<SearchScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.max,
                 children: [
-                  Text(_searchBookList[index].info.title,
-                      softWrap: true,
-                      style: Theme.of(context).textTheme.titleSmall),
+                  SizedBox(
+                    width: 270,
+                    child: Text(_searchBookList[index].info.title,
+                        softWrap: true,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: Theme.of(context)
+                            .textTheme
+                            .titleLarge!
+                            .copyWith(fontWeight: FontWeight.w600)),
+                  ),
                   const SizedBox(height: 50),
                   Text("Author: ${_searchBookList[index].info.authors[0]}",
                       textAlign: TextAlign.left),
@@ -108,11 +116,13 @@ class _SearchScreenState extends State<SearchScreen> {
         ),
       );
     }
+    var deviceWidth = MediaQuery.of(context).size.width;
+
     return Scaffold(
         appBar: AppBar(
-          title: Container(
+          title: SizedBox(
             height: 40,
-            width: 350,
+            width: deviceWidth,
             child: TextField(
               onSubmitted: (value) {
                 _loadItems();

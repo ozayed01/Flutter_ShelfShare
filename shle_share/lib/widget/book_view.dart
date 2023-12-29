@@ -1,4 +1,3 @@
-import 'package:books_finder/books_finder.dart';
 import 'package:flutter/material.dart';
 import 'package:shle_share/models/book.dart';
 import 'package:shle_share/widget/book_details.dart';
@@ -8,46 +7,40 @@ import 'package:intl/intl.dart';
 final formatter = DateFormat.yMd();
 
 class BookView extends StatelessWidget {
-  const BookView({
-    super.key,
-    required this.id,
-    required this.title,
-    required this.bookImg,
-    required this.isFin,
-  });
+  const BookView(
+      {super.key,
+      required this.id,
+      required this.title,
+      required this.bookImg,
+      required this.isFin,
+      required this.bookAuthor,
+      required this.bookDescription,
+      required this.relaseDate});
   final String id;
   final String title;
   final String bookImg;
+  final String bookAuthor;
+  final String bookDescription;
+  final String relaseDate;
   final bool isFin;
 
   @override
   Widget build(BuildContext context) {
+    final MyBook book1 = MyBook(
+        id: id,
+        title: title,
+        bookImg: bookImg,
+        bookAuthor: bookAuthor,
+        bookDescription: bookDescription,
+        relaseDate: relaseDate);
     String formattedDate(DateTime date) {
       return formatter.format(date);
     }
 
-    void _selectBook(BuildContext context, String bookName) async {
-      final List<Book> booklist = await queryBooks(
-        bookName,
-        queryType: QueryType.intitle,
-        maxResults: 1,
-        printType: PrintType.books,
-        orderBy: OrderBy.relevance,
-      );
-      Navigator.of(context).push(
-        MaterialPageRoute(
-          builder: (context) => BookDetails(
-            book: MyBook(
-              id: id,
-              title: booklist[0].info.title,
-              bookImg: '${booklist[0].info.imageLinks['thumbnail']}',
-              bookAuthor: booklist[0].info.authors[0],
-              relaseDate: formattedDate(booklist[0].info.publishedDate!),
-              bookDescription: booklist[0].info.description,
-            ),
-          ),
-        ),
-      );
+    void _selectBook(BuildContext context, String bookName) {
+      Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => BookDetails(book: book1),
+      ));
     }
 
     return InkWell(

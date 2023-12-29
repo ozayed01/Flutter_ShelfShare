@@ -47,7 +47,7 @@ class _addRequestState extends ConsumerState<AddRequest> {
       exhangeText: enteredText,
       Date: formattedDate(Date),
     );
-    print(booklist[0].info.imageLinks['thumbnail']);
+    print(booklist[0].id);
     if (enteredText.isEmpty) {
       return;
     }
