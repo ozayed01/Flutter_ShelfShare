@@ -1,34 +1,46 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:shle_share/models/user.dart';
 import 'package:shle_share/widget/user_profile.dart';
 
-class Post extends StatelessWidget {
+class Post extends StatefulWidget {
   const Post({
     super.key,
     required this.bookimgUrl,
     required this.bookDtails,
-    required this.username,
-    required this.name,
-    required this.userImgUrl,
+    required this.user,
     required this.exhangeText,
     required this.Date,
   });
 
   final String bookimgUrl;
   final List<String> bookDtails;
-  final String name;
-  final String username;
-  final String userImgUrl;
+  final UserInfo user;
+
   final String exhangeText;
   final String Date;
 
   @override
+  State<Post> createState() => _PostState();
+}
+
+class _PostState extends State<Post> {
+  @override
   Widget build(BuildContext context) {
-    var deviceWidth = MediaQuery.of(context).size.width;
     final List<String> details = ['Book: ', "Author: ", "Realase Date: "];
-    var isfavOn = true;
     for (int i = 0; i < 3; i++) {
-      details[i] = details[i] + bookDtails[i];
+      details[i] = "${details[i]}${widget.bookDtails[i]}.";
     }
+
+    // double calculateDistance(lat1, lon1, lat2, lon2) {
+    //   var p = 0.017453292519943295;
+    //   var c = cos;
+    //   var a = 0.5 -
+    //       c((lat2 - lat1) * p) / 2 +
+    //       c(lat1 * p) * c(lat2 * p) * (1 - c((lon2 - lon1) * p)) / 2;
+    //   return 12742 * asin(sqrt(a));
+    // }
 
     return Card(
       margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 7),
@@ -40,7 +52,7 @@ class Post extends StatelessWidget {
         ),
       ),
       child: Padding(
-        padding: const EdgeInsets.all(5),
+        padding: const EdgeInsets.all(10),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
@@ -59,7 +71,7 @@ class Post extends StatelessWidget {
                   ClipRRect(
                     borderRadius: BorderRadius.circular(100),
                     child: Image.network(
-                      userImgUrl,
+                      widget.user.userImgUrl,
                       height: 50,
                       width: 50,
                     ),
@@ -70,13 +82,13 @@ class Post extends StatelessWidget {
                   Column(
                     children: [
                       Text(
-                        name,
+                        widget.user.name,
                         style:
                             Theme.of(context).textTheme.headlineSmall?.copyWith(
                                   letterSpacing: 1.2,
                                 ),
                       ),
-                      Text(username),
+                      Text(widget.user.username),
                     ],
                   ),
                   Spacer(),
@@ -90,7 +102,7 @@ class Post extends StatelessWidget {
               height: 20,
             ),
             Text(
-              'Request : $exhangeText',
+              'Request : ${widget.exhangeText}',
               style: Theme.of(context)
                   .textTheme
                   .headlineSmall
@@ -118,7 +130,7 @@ class Post extends StatelessWidget {
                 ClipRRect(
                   borderRadius: BorderRadius.circular(20),
                   child: Image.network(
-                    bookimgUrl,
+                    widget.bookimgUrl,
                     height: 120,
                     width: 100,
                   ),
@@ -130,39 +142,10 @@ class Post extends StatelessWidget {
 
             Row(
               children: [
-                const SizedBox(
-                  width: 3,
-                ),
-                IconButton(
-                    onPressed: () {
-                      if (isfavOn == true) {
-                        isfavOn = false;
-                      } else {
-                        isfavOn = true;
-                      }
-                    },
-                    icon: Icon(
-                        (isfavOn)
-                            ? Icons.favorite
-                            : Icons.favorite_border_outlined,
-                        size: 25,
-                        color: (isfavOn)
-                            ? Colors.red
-                            : Theme.of(context).colorScheme.onBackground)),
-                IconButton(
-                    onPressed: () {},
-                    icon: const Icon(
-                      Icons.comment,
-                      size: 25,
-                    )),
-                IconButton(
-                    onPressed: () {},
-                    icon: const Icon(
-                      Icons.share,
-                      size: 25,
-                    )),
+                Icon(Icons.location_on),
+                Text('10 Km'),
                 const Spacer(),
-                Text(Date)
+                Text(widget.Date)
               ],
             )
           ],

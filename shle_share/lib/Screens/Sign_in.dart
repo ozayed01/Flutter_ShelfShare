@@ -44,8 +44,12 @@ class _SignInState extends State<SignIn> {
             Center(
               child: SizedBox(
                 height: 70,
-                child: Text("Sign In ",
-                    style: Theme.of(context).textTheme.headlineSmall),
+                child: Text(
+                  "Sign In ",
+                  style: Theme.of(context).textTheme.headlineLarge!.copyWith(
+                      color: Theme.of(context).colorScheme.onBackground,
+                      fontWeight: FontWeight.w400),
+                ),
               ),
             ),
             TextField(

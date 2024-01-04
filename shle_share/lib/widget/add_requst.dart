@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:shle_share/models/user.dart';
 import 'package:shle_share/providers/post_pro.dart';
 import 'package:shle_share/widget/post.dart';
 import 'package:shle_share/data/dummy_data.dart';
@@ -33,16 +34,14 @@ class _addRequestState extends ConsumerState<AddRequest> {
       orderBy: OrderBy.relevance,
     );
     final enteredText = _requestTextController.text;
-    final user = Posts[0];
+
     final post = Post(
       bookDtails: [
         booklist[0].info.title,
         booklist[0].info.authors[0],
         formattedDate(booklist[0].info.publishedDate!)
       ],
-      username: user.username,
-      name: user.name,
-      userImgUrl: user.userImgUrl,
+      user: user,
       bookimgUrl: '${booklist[0].info.imageLinks['thumbnail']}',
       exhangeText: enteredText,
       Date: formattedDate(Date),

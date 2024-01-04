@@ -33,7 +33,12 @@ class _StartScreenState extends State<StartScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Text('welcom'),
+            Text(
+              'ShelfShare',
+              style: Theme.of(context).textTheme.displayMedium!.copyWith(
+                  color: Theme.of(context).colorScheme.primary,
+                  fontWeight: FontWeight.w400),
+            ),
             Image.asset('assets/images/book.png',
                 color: const Color.fromARGB(197, 134, 63, 11)),
             Column(

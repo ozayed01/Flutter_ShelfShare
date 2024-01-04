@@ -3,6 +3,7 @@ import 'package:shle_share/BottomBar/Profile/BookShelf_screen.dart';
 import 'package:shle_share/BottomBar/chat_screen.dart';
 import 'package:shle_share/BottomBar/home_screen.dart';
 import 'package:shle_share/BottomBar/Profile/profile_Screen.dart';
+import 'package:shle_share/BottomBar/map.dart';
 import 'package:shle_share/BottomBar/search_screen.dart';
 
 class BottomBar extends StatefulWidget {
@@ -25,15 +26,19 @@ class _BottomBarState extends State<BottomBar> {
   @override
   Widget build(BuildContext context) {
     Widget activePage = HomeScreen();
-    var activePageTitle = 'Home';
 
+    var activePageTitle = 'Home';
     if (_selectedIndex == 1) {
       activePage = const SearchScreen();
       activePageTitle = 'Search';
-    } else if (_selectedIndex == 2) {
+    }
+    if (_selectedIndex == 2) {
+      activePage = MapScreen();
+      activePageTitle = "Map";
+    } else if (_selectedIndex == 3) {
       activePage = const ChatScreen();
       activePageTitle = 'Chat';
-    } else if (_selectedIndex == 3) {
+    } else if (_selectedIndex == 4) {
       activePage = const ProfileScreen(
         fullName: 'osama',
         username: 'ozayed',
@@ -53,6 +58,7 @@ class _BottomBarState extends State<BottomBar> {
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
           BottomNavigationBarItem(icon: Icon(Icons.search), label: 'Search'),
+          BottomNavigationBarItem(icon: Icon(Icons.map), label: 'Map'),
           BottomNavigationBarItem(icon: Icon(Icons.mail), label: 'Inbox'),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
         ],

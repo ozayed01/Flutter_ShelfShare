@@ -33,11 +33,9 @@ class HomeScreen extends ConsumerWidget {
           children: [
             for (var post in userPosts)
               Post(
+                user: user,
                 bookDtails: post.bookDtails,
-                username: post.username,
-                name: post.name,
                 bookimgUrl: post.bookimgUrl,
-                userImgUrl: post.userImgUrl,
                 exhangeText: post.exhangeText,
                 Date: post.Date,
               ),

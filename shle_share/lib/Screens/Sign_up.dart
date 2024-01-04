@@ -29,7 +29,7 @@ class _SignUpState extends State<SignUp> {
   Widget build(BuildContext context) {
     var deviceHight = MediaQuery.of(context).size.height;
     return Container(
-      height: deviceHight / 1.03,
+      height: deviceHight / 1.09,
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
@@ -39,7 +39,9 @@ class _SignUpState extends State<SignUp> {
               child: SizedBox(
                 height: 70,
                 child: Text("Sign Up ",
-                    style: Theme.of(context).textTheme.headlineSmall),
+                    style: Theme.of(context).textTheme.headlineLarge!.copyWith(
+                        color: Theme.of(context).colorScheme.onBackground,
+                        fontWeight: FontWeight.w400)),
               ),
             ),
             TextField(
@@ -121,7 +123,7 @@ class _SignUpState extends State<SignUp> {
                       padding: const EdgeInsets.symmetric(
                           horizontal: 150, vertical: 15),
                     ),
-                    child: const Text('Sign in')),
+                    child: const Text('Sign Up')),
                 const SizedBox(
                   height: 10,
                 ),
