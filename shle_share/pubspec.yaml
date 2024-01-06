@@ -30,10 +30,14 @@ environment:
 dependencies:
   books_finder: ^4.4.0
   cupertino_icons: ^1.0.2
+  firebase_auth: ^4.16.0
+  firebase_core: ^2.24.2
+  firebase_storage: ^11.6.0
   flutter:
     sdk: flutter
   flutter_riverpod: ^2.4.9
   google_maps_flutter: ^2.5.1
+  image_picker: ^1.0.6
   intl: ^0.19.0
   location: ^5.0.3
   scrollable_text_indicator: ^0.0.2

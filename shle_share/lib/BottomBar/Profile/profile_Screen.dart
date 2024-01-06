@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shle_share/BottomBar/Profile/BookShelf_screen.dart';
+import 'package:shle_share/BottomBar/Profile/profile_drawr.dart';
 import 'package:shle_share/BottomBar/Profile/requested_book.dart';
 import 'package:shle_share/BottomBar/home_screen.dart';
 
@@ -20,12 +21,9 @@ class ProfileScreen extends StatelessWidget {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
+        endDrawer: ProfileDrawr(),
         appBar: AppBar(
           title: const Text('Your Profile'),
-          actions: [
-            IconButton(
-                onPressed: () {}, icon: const Icon(Icons.more_vert_outlined))
-          ],
         ),
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.center,

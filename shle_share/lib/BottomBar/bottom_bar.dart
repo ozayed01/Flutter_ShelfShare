@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:shle_share/BottomBar/Profile/BookShelf_screen.dart';
-import 'package:shle_share/BottomBar/chat_screen.dart';
 import 'package:shle_share/BottomBar/home_screen.dart';
 import 'package:shle_share/BottomBar/Profile/profile_Screen.dart';
 import 'package:shle_share/BottomBar/map.dart';
 import 'package:shle_share/BottomBar/search_screen.dart';
+import 'package:shle_share/Screens/chat/chat.dart';
 
 class BottomBar extends StatefulWidget {
   const BottomBar({super.key});
@@ -36,7 +35,7 @@ class _BottomBarState extends State<BottomBar> {
       activePage = MapScreen();
       activePageTitle = "Map";
     } else if (_selectedIndex == 3) {
-      activePage = const ChatScreen();
+      activePage = ChatScreen();
       activePageTitle = 'Chat';
     } else if (_selectedIndex == 4) {
       activePage = const ProfileScreen(

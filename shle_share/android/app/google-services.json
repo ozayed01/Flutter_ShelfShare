@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "907473729683",
+    "project_id": "shelfshare-def39",
+    "storage_bucket": "shelfshare-def39.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:907473729683:android:9d6820a7e29b842f673566",
+        "android_client_info": {
+          "package_name": "com.example.shle_share"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDBZVR8g30sO5yApjTrPzJuZwwnVD4CSGE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
