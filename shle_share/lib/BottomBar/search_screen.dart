@@ -56,7 +56,11 @@ class _SearchScreenState extends State<SearchScreen> {
       );
     }
 
-    Widget content = const Center(child: Text('no search resault yest'));
+    Widget content = Center(
+        child: Text(
+      'No search resault yet...',
+      style: Theme.of(context).textTheme.bodyLarge,
+    ));
     if (isLoading && _searchBookList.isNotEmpty) {
       content = const Center(child: CircularProgressIndicator());
     }

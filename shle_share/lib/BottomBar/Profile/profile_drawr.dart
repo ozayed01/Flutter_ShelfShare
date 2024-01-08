@@ -23,7 +23,7 @@ class ProfileDrawr extends StatelessWidget {
               children: [
                 Icon(
                   Icons.settings,
-                  size: 48,
+                  size: 40,
                   color: Theme.of(context).colorScheme.primary,
                 ),
                 const SizedBox(

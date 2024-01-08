@@ -1,9 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:shle_share/BottomBar/home_screen.dart';
 import 'package:shle_share/BottomBar/Profile/profile_Screen.dart';
 import 'package:shle_share/BottomBar/map.dart';
 import 'package:shle_share/BottomBar/search_screen.dart';
-import 'package:shle_share/Screens/chat/chat.dart';
+import 'package:shle_share/Screens/chat/chat_users.dart';
 
 class BottomBar extends StatefulWidget {
   const BottomBar({super.key});
@@ -15,8 +17,12 @@ class BottomBar extends StatefulWidget {
 
 class _BottomBarState extends State<BottomBar> {
   int _selectedIndex = 0;
+  var name = '';
+  var username = '';
+  var userPic = '';
+  var bio = '';
 
-  void _selectedPageIndex(int index) {
+  void _selectedPageIndex(int index) async {
     setState(() {
       _selectedIndex = index;
     });
@@ -25,6 +31,20 @@ class _BottomBarState extends State<BottomBar> {
   @override
   Widget build(BuildContext context) {
     Widget activePage = HomeScreen();
+
+    void setUser() async {
+      final user = FirebaseAuth.instance.currentUser!;
+      final userInfo = await FirebaseFirestore.instance
+          .collection('Users')
+          .doc(user.uid)
+          .get();
+      setState(() {
+        name = userInfo.data()!['full_name'];
+        username = userInfo.data()!['username'];
+        userPic = userInfo.data()!['userPicUrl'];
+        bio = userInfo.data()!['Bio'];
+      });
+    }
 
     var activePageTitle = 'Home';
     if (_selectedIndex == 1) {
@@ -35,15 +55,15 @@ class _BottomBarState extends State<BottomBar> {
       activePage = MapScreen();
       activePageTitle = "Map";
     } else if (_selectedIndex == 3) {
-      activePage = ChatScreen();
+      activePage = ChatUserList();
       activePageTitle = 'Chat';
     } else if (_selectedIndex == 4) {
-      activePage = const ProfileScreen(
-        fullName: 'osama',
-        username: 'ozayed',
-        userImg:
-            'https://i.pinimg.com/564x/74/04/54/74045452c48b83ccb393a763d3e20872.jpg',
-        userBio: 'I love Books so much | ADHD & Autsim ',
+      setUser();
+      activePage = ProfileScreen(
+        fullName: name,
+        username: username,
+        userImg: userPic,
+        userBio: bio,
       );
       activePageTitle = 'Profile';
     }

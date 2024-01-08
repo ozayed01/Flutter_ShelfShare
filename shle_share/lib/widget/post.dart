@@ -16,7 +16,7 @@ class Post extends StatefulWidget {
 
   final String bookimgUrl;
   final List<String> bookDtails;
-  final UserInfo user;
+  final UserChatInfo user;
 
   final String exhangeText;
   final String Date;

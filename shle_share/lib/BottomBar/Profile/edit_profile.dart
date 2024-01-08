@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -36,7 +37,6 @@ class _EditProfileState extends State<EditProfile> {
     });
     final storageRef = FirebaseStorage.instance
         .ref()
-        .child('user')
         .child('user_image')
         .child('@$_enteredUsername-ProfilePic.jpg');
 
@@ -45,7 +45,15 @@ class _EditProfileState extends State<EditProfile> {
       _isUploding = false;
     });
     final imageUrl = await storageRef.getDownloadURL();
-    print(imageUrl);
+    final user = await FirebaseAuth.instance.currentUser!;
+    await FirebaseFirestore.instance.collection('Users').doc(user.uid).set({
+      'full_name': _enterdName,
+      'username': _enteredUsername,
+      'userPicUrl': imageUrl,
+      'Bio': _enteredBio,
+      'userId': user.uid
+    });
+    Navigator.pop(context);
   }
 
   @override
@@ -143,8 +151,8 @@ class _EditProfileState extends State<EditProfile> {
                         validator: (value) {
                           if (value == null ||
                               value.trim().isEmpty ||
-                              value.length < 5) {
-                            return 'Please Enter a Valid Bio';
+                              value.length <= 4) {
+                            return 'Please Enter a Valid Bio at least 4 chart.';
                           }
                           return null;
                         },

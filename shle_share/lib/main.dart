@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:shle_share/BottomBar/bottom_bar.dart';
 
 import 'package:shle_share/Screens/auth.dart';
@@ -10,8 +11,7 @@ import 'package:shle_share/Spalsh/Splash.dart';
 import 'firebase_options.dart';
 
 var kColorScheme = ColorScheme.fromSeed(
-  seedColor: const Color.fromARGB(255, 56, 33, 16),
-  tertiary: Color.fromARGB(255, 16, 39, 56),
+  seedColor: const Color.fromARGB(255, 90, 63, 52),
 );
 var kDarkColorScheme =
     ColorScheme.fromSeed(seedColor: Color.fromARGB(255, 123, 81, 48));
@@ -58,16 +58,20 @@ class MyApp extends StatelessWidget {
         ),
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
-            backgroundColor: kColorScheme.primary,
-            foregroundColor: kColorScheme.onPrimary,
-            padding: const EdgeInsets.symmetric(horizontal: 130, vertical: 20),
-          ),
+              backgroundColor: kColorScheme.primary,
+              foregroundColor: kColorScheme.onPrimary,
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 120, vertical: 20),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15))),
         ),
         outlinedButtonTheme: OutlinedButtonThemeData(
           style: OutlinedButton.styleFrom(
             foregroundColor: kColorScheme.primary,
-            // padding: const EdgeInsets.symmetric(horizontal: 150, vertical: 15),
           ),
+        ),
+        textTheme: GoogleFonts.aDLaMDisplayTextTheme().copyWith(
+          displayMedium: GoogleFonts.aboreto(),
         ),
       ),
       home: StreamBuilder(

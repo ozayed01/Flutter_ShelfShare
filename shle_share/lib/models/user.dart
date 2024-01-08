@@ -1,14 +1,17 @@
-class UserInfo {
-  const UserInfo(
-      {required this.username,
-      required this.name,
-      required this.userImgUrl,
-      required this.location});
+class UserChatInfo {
+  const UserChatInfo({
+    required this.username,
+    required this.name,
+    required this.userImgUrl,
+    required this.userId,
+    // required this.location,
+  });
 
   final String name;
   final String username;
   final String userImgUrl;
-  final PlaceLocation location;
+  final String userId;
+  // final PlaceLocation location;
 }
 
 class PlaceLocation {

@@ -63,19 +63,26 @@ class _AuthScreenState extends State<AuthScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 16, 39, 56),
+      backgroundColor: const Color.fromARGB(255, 193, 167, 152),
       body: Center(
         child: SingleChildScrollView(
           child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
             Container(
               margin: const EdgeInsets.only(
                 top: 30,
-                bottom: 20,
+                bottom: 0,
                 left: 20,
                 right: 20,
               ),
-              width: 200,
+              width: 300,
               child: Image.asset('assets/images/book.png'),
+            ),
+            Text(
+              'SHELF SHARE',
+              style: Theme.of(context).textTheme.displayMedium!.copyWith(
+                  color: Theme.of(context).colorScheme.secondary,
+                  fontSize: 50,
+                  fontWeight: FontWeight.bold),
             ),
             Card(
               margin: const EdgeInsets.all(20),
@@ -138,7 +145,7 @@ class _AuthScreenState extends State<AuthScreen> {
                               _enteredPassword = newValue!;
                             },
                           ),
-                          const SizedBox(height: 15),
+                          if (!_isSignIn) const SizedBox(height: 15),
                           if (!_isSignIn)
                             TextFormField(
                               controller: _ConfPasswordController,
@@ -155,8 +162,8 @@ class _AuthScreenState extends State<AuthScreen> {
                               validator: (value) {
                                 if (value == null ||
                                     value.trim().length < 6 ||
-                                    _passwordController.value !=
-                                        _ConfPasswordController.value) {
+                                    _passwordController.text !=
+                                        _ConfPasswordController.text) {
                                   return 'Passwords Doesn\'t Match';
                                 }
                                 return null;
@@ -166,7 +173,7 @@ class _AuthScreenState extends State<AuthScreen> {
                               },
                               obscureText: true,
                             ),
-                          const SizedBox(height: 10),
+                          const SizedBox(height: 15),
                           ElevatedButton(
                             onPressed: _submit,
                             child: Text(_isSignIn ? 'Sign In' : 'Sign Up'),

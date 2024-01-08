@@ -29,6 +29,7 @@ environment:
 # versions available, run `flutter pub outdated`.
 dependencies:
   books_finder: ^4.4.0
+  cloud_firestore: ^4.14.0
   cupertino_icons: ^1.0.2
   firebase_auth: ^4.16.0
   firebase_core: ^2.24.2
@@ -36,6 +37,7 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_riverpod: ^2.4.9
+  google_fonts: ^6.1.0
   google_maps_flutter: ^2.5.1
   image_picker: ^1.0.6
   intl: ^0.19.0
