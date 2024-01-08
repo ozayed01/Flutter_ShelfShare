@@ -24,6 +24,9 @@ class _EditProfileState extends State<EditProfile> {
   var _enteredBio = '';
   File? _selectedImage;
   var _isUploding = false;
+  var nameController = TextEditingController();
+  var usernameController = TextEditingController();
+  var bioController = TextEditingController();
 
   void _submit() async {
     final _isValid = _formKey.currentState!.validate();
@@ -57,8 +60,37 @@ class _EditProfileState extends State<EditProfile> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    if (!widget.isFirst) {
+      getUserData();
+    }
+  }
+
+  void getUserData() async {
+    final user = FirebaseAuth.instance.currentUser!;
+    final userInfo = await FirebaseFirestore.instance
+        .collection('Users')
+        .doc(user.uid)
+        .get();
+    setState(() {
+      nameController.text = userInfo.data()!['full_name'];
+      usernameController.text = userInfo.data()!['username'];
+      bioController.text = userInfo.data()!['Bio'];
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
+    dispose() {
+      nameController.dispose();
+      usernameController.dispose();
+      bioController.dispose();
+      super.dispose();
+    }
+
     final bool _firstTime = widget.isFirst;
+
     return Scaffold(
       appBar: AppBar(
         title: Text(_firstTime ? 'Complete Your Account' : 'Account Edit '),
@@ -88,6 +120,7 @@ class _EditProfileState extends State<EditProfile> {
                       ),
                       const SizedBox(height: 20),
                       TextFormField(
+                        controller: nameController,
                         decoration: InputDecoration(
                           label: const Text(
                             'Full Name',
@@ -112,6 +145,7 @@ class _EditProfileState extends State<EditProfile> {
                       ),
                       const SizedBox(height: 10),
                       TextFormField(
+                        controller: usernameController,
                         autocorrect: false,
                         textCapitalization: TextCapitalization.none,
                         decoration: InputDecoration(
@@ -138,6 +172,7 @@ class _EditProfileState extends State<EditProfile> {
                       ),
                       const SizedBox(height: 10),
                       TextFormField(
+                        controller: bioController,
                         decoration: InputDecoration(
                           label: const Text(
                             'Bio',

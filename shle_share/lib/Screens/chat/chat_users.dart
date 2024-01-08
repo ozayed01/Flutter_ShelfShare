@@ -60,7 +60,7 @@ class _ChatUserListState extends State<ChatUserList> {
               child: Text('Something went wrong...'),
             );
           }
-          var lastMa = '';
+
           final loadedUsers = userSnapshot.data!;
 
           return ListView.builder(
