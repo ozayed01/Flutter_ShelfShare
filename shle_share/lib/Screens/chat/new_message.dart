@@ -52,7 +52,7 @@ class _NewMessageState extends State<NewMessage> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(left: 15, right: 1, bottom: 14),
+      padding: const EdgeInsets.only(left: 15, right: 1, bottom: 30),
       child: Row(
         children: [
           Expanded(
@@ -61,15 +61,24 @@ class _NewMessageState extends State<NewMessage> {
               textCapitalization: TextCapitalization.sentences,
               autocorrect: true,
               enableSuggestions: true,
-              decoration: const InputDecoration(
-                labelText: 'Send a message..',
+              decoration: InputDecoration(
+                label: const Text(
+                  'Send a message..',
+                  style: TextStyle(fontSize: 15),
+                ),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(20),
+                ),
               ),
             ),
           ),
           IconButton(
             color: Theme.of(context).colorScheme.primary,
             onPressed: _submitMessage,
-            icon: const Icon(Icons.send_rounded),
+            icon: const Icon(
+              Icons.send_rounded,
+              size: 33,
+            ),
           ),
         ],
       ),

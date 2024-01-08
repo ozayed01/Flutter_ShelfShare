@@ -1,25 +1,30 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:shle_share/models/UserChatInfo.dart';
 import 'package:shle_share/widget/user_profile.dart';
 import 'package:shle_share/models/UserChatInfo.dart';
 
+enum Menu { Edit, Delete }
+
 class Post extends StatefulWidget {
-  const Post({
-    super.key,
-    required this.bookimgUrl,
-    required this.bookDtails,
-    required this.user,
-    required this.exhangeText,
-    required this.Date,
-  });
+  const Post(
+      {super.key,
+      required this.bookimgUrl,
+      required this.bookDtails,
+      required this.user,
+      required this.exhangeText,
+      required this.Date,
+      required this.postID,
+      required this.createdAt});
 
   final String bookimgUrl;
   final List<String> bookDtails;
   final UserChatInfo user;
-
+  final String postID;
   final String exhangeText;
   final String Date;
+  final Timestamp createdAt;
 
   @override
   State<Post> createState() => _PostState();
@@ -28,9 +33,51 @@ class Post extends StatefulWidget {
 class _PostState extends State<Post> {
   @override
   Widget build(BuildContext context) {
+    final userID = FirebaseAuth.instance.currentUser!.uid;
+    final _sameUser = userID == widget.user.userId;
     final List<String> details = ['Book: ', "Author: ", "Realase Date: "];
     for (int i = 0; i < 3; i++) {
       details[i] = "${details[i]}${widget.bookDtails[i]}.";
+    }
+
+    void _deletePost() async {
+      final QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+          .collection('Requests_feed')
+          .where('userId', isEqualTo: userID)
+          .where('createdAt', isEqualTo: widget.createdAt)
+          .limit(1)
+          .get();
+
+      if (querySnapshot.docs.isNotEmpty) {
+        // Get the document ID and delete the document
+        String documentId = querySnapshot.docs.first.id;
+        await FirebaseFirestore.instance
+            .collection('Requests_feed')
+            .doc(documentId)
+            .delete();
+      } else {
+        // Document not found or some other handling
+        print('Document not found or already deleted.');
+      }
+    }
+
+    String formatFirestoreTimestampToRegularDate(Timestamp firestoreTimestamp) {
+      DateTime dateTime = firestoreTimestamp.toDate();
+      DateTime now = DateTime.now();
+
+      Duration difference = now.difference(dateTime);
+
+      if (difference.inSeconds < 60) {
+        return '${difference.inSeconds} seconds ago';
+      } else if (difference.inMinutes < 60) {
+        return '${difference.inMinutes} minutes ago';
+      } else if (difference.inHours < 24) {
+        return '${difference.inHours} hours ago';
+      } else if (difference.inDays < 3) {
+        return '${difference.inDays} days ago';
+      } else {
+        return '${dateTime.day}/${dateTime.month}/${dateTime.year}';
+      }
     }
 
     // double calculateDistance(lat1, lon1, lat2, lon2) {
@@ -92,8 +139,13 @@ class _PostState extends State<Post> {
                     ],
                   ),
                   Spacer(),
-                  IconButton(
-                      onPressed: () {}, icon: const Icon(Icons.more_vert))
+                  if (_sameUser)
+                    IconButton(
+                        onPressed: _deletePost,
+                        icon: const Icon(
+                          Icons.delete,
+                          color: Colors.red,
+                        )),
                 ],
               ),
             ),
@@ -146,7 +198,7 @@ class _PostState extends State<Post> {
                 Icon(Icons.location_on),
                 Text('10 Km'),
                 const Spacer(),
-                Text(widget.Date)
+                Text(formatFirestoreTimestampToRegularDate(widget.createdAt))
               ],
             )
           ],

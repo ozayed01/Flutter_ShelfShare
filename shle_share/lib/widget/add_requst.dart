@@ -41,25 +41,25 @@ class _addRequestState extends ConsumerState<AddRequest> {
         .collection('Users')
         .doc(user.uid)
         .get();
-    FirebaseFirestore.instance
-        .collection('Books')
-        .doc(user.uid)
-        .collection('Requested')
-        .add({
-      'request_text': enteredText,
-      'full_name': userInfo.data()!['full_name'],
-      'username': userInfo.data()!['username'],
-      'userPicUrl': userInfo.data()!['userPicUrl'],
-      'Bio': userInfo.data()!['Bio'],
-      'userId': user.uid,
-      'book_name': booklist[0].info.title,
-      'book_auther': booklist[0].info.authors[0],
-      'book_image': ('${booklist[0].info.imageLinks['thumbnail']}' == 'null')
-          ? 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTbJk-qCpmshndFRatcLSOB8GsyboaySnGpeS2GvkZsQShaZpccKqkkK4MkBRGbIVOBnzw&usqp=CAU'
-          : '${booklist[0].info.imageLinks['thumbnail']}',
-      'relase_date': formattedDate(booklist[0].info.publishedDate!),
-      'createdAt': Timestamp.now(),
-    });
+    // FirebaseFirestore.instance
+    //     .collection('Books')
+    //     .doc(user.uid)
+    //     .collection('Requested')
+    //     .add({
+    //   'request_text': enteredText,
+    //   'full_name': userInfo.data()!['full_name'],
+    //   'username': userInfo.data()!['username'],
+    //   'userPicUrl': userInfo.data()!['userPicUrl'],
+    //   'Bio': userInfo.data()!['Bio'],
+    //   'userId': user.uid,
+    //   'book_name': booklist[0].info.title,
+    //   'book_auther': booklist[0].info.authors[0],
+    //   'book_image': ('${booklist[0].info.imageLinks['thumbnail']}' == 'null')
+    //       ? 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTbJk-qCpmshndFRatcLSOB8GsyboaySnGpeS2GvkZsQShaZpccKqkkK4MkBRGbIVOBnzw&usqp=CAU'
+    //       : '${booklist[0].info.imageLinks['thumbnail']}',
+    //   'relase_date': formattedDate(booklist[0].info.publishedDate!),
+    //   'createdAt': Timestamp.now(),
+    // });
     FirebaseFirestore.instance.collection('Requests_feed').add({
       'request_text': enteredText,
       'full_name': userInfo.data()!['full_name'],

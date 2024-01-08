@@ -97,6 +97,8 @@ class _RequestFeedScreenState extends State<RequestFeedScreen> {
                       userId: user['userId'],
                       userbio: user['Bio']),
                   exhangeText: user['request_text'],
+                  createdAt: user['createdAt'],
+                  postID: 'test',
                   Date: '2011');
             },
           );
