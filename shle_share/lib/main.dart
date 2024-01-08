@@ -3,9 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shle_share/BottomBar/bottom_bar.dart';
-
 import 'package:shle_share/Screens/auth.dart';
-
 import 'package:firebase_core/firebase_core.dart';
 import 'package:shle_share/Spalsh/Splash.dart';
 import 'firebase_options.dart';
@@ -30,26 +28,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      darkTheme: ThemeData.dark().copyWith(
-        colorScheme: kDarkColorScheme,
-        appBarTheme: const AppBarTheme().copyWith(
-          backgroundColor: kDarkColorScheme.secondary,
-          foregroundColor: kDarkColorScheme.onSecondary,
-        ),
-        elevatedButtonTheme: ElevatedButtonThemeData(
-          style: ElevatedButton.styleFrom(
-            backgroundColor: kColorScheme.secondary,
-            foregroundColor: kColorScheme.onSecondary,
-            padding: const EdgeInsets.symmetric(horizontal: 150, vertical: 15),
-          ),
-        ),
-        outlinedButtonTheme: OutlinedButtonThemeData(
-          style: OutlinedButton.styleFrom(
-            foregroundColor: kColorScheme.primary,
-            padding: const EdgeInsets.symmetric(horizontal: 150, vertical: 15),
-          ),
-        ),
-      ),
+      themeMode: ThemeMode.light,
       theme: ThemeData().copyWith(
         colorScheme: kColorScheme,
         appBarTheme: const AppBarTheme().copyWith(

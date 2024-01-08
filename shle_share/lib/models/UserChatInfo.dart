@@ -4,6 +4,7 @@ class UserChatInfo {
     required this.name,
     required this.userImgUrl,
     required this.userId,
+    required this.userbio,
     // required this.location,
   });
 
@@ -11,6 +12,7 @@ class UserChatInfo {
   final String username;
   final String userImgUrl;
   final String userId;
+  final String userbio;
   // final PlaceLocation location;
 }
 

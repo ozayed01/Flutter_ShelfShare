@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:shle_share/Screens/chat/chat_messages.dart';
 import 'package:shle_share/Screens/chat/new_message.dart';
-import 'package:shle_share/models/user.dart';
+import 'package:shle_share/models/UserChatInfo.dart';
 
 class ChatScreen extends StatefulWidget {
   const ChatScreen({super.key, required this.user});

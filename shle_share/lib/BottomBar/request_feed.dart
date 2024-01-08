@@ -1,17 +1,18 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:shle_share/Screens/chat/chat.dart';
 import 'package:shle_share/models/UserChatInfo.dart';
+import 'package:shle_share/widget/add_requst.dart';
+import 'package:shle_share/widget/post.dart';
 
-class ChatUserList extends StatefulWidget {
-  const ChatUserList({Key? key}) : super(key: key);
+class RequestFeedScreen extends StatefulWidget {
+  const RequestFeedScreen({Key? key}) : super(key: key);
 
   @override
-  State<ChatUserList> createState() => _ChatUserListState();
+  State<RequestFeedScreen> createState() => _RequestFeedScreenState();
 }
 
-class _ChatUserListState extends State<ChatUserList> {
+class _RequestFeedScreenState extends State<RequestFeedScreen> {
   late Stream<QuerySnapshot> usersStream;
 
   @override
@@ -21,9 +22,10 @@ class _ChatUserListState extends State<ChatUserList> {
   }
 
   Stream<QuerySnapshot> getUsersStream() {
+    final user = FirebaseAuth.instance.currentUser!;
     return FirebaseFirestore.instance
-        .collection('Users')
-        .orderBy('userId', descending: false)
+        .collection('Requests_feed')
+        .orderBy('createdAt', descending: true)
         .snapshots();
   }
 
@@ -34,13 +36,26 @@ class _ChatUserListState extends State<ChatUserList> {
     });
   }
 
+  void _openAddRequestOverlay() {
+    showModalBottomSheet(
+      isScrollControlled: true,
+      context: context,
+      builder: (ctx) => (AddRequest()),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final authUser = FirebaseAuth.instance.currentUser!;
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Users Chat'),
+        title: const Text('Request Feed'),
+        actions: [
+          IconButton(
+              onPressed: _openAddRequestOverlay,
+              icon: const Icon(Icons.add_box_rounded))
+        ],
       ),
       body: StreamBuilder<List<DocumentSnapshot>>(
         stream: filterCurrentUser(usersStream, authUser.uid),
@@ -52,7 +67,7 @@ class _ChatUserListState extends State<ChatUserList> {
           }
           if (!userSnapshot.hasData || userSnapshot.data!.isEmpty) {
             return const Center(
-              child: Text('No Useres were found!'),
+              child: Text('No Requests were found!'),
             );
           }
           if (userSnapshot.hasError) {
@@ -68,32 +83,21 @@ class _ChatUserListState extends State<ChatUserList> {
             itemCount: loadedUsers.length,
             itemBuilder: (context, index) {
               final user = loadedUsers[index].data() as Map<String, dynamic>;
-              return ListTile(
-                title: Text(user['full_name'] as String),
-                leading: CircleAvatar(
-                  radius: 40,
-                  backgroundColor: Colors.grey,
-                  foregroundImage: NetworkImage(user['userPicUrl'] as String),
-                ),
-                trailing: const Text('time?'),
-                contentPadding: const EdgeInsets.only(top: 10, right: 10),
-                subtitle: const Text('hello'),
-                onTap: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => ChatScreen(
-                        user: UserChatInfo(
-                          username: user['username'] as String,
-                          name: user['full_name'] as String,
-                          userImgUrl: user['userPicUrl'] as String,
-                          userId: user['userId'] as String,
-                          userbio: '',
-                        ),
-                      ),
-                    ),
-                  );
-                },
-              );
+              return Post(
+                  bookimgUrl: user['book_image'],
+                  bookDtails: [
+                    user['book_name'],
+                    user['book_auther'],
+                    user['relase_date']
+                  ],
+                  user: UserChatInfo(
+                      username: user['username'],
+                      name: user['full_name'],
+                      userImgUrl: user['userPicUrl'],
+                      userId: user['userId'],
+                      userbio: user['Bio']),
+                  exhangeText: user['request_text'],
+                  Date: '2011');
             },
           );
         },

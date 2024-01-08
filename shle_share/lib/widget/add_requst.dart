@@ -1,10 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:shle_share/models/user.dart';
-import 'package:shle_share/providers/post_pro.dart';
-import 'package:shle_share/widget/post.dart';
-import 'package:shle_share/data/dummy_data.dart';
 import 'package:books_finder/books_finder.dart';
 
 final formatter = DateFormat.yMd();
@@ -35,22 +33,46 @@ class _addRequestState extends ConsumerState<AddRequest> {
     );
     final enteredText = _requestTextController.text;
 
-    final post = Post(
-      bookDtails: [
-        booklist[0].info.title,
-        booklist[0].info.authors[0],
-        formattedDate(booklist[0].info.publishedDate!)
-      ],
-      user: user,
-      bookimgUrl: '${booklist[0].info.imageLinks['thumbnail']}',
-      exhangeText: enteredText,
-      Date: formattedDate(Date),
-    );
-    print(booklist[0].id);
     if (enteredText.isEmpty) {
       return;
     }
-    ref.read(postProvider.notifier).addPost(post);
+    final user = FirebaseAuth.instance.currentUser!;
+    final userInfo = await FirebaseFirestore.instance
+        .collection('Users')
+        .doc(user.uid)
+        .get();
+    FirebaseFirestore.instance
+        .collection('Books')
+        .doc(user.uid)
+        .collection('Requested')
+        .add({
+      'request_text': enteredText,
+      'full_name': userInfo.data()!['full_name'],
+      'username': userInfo.data()!['username'],
+      'userPicUrl': userInfo.data()!['userPicUrl'],
+      'Bio': userInfo.data()!['Bio'],
+      'userId': user.uid,
+      'book_name': booklist[0].info.title,
+      'book_auther': booklist[0].info.authors[0],
+      'book_image': ('${booklist[0].info.imageLinks['thumbnail']}' == 'null')
+          ? 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTbJk-qCpmshndFRatcLSOB8GsyboaySnGpeS2GvkZsQShaZpccKqkkK4MkBRGbIVOBnzw&usqp=CAU'
+          : '${booklist[0].info.imageLinks['thumbnail']}',
+      'relase_date': formattedDate(booklist[0].info.publishedDate!),
+      'createdAt': Timestamp.now(),
+    });
+    FirebaseFirestore.instance.collection('Requests_feed').add({
+      'request_text': enteredText,
+      'full_name': userInfo.data()!['full_name'],
+      'username': userInfo.data()!['username'],
+      'userPicUrl': userInfo.data()!['userPicUrl'],
+      'Bio': userInfo.data()!['Bio'],
+      'userId': user.uid,
+      'book_name': booklist[0].info.title,
+      'book_auther': booklist[0].info.authors[0],
+      'book_image': '${booklist[0].info.imageLinks['thumbnail']}',
+      'relase_date': formattedDate(booklist[0].info.publishedDate!),
+      'createdAt': Timestamp.now(),
+    });
     Navigator.pop(context);
   }
 

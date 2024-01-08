@@ -1,8 +1,8 @@
-import 'dart:math';
-
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:shle_share/models/user.dart';
+import 'package:shle_share/models/UserChatInfo.dart';
 import 'package:shle_share/widget/user_profile.dart';
+import 'package:shle_share/models/UserChatInfo.dart';
 
 class Post extends StatefulWidget {
   const Post({
@@ -63,36 +63,37 @@ class _PostState extends State<Post> {
             InkWell(
               onTap: () {
                 Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => const UserProfile()),
+                  MaterialPageRoute(
+                      builder: (
+                    context,
+                  ) =>
+                          UserProfile(
+                            user: widget.user,
+                          )),
                 );
               },
               child: Row(
                 children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(100),
-                    child: Image.network(
-                      widget.user.userImgUrl,
-                      height: 50,
-                      width: 50,
-                    ),
-                  ),
+                  CircleAvatar(
+                      radius: 29,
+                      backgroundColor: Colors.grey,
+                      foregroundImage: NetworkImage(widget.user.userImgUrl)),
                   const SizedBox(
                     width: 5,
                   ),
                   Column(
                     children: [
+                      Text(widget.user.name,
+                          style: Theme.of(context).textTheme.headlineSmall),
                       Text(
-                        widget.user.name,
-                        style:
-                            Theme.of(context).textTheme.headlineSmall?.copyWith(
-                                  letterSpacing: 1.2,
-                                ),
+                        '@${widget.user.username}',
+                        textAlign: TextAlign.left,
                       ),
-                      Text(widget.user.username),
                     ],
                   ),
                   Spacer(),
-                  IconButton(onPressed: () {}, icon: Icon(Icons.more_vert))
+                  IconButton(
+                      onPressed: () {}, icon: const Icon(Icons.more_vert))
                 ],
               ),
             ),

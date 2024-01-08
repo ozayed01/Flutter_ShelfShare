@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:shle_share/BottomBar/home_screen.dart';
 import 'package:shle_share/BottomBar/Profile/profile_Screen.dart';
 import 'package:shle_share/BottomBar/map.dart';
+import 'package:shle_share/BottomBar/request_feed.dart';
 import 'package:shle_share/BottomBar/search_screen.dart';
 import 'package:shle_share/Screens/chat/chat_users.dart';
 
@@ -30,7 +30,8 @@ class _BottomBarState extends State<BottomBar> {
 
   @override
   Widget build(BuildContext context) {
-    Widget activePage = HomeScreen();
+    Widget activePage = RequestFeedScreen();
+    var activePageTitle = 'Request Feed';
 
     void setUser() async {
       final user = FirebaseAuth.instance.currentUser!;
@@ -46,7 +47,6 @@ class _BottomBarState extends State<BottomBar> {
       });
     }
 
-    var activePageTitle = 'Home';
     if (_selectedIndex == 1) {
       activePage = const SearchScreen();
       activePageTitle = 'Search';
@@ -64,6 +64,7 @@ class _BottomBarState extends State<BottomBar> {
         username: username,
         userImg: userPic,
         userBio: bio,
+        IsOtherUser: false,
       );
       activePageTitle = 'Profile';
     }
