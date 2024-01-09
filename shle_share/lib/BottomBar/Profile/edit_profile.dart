@@ -48,7 +48,7 @@ class _EditProfileState extends State<EditProfile> {
       _isUploding = false;
     });
     final imageUrl = await storageRef.getDownloadURL();
-    final user = await FirebaseAuth.instance.currentUser!;
+    final user = FirebaseAuth.instance.currentUser!;
     await FirebaseFirestore.instance.collection('Users').doc(user.uid).set({
       'full_name': _enterdName,
       'username': _enteredUsername,

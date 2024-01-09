@@ -5,6 +5,7 @@ import 'package:shle_share/BottomBar/Profile/profile_Screen.dart';
 import 'package:shle_share/BottomBar/map.dart';
 import 'package:shle_share/BottomBar/request_feed.dart';
 import 'package:shle_share/BottomBar/search_screen.dart';
+import 'package:shle_share/Screens/chat/chat_recent.dart';
 import 'package:shle_share/Screens/chat/chat_users.dart';
 
 class BottomBar extends StatefulWidget {
@@ -21,6 +22,7 @@ class _BottomBarState extends State<BottomBar> {
   var username = '';
   var userPic = '';
   var bio = '';
+  var isLoading = false;
 
   void _selectedPageIndex(int index) async {
     setState(() {
@@ -34,6 +36,9 @@ class _BottomBarState extends State<BottomBar> {
     var activePageTitle = 'Request Feed';
 
     void setUser() async {
+      setState(() {
+        isLoading = true;
+      });
       final user = FirebaseAuth.instance.currentUser!;
       final userInfo = await FirebaseFirestore.instance
           .collection('Users')
@@ -44,6 +49,7 @@ class _BottomBarState extends State<BottomBar> {
         username = userInfo.data()!['username'];
         userPic = userInfo.data()!['userPicUrl'];
         bio = userInfo.data()!['Bio'];
+        isLoading = false;
       });
     }
 
@@ -55,10 +61,15 @@ class _BottomBarState extends State<BottomBar> {
       activePage = MapScreen();
       activePageTitle = "Map";
     } else if (_selectedIndex == 3) {
-      activePage = ChatUserList();
+      activePage = const ChatRecentList();
       activePageTitle = 'Chat';
     } else if (_selectedIndex == 4) {
       setUser();
+      if (isLoading) {
+        activePage = const Center(
+          child: CircularProgressIndicator(),
+        );
+      }
       activePage = ProfileScreen(
         fullName: name,
         username: username,

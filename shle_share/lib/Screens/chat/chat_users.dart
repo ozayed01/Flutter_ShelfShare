@@ -75,9 +75,8 @@ class _ChatUserListState extends State<ChatUserList> {
                   backgroundColor: Colors.grey,
                   foregroundImage: NetworkImage(user['userPicUrl'] as String),
                 ),
-                trailing: const Text('time?'),
                 contentPadding: const EdgeInsets.only(top: 10, right: 10),
-                subtitle: const Text('hello'),
+                subtitle: Text('@${user['username']}'),
                 onTap: () {
                   Navigator.of(context).push(
                     MaterialPageRoute(

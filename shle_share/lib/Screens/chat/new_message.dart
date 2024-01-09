@@ -29,7 +29,7 @@ class _NewMessageState extends State<NewMessage> {
 
     FocusScope.of(context).unfocus();
     _messageController.clear();
-
+    final otherUserId = getOtherUserId(widget.ChatRoomId);
     final user = FirebaseAuth.instance.currentUser!;
     final userInfo = await FirebaseFirestore.instance
         .collection('Users')
@@ -47,6 +47,42 @@ class _NewMessageState extends State<NewMessage> {
       'name': userInfo.data()!['full_name'],
       'userPicUrl': userInfo.data()!['userPicUrl'],
     });
+    FirebaseFirestore.instance
+        .collection('recent_chat')
+        .doc(user.uid)
+        .collection('messages')
+        .add({
+      'chatromId': widget.ChatRoomId,
+      'createdAt': Timestamp.now(),
+      'userId': user.uid,
+      'text': enteredMessage,
+      'name': userInfo.data()!['full_name'],
+      'userPicUrl': userInfo.data()!['userPicUrl'],
+    });
+    FirebaseFirestore.instance
+        .collection('recent_chat')
+        .doc(otherUserId)
+        .collection('messages')
+        .add({
+      'chatromId': widget.ChatRoomId,
+      'createdAt': Timestamp.now(),
+      'userId': user.uid,
+      'text': enteredMessage,
+      'name': userInfo.data()!['full_name'],
+      'userPicUrl': userInfo.data()!['userPicUrl'],
+    });
+  }
+
+  String getOtherUserId(String chatromId) {
+    final userID = FirebaseAuth.instance.currentUser!.uid;
+    var otherUserId = '';
+    List<String> parts = chatromId.split('_');
+    for (var p in parts) {
+      if (p != userID) {
+        otherUserId = p;
+      }
+    }
+    return otherUserId;
   }
 
   @override
