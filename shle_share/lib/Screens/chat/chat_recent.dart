@@ -155,7 +155,16 @@ class _ChatRecentListState extends State<ChatRecentList> {
                         );
                       }
 
-                      return lastMessagesUser(chatromId: chatRoomId);
+                      return Dismissible(
+                        key: ValueKey(chatRoomId),
+                        child: lastMessagesUser(chatromId: chatRoomId),
+                        onDismissed: (direction) {
+                          FirebaseFirestore.instance
+                              .collection('Chats')
+                              .doc(chatRoomId)
+                              .delete();
+                        },
+                      );
                     },
                   );
                 },

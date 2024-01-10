@@ -1,11 +1,11 @@
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+
 import 'package:shle_share/models/UserChatInfo.dart';
 import 'package:shle_share/widget/user_profile.dart';
-import 'package:shle_share/models/UserChatInfo.dart';
-
-enum Menu { Edit, Delete }
 
 class Request extends StatefulWidget {
   const Request({
@@ -14,17 +14,23 @@ class Request extends StatefulWidget {
     required this.bookDtails,
     required this.user,
     required this.exhangeText,
-    required this.Date,
-    required this.postID,
     required this.createdAt,
+    required this.userLat,
+    required this.userLng,
+    required this.requestLat,
+    required this.requestLng,
   });
 
   final String bookimgUrl;
   final List<String> bookDtails;
   final UserChatInfo user;
-  final String postID;
+
   final String exhangeText;
-  final String Date;
+
+  final double userLat;
+  final double userLng;
+  final double requestLat;
+  final double requestLng;
 
   final Timestamp createdAt;
 
@@ -144,17 +150,20 @@ class _RequestState extends State<Request> {
       );
     }
 
-    // double calculateDistance(lat1, lon1, lat2, lon2) {
-    //   var p = 0.017453292519943295;
-    //   var c = cos;
-    //   var a = 0.5 -
-    //       c((lat2 - lat1) * p) / 2 +
-    //       c(lat1 * p) * c(lat2 * p) * (1 - c((lon2 - lon1) * p)) / 2;
-    //   return 12742 * asin(sqrt(a));
-    // }
+    String calculateDistance(lat1, lon1, lat2, lon2) {
+      if (lat1 == lat2 && lon1 == lon2) {
+        return '0.0';
+      }
+      var p = 0.017453292519943295;
+      var c = cos;
+      var a = 0.5 -
+          c((lat2 - lat1) * p) / 2 +
+          c(lat1 * p) * c(lat2 * p) * (1 - c((lon2 - lon1) * p)) / 2;
+      return (12742 * asin(sqrt(a))).toStringAsFixed(1);
+    }
 
     return Card(
-      margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 7),
+      margin: const EdgeInsets.symmetric(vertical: 2, horizontal: 5),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(8),
         side: BorderSide(
@@ -202,7 +211,7 @@ class _RequestState extends State<Request> {
                       ),
                     ],
                   ),
-                  Spacer(),
+                  const Spacer(),
                   if (_sameUser)
                     IconButton(
                         onPressed: _confirmDeleteDialog,
@@ -260,7 +269,8 @@ class _RequestState extends State<Request> {
             Row(
               children: [
                 Icon(Icons.location_on),
-                Text('10 Km'),
+                Text(
+                    '${calculateDistance(widget.userLat, widget.userLng, widget.requestLat, widget.requestLng)} Km'),
                 const Spacer(),
                 Text(formatFirestoreTimestampToRegularDate(widget.createdAt))
               ],

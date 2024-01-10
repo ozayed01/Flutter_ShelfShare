@@ -1,7 +1,6 @@
 import 'package:books_finder/books_finder.dart';
 import 'package:flutter/material.dart';
 import 'package:shle_share/models/my_book.dart';
-import 'package:shle_share/widget/book_details.dart';
 import 'package:shle_share/widget/book_details_search.dart';
 import 'package:transparent_image/transparent_image.dart';
 import 'package:intl/intl.dart';

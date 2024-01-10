@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:location/location.dart';
 import 'package:shle_share/models/UserChatInfo.dart';
 import 'package:shle_share/widget/add_requst.dart';
 import 'package:shle_share/widget/request.dart';
@@ -14,11 +15,49 @@ class RequestFeedScreen extends StatefulWidget {
 
 class _RequestFeedScreenState extends State<RequestFeedScreen> {
   late Stream<QuerySnapshot> usersStream;
+  bool isLoading = true;
+  double? currentLng;
+  double? currentLat;
 
   @override
   void initState() {
     super.initState();
+    _getCurrentLocation();
     usersStream = getUsersStream();
+  }
+
+  void _getCurrentLocation() async {
+    try {
+      Location location = Location();
+      bool serviceEnabled = await location.serviceEnabled();
+      PermissionStatus permissionGranted = await location.hasPermission();
+
+      if (!serviceEnabled) {
+        serviceEnabled = await location.requestService();
+        if (!serviceEnabled) {
+          return;
+        }
+      }
+
+      if (permissionGranted == PermissionStatus.denied) {
+        permissionGranted = await location.requestPermission();
+        if (permissionGranted != PermissionStatus.granted) {
+          return;
+        }
+      }
+
+      LocationData locationData = await location.getLocation();
+      setState(() {
+        isLoading = false;
+        currentLat = locationData.latitude;
+        currentLng = locationData.longitude;
+      });
+    } catch (e) {
+      print('Error fetching location: $e');
+      setState(() {
+        isLoading = false;
+      });
+    }
   }
 
   Stream<QuerySnapshot> getUsersStream() {
@@ -78,28 +117,37 @@ class _RequestFeedScreenState extends State<RequestFeedScreen> {
 
           final loadedUsers = userSnapshot.data!;
 
+          if (isLoading) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
           return ListView.builder(
-            padding: EdgeInsets.only(left: 0, top: 10),
+            padding: const EdgeInsets.only(left: 0, top: 10),
             itemCount: loadedUsers.length,
             itemBuilder: (context, index) {
               final user = loadedUsers[index].data() as Map<String, dynamic>;
+
               return Request(
-                  bookimgUrl: user['book_image'],
-                  bookDtails: [
-                    user['book_name'],
-                    user['book_auther'],
-                    user['relase_date']
-                  ],
-                  user: UserChatInfo(
-                      username: user['username'],
-                      name: user['full_name'],
-                      userImgUrl: user['userPicUrl'],
-                      userId: user['userId'],
-                      userbio: user['Bio']),
-                  exhangeText: user['request_text'],
-                  createdAt: user['createdAt'],
-                  postID: 'test',
-                  Date: '2011');
+                bookimgUrl: user['book_image'],
+                bookDtails: [
+                  user['book_name'],
+                  user['book_auther'],
+                  user['relase_date']
+                ],
+                user: UserChatInfo(
+                    username: user['username'],
+                    name: user['full_name'],
+                    userImgUrl: user['userPicUrl'],
+                    userId: user['userId'],
+                    userbio: user['Bio']),
+                exhangeText: user['request_text'],
+                createdAt: user['createdAt'],
+                requestLat: user['userLat'],
+                requestLng: user['userLng'],
+                userLat: currentLat!,
+                userLng: currentLng!,
+              );
             },
           );
         },

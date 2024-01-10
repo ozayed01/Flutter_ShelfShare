@@ -33,7 +33,6 @@ class _BottomBarState extends State<BottomBar> {
   @override
   Widget build(BuildContext context) {
     Widget activePage = RequestFeedScreen();
-    var activePageTitle = 'Request Feed';
 
     void setUser() async {
       setState(() {
@@ -55,14 +54,11 @@ class _BottomBarState extends State<BottomBar> {
 
     if (_selectedIndex == 1) {
       activePage = const SearchScreen(isfromReq: false);
-      activePageTitle = 'Search';
     }
     if (_selectedIndex == 2) {
       activePage = MapScreen();
-      activePageTitle = "Map";
     } else if (_selectedIndex == 3) {
       activePage = const ChatRecentList();
-      activePageTitle = 'Chat';
     } else if (_selectedIndex == 4) {
       setUser();
       if (isLoading) {
@@ -77,7 +73,6 @@ class _BottomBarState extends State<BottomBar> {
         userBio: bio,
         IsOtherUser: false,
       );
-      activePageTitle = 'Profile';
     }
     return Scaffold(
       body: activePage,
