@@ -96,8 +96,8 @@ class BookDetailsSearch extends StatelessWidget {
                           padding: const EdgeInsets.symmetric(
                               horizontal: 30, vertical: 20),
                         ),
-                        label: const Text('Already Read'),
-                        icon: const Icon(Icons.check),
+                        label: const Text('Add to Shelf'),
+                        icon: const Icon(Icons.add),
                       ),
                       const SizedBox(width: 10),
                       ElevatedButton.icon(
@@ -125,8 +125,8 @@ class BookDetailsSearch extends StatelessWidget {
                           padding: const EdgeInsets.symmetric(
                               horizontal: 30, vertical: 20),
                         ),
-                        label: const Text('Add to Shelf'),
-                        icon: const Icon(Icons.add),
+                        label: const Text('Already Read'),
+                        icon: const Icon(Icons.check),
                       ),
                     ])
                   ],

@@ -114,14 +114,29 @@ class _SearchScreenState extends State<SearchScreen> {
                             .copyWith(fontWeight: FontWeight.w600)),
                   ),
                   const SizedBox(height: 50),
-                  Text("Author: ${_searchBookList[index].info.authors[0]}",
-                      textAlign: TextAlign.left),
-                  Text(
-                    "Relase Date: ${formattedDate(_searchBookList[index].info.publishedDate!)}",
-                    textAlign: TextAlign.left,
+                  SizedBox(
+                    width: 270,
+                    child: Text(
+                        "Author: ${_searchBookList[index].info.authors[0]}",
+                        textAlign: TextAlign.left),
+                  ),
+                  SizedBox(
+                    width: 270,
+                    child: Text(
+                      "Relase Date: ${formattedDate(_searchBookList[index].info.publishedDate!)}",
+                      textAlign: TextAlign.left,
+                    ),
                   ),
                   if (_searchBookList[index].info.categories.isNotEmpty)
-                    Text("Genre: ${_searchBookList[index].info.categories[0]}"),
+                    SizedBox(
+                      width: 270,
+                      child: Text(
+                        "Genre: ${_searchBookList[index].info.categories[0]}",
+                        softWrap: true,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
                 ],
               ),
             ]),
