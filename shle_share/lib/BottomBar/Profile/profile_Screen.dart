@@ -1,5 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:shle_share/BottomBar/Profile/BookShelf_screen.dart';
+import 'package:shle_share/BottomBar/Profile/finished_book.dart';
 import 'package:shle_share/BottomBar/Profile/profile_drawr.dart';
 import 'package:shle_share/BottomBar/Profile/requested_book.dart';
 
@@ -11,12 +12,14 @@ class ProfileScreen extends StatelessWidget {
     required this.userImg,
     this.userBio,
     required this.IsOtherUser,
+    this.otherUserId,
   });
   final String username;
   final String fullName;
   final String userImg;
   final String? userBio;
   final bool IsOtherUser;
+  final String? otherUserId;
   @override
   Widget build(BuildContext context) {
     Widget content = DefaultTabController(
@@ -75,7 +78,7 @@ class ProfileScreen extends StatelessWidget {
               child: TabBarView(
                 children: [
                   RequestedBook(),
-                  BookShelfScreen(),
+                  FinishedBook(),
                 ],
               ),
             ),
@@ -133,11 +136,11 @@ class ProfileScreen extends StatelessWidget {
                   Tab(icon: Icon(Icons.book_outlined)),
                 ],
               ),
-              const Expanded(
+              Expanded(
                 child: TabBarView(
                   children: [
-                    RequestedBook(),
-                    BookShelfScreen(),
+                    RequestedBook(userId: otherUserId!),
+                    FinishedBook(userId: otherUserId),
                   ],
                 ),
               ),

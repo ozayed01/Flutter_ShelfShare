@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:shle_share/models/UserChatInfo.dart';
 import 'package:shle_share/widget/add_requst.dart';
-import 'package:shle_share/widget/post.dart';
+import 'package:shle_share/widget/request.dart';
 
 class RequestFeedScreen extends StatefulWidget {
   const RequestFeedScreen({Key? key}) : super(key: key);
@@ -83,7 +83,7 @@ class _RequestFeedScreenState extends State<RequestFeedScreen> {
             itemCount: loadedUsers.length,
             itemBuilder: (context, index) {
               final user = loadedUsers[index].data() as Map<String, dynamic>;
-              return Post(
+              return Request(
                   bookimgUrl: user['book_image'],
                   bookDtails: [
                     user['book_name'],

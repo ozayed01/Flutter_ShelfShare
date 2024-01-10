@@ -1,6 +1,6 @@
 import 'package:books_finder/books_finder.dart';
 import 'package:flutter/material.dart';
-import 'package:shle_share/models/book.dart';
+import 'package:shle_share/models/my_book.dart';
 import 'package:shle_share/widget/book_details.dart';
 import 'package:shle_share/widget/book_details_search.dart';
 import 'package:transparent_image/transparent_image.dart';
@@ -9,24 +9,29 @@ import 'package:intl/intl.dart';
 final formatter = DateFormat.yMd();
 
 class SearchScreen extends StatefulWidget {
-  const SearchScreen({super.key});
+  const SearchScreen({super.key, required this.isfromReq});
+  final bool isfromReq;
 
   @override
   State<SearchScreen> createState() => _SearchScreenState();
 }
 
 class _SearchScreenState extends State<SearchScreen> {
-  var isLoading = true;
+  var isLoading = false;
   List<Book> _searchBookList = [];
   final _searchControllr = TextEditingController();
 
   void _loadItems() async {
+    setState(() {
+      isLoading = true;
+    });
     final List<Book> booklist = await queryBooks(
       _searchControllr.text,
       queryType: QueryType.intitle,
       printType: PrintType.books,
       orderBy: OrderBy.relevance,
     );
+    booklist.length;
     setState(() {
       _searchBookList = booklist;
       isLoading = false;
@@ -69,7 +74,11 @@ class _SearchScreenState extends State<SearchScreen> {
         itemCount: _searchBookList.length,
         itemBuilder: (context, index) => InkWell(
           onTap: () {
-            _goTobook(context, _searchBookList[index]);
+            if (widget.isfromReq) {
+              Navigator.of(context).pop(_searchBookList[index]);
+            } else {
+              _goTobook(context, _searchBookList[index]);
+            }
           },
           child: Card(
             clipBehavior: Clip.hardEdge,
@@ -101,7 +110,7 @@ class _SearchScreenState extends State<SearchScreen> {
                         overflow: TextOverflow.ellipsis,
                         style: Theme.of(context)
                             .textTheme
-                            .titleLarge!
+                            .titleMedium!
                             .copyWith(fontWeight: FontWeight.w600)),
                   ),
                   const SizedBox(height: 50),

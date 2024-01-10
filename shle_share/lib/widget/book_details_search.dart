@@ -1,6 +1,8 @@
 import 'dart:ui';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:scrollable_text_indicator/scrollable_text_indicator.dart';
-import 'package:shle_share/models/book.dart';
+import 'package:shle_share/models/my_book.dart';
 import 'package:flutter/material.dart';
 
 class BookDetailsSearch extends StatelessWidget {
@@ -9,6 +11,7 @@ class BookDetailsSearch extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final userID = FirebaseAuth.instance.currentUser!.uid;
     return Scaffold(
       appBar: AppBar(
         title: Text(book.title),
@@ -98,7 +101,26 @@ class BookDetailsSearch extends StatelessWidget {
                       ),
                       const SizedBox(width: 10),
                       ElevatedButton.icon(
-                        onPressed: () {},
+                        onPressed: () {
+                          FirebaseFirestore.instance
+                              .collection('book_shelf')
+                              .doc(userID)
+                              .collection('Finished')
+                              .add({
+                            'book_id': book.id,
+                            'book_name': book.title,
+                            'book_auther': book.bookAuthor,
+                            'book_image': book.bookImg,
+                            'book_description': book.bookDescription,
+                            'relase_date': book.relaseDate,
+                            'createdAt': Timestamp.now(),
+                          });
+                          ScaffoldMessenger.of(context).clearSnackBars();
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                  content: Text(
+                                      'The Book is Added to Finished Books')));
+                        },
                         style: ElevatedButton.styleFrom(
                           padding: const EdgeInsets.symmetric(
                               horizontal: 30, vertical: 20),

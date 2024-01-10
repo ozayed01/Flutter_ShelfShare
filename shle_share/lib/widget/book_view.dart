@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:shle_share/models/book.dart';
+import 'package:shle_share/models/my_book.dart';
 import 'package:shle_share/widget/book_details.dart';
 import 'package:transparent_image/transparent_image.dart';
 import 'package:intl/intl.dart';
@@ -15,7 +15,8 @@ class BookView extends StatelessWidget {
       required this.isFin,
       required this.bookAuthor,
       required this.bookDescription,
-      required this.relaseDate});
+      required this.relaseDate,
+      required this.isOther});
   final String id;
   final String title;
   final String bookImg;
@@ -23,6 +24,7 @@ class BookView extends StatelessWidget {
   final String bookDescription;
   final String relaseDate;
   final bool isFin;
+  final bool isOther;
 
   @override
   Widget build(BuildContext context) {
@@ -37,15 +39,16 @@ class BookView extends StatelessWidget {
       return formatter.format(date);
     }
 
-    void _selectBook(BuildContext context, String bookName) {
+    void _selectBook(BuildContext context, MyBook book) {
       Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) => BookDetails(book: book1),
+        builder: (context) =>
+            BookDetails(book: book, isFin: isFin, isOther: isOther),
       ));
     }
 
     return InkWell(
       onTap: () {
-        _selectBook(context, title);
+        _selectBook(context, book1);
       },
       child: Stack(children: [
         Hero(

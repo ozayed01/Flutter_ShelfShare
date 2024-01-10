@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:shle_share/Screens/chat/chat.dart';
 import 'package:shle_share/Screens/chat/chat_users.dart';
 import 'package:shle_share/models/UserChatInfo.dart';
+import 'package:shle_share/widget/user_profile.dart';
 
 class ChatRecentList extends StatefulWidget {
   const ChatRecentList({Key? key}) : super(key: key);
@@ -223,7 +224,7 @@ class lastMessagesUser extends StatelessWidget {
             }
             if (!snapshot.hasData || snapshot.data == null) {
               return const Center(
-                child: Text('No messages found!'),
+                child: Text('The User is Deleted'),
               );
             }
 
@@ -233,7 +234,7 @@ class lastMessagesUser extends StatelessWidget {
 
             if (chatMessage == null) {
               return const Center(
-                child: Text('No messages found!'),
+                child: Text('No messages found!2'),
               );
             }
 
@@ -241,6 +242,8 @@ class lastMessagesUser extends StatelessWidget {
             final receiverUsername = receiverInfo['username'] as String? ?? '';
             final receiverUserPicUrl =
                 receiverInfo['userPicUrl'] as String? ?? '';
+            final receiverBio = receiverInfo['Bio'] as String? ?? '';
+            final receiverId = receiverInfo['userId'] as String? ?? '';
 
             return ListTile(
               title: Text(receiverName),
@@ -256,6 +259,16 @@ class lastMessagesUser extends StatelessWidget {
                   chatMessage['createdAt'] as Timestamp,
                 ),
               ),
+              onLongPress: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => UserProfile(
+                        user: UserChatInfo(
+                            username: receiverUsername,
+                            name: receiverName,
+                            userImgUrl: receiverUserPicUrl,
+                            userId: receiverId,
+                            userbio: receiverBio))));
+              },
               onTap: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(

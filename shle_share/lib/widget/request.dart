@@ -7,16 +7,17 @@ import 'package:shle_share/models/UserChatInfo.dart';
 
 enum Menu { Edit, Delete }
 
-class Post extends StatefulWidget {
-  const Post(
-      {super.key,
-      required this.bookimgUrl,
-      required this.bookDtails,
-      required this.user,
-      required this.exhangeText,
-      required this.Date,
-      required this.postID,
-      required this.createdAt});
+class Request extends StatefulWidget {
+  const Request({
+    super.key,
+    required this.bookimgUrl,
+    required this.bookDtails,
+    required this.user,
+    required this.exhangeText,
+    required this.Date,
+    required this.postID,
+    required this.createdAt,
+  });
 
   final String bookimgUrl;
   final List<String> bookDtails;
@@ -24,13 +25,14 @@ class Post extends StatefulWidget {
   final String postID;
   final String exhangeText;
   final String Date;
+
   final Timestamp createdAt;
 
   @override
-  State<Post> createState() => _PostState();
+  State<Request> createState() => _RequestState();
 }
 
-class _PostState extends State<Post> {
+class _RequestState extends State<Request> {
   @override
   Widget build(BuildContext context) {
     final userID = FirebaseAuth.instance.currentUser!.uid;
@@ -40,24 +42,58 @@ class _PostState extends State<Post> {
       details[i] = "${details[i]}${widget.bookDtails[i]}.";
     }
 
-    void _deletePost() async {
-      final QuerySnapshot querySnapshot = await FirebaseFirestore.instance
-          .collection('Requests_feed')
-          .where('userId', isEqualTo: userID)
-          .where('createdAt', isEqualTo: widget.createdAt)
-          .limit(1)
-          .get();
+    Future<void> deleteBookAndPost() async {
+      final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
-      if (querySnapshot.docs.isNotEmpty) {
-        // Get the document ID and delete the document
-        String documentId = querySnapshot.docs.first.id;
-        await FirebaseFirestore.instance
+      try {
+        final postQuerySnapshot = await firestore
             .collection('Requests_feed')
-            .doc(documentId)
-            .delete();
-      } else {
-        // Document not found or some other handling
-        print('Document not found or already deleted.');
+            .where('userId', isEqualTo: userID)
+            .where(
+              'reqId',
+              isEqualTo: userID + '_' + widget.bookDtails[0],
+            )
+            .limit(1)
+            .get();
+
+        if (postQuerySnapshot.docs.isNotEmpty) {
+          final postRef = firestore
+              .collection('Requests_feed')
+              .doc(postQuerySnapshot.docs.first.id);
+
+          final bookQuerySnapshot = await firestore
+              .collection('book_shelf')
+              .doc(userID)
+              .collection('Requested')
+              .where(
+                'reqId',
+                isEqualTo: userID + '_' + widget.bookDtails[0],
+              )
+              .limit(1)
+              .get();
+
+          if (bookQuerySnapshot.docs.isNotEmpty) {
+            final bookRef = firestore
+                .collection('book_shelf')
+                .doc(userID)
+                .collection('Requested')
+                .doc(bookQuerySnapshot.docs.first.id);
+
+            await firestore.runTransaction((transaction) async {
+              transaction.delete(bookRef);
+              transaction.delete(postRef);
+            });
+
+            print('Documents deleted successfully within transaction!');
+          } else {
+            print('Requested book document not found.');
+          }
+        } else {
+          print('Post document not found.');
+        }
+      } catch (e, stackTrace) {
+        print('Error deleting documents within transaction: $e');
+        print('Stack trace: $stackTrace');
       }
     }
 
@@ -78,6 +114,34 @@ class _PostState extends State<Post> {
       } else {
         return '${dateTime.day}/${dateTime.month}/${dateTime.year}';
       }
+    }
+
+    Future<void> _confirmDeleteDialog() async {
+      return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Confirm Deletion'),
+            content:
+                const Text('Are you sure you want to delete this request?'),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text('Cancel'),
+              ),
+              TextButton(
+                onPressed: () {
+                  deleteBookAndPost();
+                  Navigator.of(context).pop();
+                },
+                child: const Text('Delete'),
+              ),
+            ],
+          );
+        },
+      );
     }
 
     // double calculateDistance(lat1, lon1, lat2, lon2) {
@@ -141,7 +205,7 @@ class _PostState extends State<Post> {
                   Spacer(),
                   if (_sameUser)
                     IconButton(
-                        onPressed: _deletePost,
+                        onPressed: _confirmDeleteDialog,
                         icon: const Icon(
                           Icons.delete,
                           color: Colors.red,

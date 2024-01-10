@@ -1,24 +1,26 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
 import 'package:flutter/material.dart';
 import 'package:shle_share/widget/book_view.dart';
 import 'package:intl/intl.dart';
 
 final formatter = DateFormat.yMd();
 
-class RequestedBook extends StatefulWidget {
-  const RequestedBook({Key? key, this.userId});
+class FinishedBook extends StatefulWidget {
+  const FinishedBook({
+    Key? key,
+    this.userId,
+  });
   final String? userId;
   @override
-  State<RequestedBook> createState() => _RequestedBookState();
+  State<FinishedBook> createState() => _FinishedBookState();
 }
 
-class _RequestedBookState extends State<RequestedBook> {
+class _FinishedBookState extends State<FinishedBook> {
   @override
   Widget build(BuildContext context) {
-    var _userId = '';
     var isOther;
+    var _userId = '';
     if (widget.userId == null) {
       _userId = FirebaseAuth.instance.currentUser!.uid;
       isOther = false;
@@ -31,7 +33,7 @@ class _RequestedBookState extends State<RequestedBook> {
         stream: FirebaseFirestore.instance
             .collection('book_shelf')
             .doc(_userId)
-            .collection('Requested')
+            .collection('Finished')
             .snapshots(),
         builder: (ctx, requestSnapshot) {
           if (requestSnapshot.connectionState == ConnectionState.waiting) {
@@ -41,7 +43,7 @@ class _RequestedBookState extends State<RequestedBook> {
           }
           if (!requestSnapshot.hasData || requestSnapshot.data!.docs.isEmpty) {
             return const Center(
-              child: Text('No Requests were found!'),
+              child: Text('No Finshed Books were found!'),
             );
           }
           if (requestSnapshot.hasError) {
@@ -61,6 +63,7 @@ class _RequestedBookState extends State<RequestedBook> {
             ),
             itemCount: requestedBooks.length,
             itemBuilder: (ctx, index) {
+              print(requestedBooks.length);
               final bookData =
                   requestedBooks[index].data() as Map<String, dynamic>;
 
@@ -68,7 +71,7 @@ class _RequestedBookState extends State<RequestedBook> {
                 id: bookData['book_id'],
                 title: bookData['book_name'],
                 bookImg: bookData['book_image'],
-                isFin: false,
+                isFin: true,
                 bookAuthor: bookData['book_auther'],
                 bookDescription: bookData['book_description'],
                 relaseDate: bookData['relase_date'],

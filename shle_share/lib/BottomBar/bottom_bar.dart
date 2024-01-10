@@ -54,7 +54,7 @@ class _BottomBarState extends State<BottomBar> {
     }
 
     if (_selectedIndex == 1) {
-      activePage = const SearchScreen();
+      activePage = const SearchScreen(isfromReq: false);
       activePageTitle = 'Search';
     }
     if (_selectedIndex == 2) {

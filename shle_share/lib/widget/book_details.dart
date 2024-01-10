@@ -1,14 +1,107 @@
 import 'dart:ui';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:scrollable_text_indicator/scrollable_text_indicator.dart';
-import 'package:shle_share/models/book.dart';
+import 'package:shle_share/models/my_book.dart';
 import 'package:flutter/material.dart';
 
 class BookDetails extends StatelessWidget {
-  const BookDetails({super.key, required this.book});
+  const BookDetails(
+      {super.key,
+      required this.book,
+      required this.isFin,
+      required this.isOther});
   final MyBook book;
+  final bool isFin;
+  final bool isOther;
 
   @override
   Widget build(BuildContext context) {
+    final userID = FirebaseAuth.instance.currentUser!.uid;
+
+    Future<void> _deleteBook() async {
+      final FirebaseFirestore firestore = FirebaseFirestore.instance;
+      if (isFin) {
+        print(book.id);
+        final bookQuerySnapshot = await firestore
+            .collection('book_shelf')
+            .doc(userID)
+            .collection('Finished')
+            .where(
+              'book_id',
+              isEqualTo: book.id,
+            )
+            .limit(1)
+            .get();
+
+        if (bookQuerySnapshot.docs.isNotEmpty) {
+          final bookRef = firestore
+              .collection('book_shelf')
+              .doc(userID)
+              .collection('Finished')
+              .doc(bookQuerySnapshot.docs.first.id);
+
+          await firestore.runTransaction((transaction) async {
+            transaction.delete(bookRef);
+          });
+          print('deleted ');
+          Navigator.of(context).pop();
+          return;
+        }
+      }
+      try {
+        final postQuerySnapshot = await firestore
+            .collection('Requests_feed')
+            .where('userId', isEqualTo: userID)
+            .where(
+              'reqId',
+              isEqualTo: userID + '_' + book.title,
+            )
+            .limit(1)
+            .get();
+
+        if (postQuerySnapshot.docs.isNotEmpty) {
+          final postRef = firestore
+              .collection('Requests_feed')
+              .doc(postQuerySnapshot.docs.first.id);
+
+          final bookQuerySnapshot = await firestore
+              .collection('book_shelf')
+              .doc(userID)
+              .collection('Requested')
+              .where(
+                'reqId',
+                isEqualTo: userID + '_' + book.title,
+              )
+              .limit(1)
+              .get();
+
+          if (bookQuerySnapshot.docs.isNotEmpty) {
+            final bookRef = firestore
+                .collection('book_shelf')
+                .doc(userID)
+                .collection('Requested')
+                .doc(bookQuerySnapshot.docs.first.id);
+
+            await firestore.runTransaction((transaction) async {
+              transaction.delete(bookRef);
+              transaction.delete(postRef);
+            });
+
+            print('Documents deleted successfully within transaction!');
+          } else {
+            print('Requested book document not found.');
+          }
+        } else {
+          print('Post document not found.');
+        }
+      } catch (e, stackTrace) {
+        print('Error deleting documents within transaction: $e');
+        print('Stack trace: $stackTrace');
+      }
+      Navigator.of(context).pop();
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: Text(book.title),
@@ -86,14 +179,15 @@ class BookDetails extends StatelessWidget {
                           color: Theme.of(context).colorScheme.background),
                     ),
                     const SizedBox(height: 40),
-                    ElevatedButton(
-                      onPressed: () {},
-                      style: ElevatedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 20, vertical: 20),
+                    if (!isOther)
+                      ElevatedButton(
+                        onPressed: _deleteBook,
+                        style: ElevatedButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 20, vertical: 20),
+                        ),
+                        child: const Text('Remove Book'),
                       ),
-                      child: const Text('Remove Book'),
-                    ),
                   ],
                 ),
               ),
