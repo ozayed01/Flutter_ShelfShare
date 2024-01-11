@@ -5,7 +5,8 @@ import 'package:shle_share/BottomBar/Profile/edit_profile.dart';
 final _firebase = FirebaseAuth.instance;
 
 class AuthScreen extends StatefulWidget {
-  const AuthScreen({super.key});
+  const AuthScreen({super.key, this.onBoarding});
+  final bool? onBoarding;
   @override
   State<StatefulWidget> createState() {
     return _AuthScreenState();

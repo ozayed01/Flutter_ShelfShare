@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:shle_share/BottomBar/bottom_bar.dart';
 import 'package:shle_share/Screens/auth.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class OnboardingPage1 extends StatelessWidget {
   const OnboardingPage1({Key? key}) : super(key: key);
@@ -9,7 +11,7 @@ class OnboardingPage1 extends StatelessWidget {
     return Scaffold(
       body: OnboardingPagePresenter(pages: [
         OnboardingPageModel(
-          title: 'Swift & Simple Book Exchanges',
+          title: 'Welcom to Shelf Share \nSwift & Simple way to Exchange Books',
           description:
               'Discover the joy of Exchanging books with others through our seamless Request Feed.',
           imageUrl: 'https://i.ibb.co/PCbtnvK/undraw-books-re-8gea-svg.png',
@@ -31,7 +33,7 @@ class OnboardingPage1 extends StatelessWidget {
           bgColor: const Color.fromARGB(255, 74, 84, 89),
         ),
         OnboardingPageModel(
-          title: 'Just Turned the Last Page?',
+          title: 'Finished a Book?',
           description:
               'Share your accomplishment! add your recently finished reads to your collection.',
           imageUrl:
@@ -101,10 +103,12 @@ class _OnboardingPageState extends State<OnboardingPagePresenter> {
                               Padding(
                                 padding: const EdgeInsets.all(16.0),
                                 child: Text(item.title,
+                                    textAlign: TextAlign.center,
                                     style: Theme.of(context)
                                         .textTheme
                                         .titleLarge
                                         ?.copyWith(
+                                          fontSize: 20,
                                           fontWeight: FontWeight.bold,
                                           color: item.textColor,
                                         )),
@@ -160,10 +164,8 @@ class _OnboardingPageState extends State<OnboardingPagePresenter> {
                             textStyle: const TextStyle(
                                 fontSize: 16, fontWeight: FontWeight.bold)),
                         onPressed: () {
-                          Navigator.of(context).pushAndRemoveUntil(
-                            MaterialPageRoute(
-                                builder: (context) => const AuthScreen()),
-                            (route) => false,
+                          Navigator.of(context).pushReplacement(
+                            MaterialPageRoute(builder: (_) => BottomBar()),
                           );
                         },
                         child: const Text("Skip")),
@@ -175,12 +177,9 @@ class _OnboardingPageState extends State<OnboardingPagePresenter> {
                               fontSize: 16, fontWeight: FontWeight.bold)),
                       onPressed: () {
                         if (_currentPage == widget.pages.length - 1) {
-                          Navigator.of(context).pushAndRemoveUntil(
-                            MaterialPageRoute(
-                                builder: (context) => const AuthScreen()),
-                            (route) => false,
+                          Navigator.of(context).pushReplacement(
+                            MaterialPageRoute(builder: (_) => BottomBar()),
                           );
-                          widget.onFinish?.call();
                         } else {
                           _pageController.animateToPage(_currentPage + 1,
                               curve: Curves.easeInOutCubic,

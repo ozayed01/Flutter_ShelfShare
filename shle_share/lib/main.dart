@@ -5,9 +5,10 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:shle_share/BottomBar/bottom_bar.dart';
 
 import 'package:firebase_core/firebase_core.dart';
+import 'package:shle_share/Screens/auth.dart';
 import 'package:shle_share/Spalsh/Splash.dart';
+import 'package:shle_share/firebase_options.dart';
 import 'package:shle_share/onBoarding/on_boarding.dart';
-import 'firebase_options.dart';
 
 var kColorScheme = ColorScheme.fromSeed(
   seedColor: const Color.fromARGB(255, 90, 63, 52),
@@ -22,10 +23,11 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp();
 
   @override
   Widget build(BuildContext context) {
+    var first_time;
     return MaterialApp(
       themeMode: ThemeMode.light,
       theme: ThemeData().copyWith(
@@ -59,9 +61,10 @@ class MyApp extends StatelessWidget {
             return SplashScreen();
           }
           if (snapshot.hasData) {
-            return const BottomBar();
+            return const BottomBar(); // Main screen if authenticated
           }
-          return const OnboardingPage1();
+
+          return const AuthScreen(); // Authentication screen
         },
       ),
     );

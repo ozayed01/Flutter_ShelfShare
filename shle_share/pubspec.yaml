@@ -32,6 +32,7 @@ dependencies:
   cloud_firestore: ^4.14.0
   cupertino_icons: ^1.0.2
   firebase_auth: ^4.16.0
+  firebase_auth_mocks: ^0.13.0
   firebase_core: ^2.24.2
   firebase_messaging: ^14.7.10
   firebase_storage: ^11.6.0
@@ -45,19 +46,17 @@ dependencies:
   intl: ^0.19.0
   location: ^5.0.3
   scrollable_text_indicator: ^0.0.2
+  shared_preferences: ^2.2.2
   transparent_image: ^2.0.1
 
 dev_dependencies:
-
   flutter_launcher_icons: 0.13.1
   flutter_lints: ^2.0.0
   flutter_test:
     sdk: flutter
 
-
-
 flutter_icons:
-  android: true 
+  android: true
   ios: true
   image_path: "assets/images/ShelfShareIcon.png"
 

@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:shle_share/onBoarding/on_boarding.dart';
 import 'package:shle_share/widget/user_image_picker.dart';
 
 final _firebase = FirebaseAuth.instance;
@@ -34,6 +35,7 @@ class _EditProfileState extends State<EditProfile> {
     if (!_isValid || _selectedImage == null) {
       return;
     }
+    final user = FirebaseAuth.instance.currentUser!;
     _formKey.currentState!.save();
     setState(() {
       _isUploding = true;
@@ -41,14 +43,14 @@ class _EditProfileState extends State<EditProfile> {
     final storageRef = FirebaseStorage.instance
         .ref()
         .child('user_image')
-        .child('@$_enteredUsername-ProfilePic.jpg');
+        .child('@${user.uid}-ProfilePic.jpg');
 
     await storageRef.putFile(_selectedImage!);
     setState(() {
       _isUploding = false;
     });
     final imageUrl = await storageRef.getDownloadURL();
-    final user = FirebaseAuth.instance.currentUser!;
+
     await FirebaseFirestore.instance.collection('Users').doc(user.uid).set({
       'full_name': _enterdName,
       'username': _enteredUsername,
@@ -56,7 +58,12 @@ class _EditProfileState extends State<EditProfile> {
       'Bio': _enteredBio,
       'userId': user.uid
     });
-    Navigator.pop(context);
+    if (widget.isFirst) {
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (_) => const OnboardingPage1()),
+      );
+    }
+    Navigator.of(context).pop();
   }
 
   @override
