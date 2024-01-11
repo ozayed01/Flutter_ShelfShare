@@ -210,7 +210,7 @@ class _RequestViewState extends State<RequestView> {
               height: 20,
             ),
             Text(
-              widget.request.exhangeText,
+              " " + widget.request.exhangeText,
               style: Theme.of(context)
                   .textTheme
                   .headlineSmall
