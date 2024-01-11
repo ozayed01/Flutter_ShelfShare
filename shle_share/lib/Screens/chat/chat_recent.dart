@@ -155,16 +155,7 @@ class _ChatRecentListState extends State<ChatRecentList> {
                         );
                       }
 
-                      return Dismissible(
-                        key: ValueKey(chatRoomId),
-                        child: lastMessagesUser(chatromId: chatRoomId),
-                        onDismissed: (direction) {
-                          FirebaseFirestore.instance
-                              .collection('Chats')
-                              .doc(chatRoomId)
-                              .delete();
-                        },
-                      );
+                      return lastMessagesUser(chatromId: chatRoomId);
                     },
                   );
                 },
@@ -282,13 +273,7 @@ class lastMessagesUser extends StatelessWidget {
                 Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (context) => ChatScreen(
-                      user: UserChatInfo(
-                        username: receiverUsername,
-                        name: receiverName,
-                        userImgUrl: receiverUserPicUrl,
-                        userId: receiverInfo['userId'] as String? ?? '',
-                        userbio: '',
-                      ),
+                      useId: receiverInfo['userId'] as String? ?? '',
                     ),
                   ),
                 );

@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:books_finder/books_finder.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
+
 import 'package:intl/intl.dart';
 import 'package:shle_share/BottomBar/search_screen.dart';
 
@@ -12,7 +12,10 @@ String formattedDate(DateTime date) {
 }
 
 class BookInputPicker extends StatefulWidget {
-  const BookInputPicker({super.key, required this.onBookPicked});
+  const BookInputPicker({
+    super.key,
+    required this.onBookPicked,
+  });
   final Function(Book) onBookPicked;
 
   @override
@@ -48,7 +51,7 @@ class _BookInputPickerState extends State<BookInputPicker> {
         icon: Icon(Icons.add_rounded,
             color: Theme.of(context).colorScheme.onBackground),
         label: Text(
-          'Add a Book',
+          'Add The Book You Want',
           style: TextStyle(color: Theme.of(context).colorScheme.onBackground),
         ));
 
@@ -102,10 +105,10 @@ class _BookInputPickerState extends State<BookInputPicker> {
           borderRadius: const BorderRadius.all(Radius.circular(20)),
           border: Border.all(
             width: 1,
-            color: Theme.of(context).colorScheme.onBackground.withOpacity(0.8),
+            color: Theme.of(context).colorScheme.onBackground.withOpacity(0.6),
           ),
         ),
-        height: 250,
+        height: 260,
         width: double.infinity,
         alignment: Alignment.center,
         child: content);

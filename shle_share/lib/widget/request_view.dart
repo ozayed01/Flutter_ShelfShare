@@ -3,49 +3,30 @@ import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
-import 'package:shle_share/models/UserChatInfo.dart';
+import 'package:shle_share/models/request.dart';
+import 'package:shle_share/widget/request_details.dart';
 import 'package:shle_share/widget/user_profile.dart';
 
-class Request extends StatefulWidget {
-  const Request({
+class RequestView extends StatefulWidget {
+  const RequestView({
     super.key,
-    required this.bookimgUrl,
-    required this.bookDtails,
-    required this.user,
-    required this.exhangeText,
-    required this.createdAt,
-    required this.userLat,
-    required this.userLng,
-    required this.requestLat,
-    required this.requestLng,
+    required this.request,
   });
 
-  final String bookimgUrl;
-  final List<String> bookDtails;
-  final UserChatInfo user;
-
-  final String exhangeText;
-
-  final double userLat;
-  final double userLng;
-  final double requestLat;
-  final double requestLng;
-
-  final Timestamp createdAt;
+  final Request request;
 
   @override
-  State<Request> createState() => _RequestState();
+  State<RequestView> createState() => _RequestViewState();
 }
 
-class _RequestState extends State<Request> {
+class _RequestViewState extends State<RequestView> {
   @override
   Widget build(BuildContext context) {
     final userID = FirebaseAuth.instance.currentUser!.uid;
-    final _sameUser = userID == widget.user.userId;
+    final _sameUser = userID == widget.request.user.userId;
     final List<String> details = ['Book: ', "Author: ", "Realase Date: "];
     for (int i = 0; i < 3; i++) {
-      details[i] = "${details[i]}${widget.bookDtails[i]}.";
+      details[i] = "${details[i]}${widget.request.bookDtails[i]}.";
     }
 
     Future<void> deleteBookAndPost() async {
@@ -57,7 +38,7 @@ class _RequestState extends State<Request> {
             .where('userId', isEqualTo: userID)
             .where(
               'reqId',
-              isEqualTo: userID + '_' + widget.bookDtails[0],
+              isEqualTo: userID + '_' + widget.request.bookDtails[0],
             )
             .limit(1)
             .get();
@@ -73,7 +54,7 @@ class _RequestState extends State<Request> {
               .collection('Requested')
               .where(
                 'reqId',
-                isEqualTo: userID + '_' + widget.bookDtails[0],
+                isEqualTo: userID + '_' + widget.request.bookDtails[0],
               )
               .limit(1)
               .get();
@@ -188,7 +169,7 @@ class _RequestState extends State<Request> {
                     context,
                   ) =>
                           UserProfile(
-                            user: widget.user,
+                            user: widget.request.user,
                           )),
                 );
               },
@@ -197,16 +178,17 @@ class _RequestState extends State<Request> {
                   CircleAvatar(
                       radius: 29,
                       backgroundColor: Colors.grey,
-                      foregroundImage: NetworkImage(widget.user.userImgUrl)),
+                      foregroundImage:
+                          NetworkImage(widget.request.user.userImgUrl)),
                   const SizedBox(
                     width: 5,
                   ),
                   Column(
                     children: [
-                      Text(widget.user.name,
+                      Text(widget.request.user.name,
                           style: Theme.of(context).textTheme.headlineSmall),
                       Text(
-                        '@${widget.user.username}',
+                        '@${widget.request.user.username}',
                         textAlign: TextAlign.left,
                       ),
                     ],
@@ -228,7 +210,7 @@ class _RequestState extends State<Request> {
               height: 20,
             ),
             Text(
-              'Request : ${widget.exhangeText}',
+              widget.request.exhangeText,
               style: Theme.of(context)
                   .textTheme
                   .headlineSmall
@@ -239,40 +221,47 @@ class _RequestState extends State<Request> {
               height: 17,
             ),
 
-            Row(
-              children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      for (var detail in details)
-                        Text(
-                          detail,
-                          style: Theme.of(context).textTheme.titleMedium,
-                        ),
-                    ],
+            InkWell(
+              onTap: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) =>
+                        RequestDetails(request: widget.request)));
+              },
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        for (var detail in details)
+                          Text(
+                            detail,
+                            style: Theme.of(context).textTheme.titleMedium,
+                          ),
+                      ],
+                    ),
                   ),
-                ),
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(20),
-                  child: Image.network(
-                    widget.bookimgUrl,
-                    height: 120,
-                    width: 100,
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    child: Image.network(
+                      widget.request.bookimgUrl,
+                      height: 160,
+                      width: 100,
+                    ),
                   ),
-                ),
-                const SizedBox(width: 20)
-              ],
+                  const SizedBox(width: 20)
+                ],
+              ),
             ),
-            //end of book details
 
             Row(
               children: [
-                Icon(Icons.location_on),
+                const Icon(Icons.location_on),
                 Text(
-                    '${calculateDistance(widget.userLat, widget.userLng, widget.requestLat, widget.requestLng)} Km'),
+                    '${calculateDistance(widget.request.userLat, widget.request.userLng, widget.request.requestLat, widget.request.requestLng)} Km'),
                 const Spacer(),
-                Text(formatFirestoreTimestampToRegularDate(widget.createdAt))
+                Text(formatFirestoreTimestampToRegularDate(
+                    widget.request.createdAt))
               ],
             )
           ],

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shle_share/models/UserChatInfo.dart';
 import 'package:shle_share/models/my_book.dart';
 import 'package:shle_share/widget/book_details.dart';
 import 'package:transparent_image/transparent_image.dart';
@@ -16,7 +17,8 @@ class BookView extends StatelessWidget {
       required this.bookAuthor,
       required this.bookDescription,
       required this.relaseDate,
-      required this.isOther});
+      required this.isOther,
+      required this.userId});
   final String id;
   final String title;
   final String bookImg;
@@ -25,6 +27,7 @@ class BookView extends StatelessWidget {
   final String relaseDate;
   final bool isFin;
   final bool isOther;
+  final String userId;
 
   @override
   Widget build(BuildContext context) {
@@ -41,8 +44,8 @@ class BookView extends StatelessWidget {
 
     void _selectBook(BuildContext context, MyBook book) {
       Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) =>
-            BookDetails(book: book, isFin: isFin, isOther: isOther),
+        builder: (context) => BookDetails(
+            book: book, isFin: isFin, isOther: isOther, userId: userId),
       ));
     }
 

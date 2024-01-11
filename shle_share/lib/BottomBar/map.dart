@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'dart:typed_data';
+import 'dart:ui' as ui;
+import 'package:http/http.dart' as http;
 
 class MapScreen extends StatefulWidget {
   @override
@@ -11,14 +15,17 @@ class MapScreen extends StatefulWidget {
 
 class _MapScreenState extends State<MapScreen> {
   var isLoading = true;
-  @override
-  void initState() {
-    _getCurrentLocation();
-    super.initState();
-  }
-
   double? currentLat;
   double? currentLng;
+  Set<Marker> _markers = {};
+
+  @override
+  void initState() {
+    super.initState();
+    _getCurrentLocation();
+    _fetchRequests();
+  }
+
   void _getCurrentLocation() async {
     Location location = Location();
 
@@ -53,8 +60,57 @@ class _MapScreenState extends State<MapScreen> {
       currentLng = lng;
       isLoading = false;
     });
-    print(currentLat);
-    print(currentLng);
+  }
+
+  Future<BitmapDescriptor> getCustomMarker(String imageUrl) async {
+    final Uint8List markerImageBytes = await _getBytesFromUrl(imageUrl);
+    return BitmapDescriptor.fromBytes(markerImageBytes);
+  }
+
+  Future<Uint8List> _getBytesFromUrl(String url) async {
+    final http.Response response = await http.get(Uri.parse(url));
+    final Uint8List bytes = response.bodyBytes;
+
+    final ui.Codec codec =
+        await ui.instantiateImageCodec(bytes, targetWidth: 120);
+    final ui.FrameInfo frameInfo = await codec.getNextFrame();
+    final ByteData? byteData =
+        await frameInfo.image.toByteData(format: ui.ImageByteFormat.png);
+    return byteData!.buffer.asUint8List();
+  }
+
+  void _fetchRequests() async {
+    FirebaseFirestore.instance
+        .collection('Requests_feed')
+        .get()
+        .then((querySnapshot) async {
+      for (var document in querySnapshot.docs) {
+        double lat = document.data()['userLat'];
+        double lng = document.data()['userLng'];
+        String bookImageUrl = document.data()['book_image'];
+
+        BitmapDescriptor customIcon = await getCustomMarker(bookImageUrl);
+
+        setState(() {
+          _markers.add(
+            Marker(
+              markerId: MarkerId(document.id),
+              position: LatLng(lat, lng),
+              infoWindow: InfoWindow(
+                onTap: () {
+                  //go to request
+                },
+                title: document.data()['book_name'],
+                // ignore: prefer_interpolation_to_compose_strings
+                snippet: "${"@" + document.data()['username']}  " +
+                    document.data()['book_auther'],
+              ),
+              icon: customIcon,
+            ),
+          );
+        });
+      }
+    });
   }
 
   @override
@@ -62,24 +118,18 @@ class _MapScreenState extends State<MapScreen> {
     Widget content = (isLoading)
         ? CircularProgressIndicator()
         : GoogleMap(
+            zoomControlsEnabled: false,
+            zoomGesturesEnabled: true,
             initialCameraPosition: CameraPosition(
               target: LatLng(
-                currentLat!,
-                currentLng!,
+                currentLat ?? 0.0,
+                currentLng ?? 0.0,
               ),
               zoom: 13,
             ),
-            markers: {
-                Marker(
-                    markerId: MarkerId('Book1'),
-                    position: LatLng(
-                      currentLat!,
-                      currentLng!,
-                    ),
-                    infoWindow: const InfoWindow(
-                      title: "Book 1",
-                    ))
-              });
+            markers: _markers,
+          );
+
     return Scaffold(
       appBar: AppBar(
         title: const Text("Map"),

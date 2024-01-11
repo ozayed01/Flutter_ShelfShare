@@ -2,6 +2,7 @@ import 'dart:ui';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:scrollable_text_indicator/scrollable_text_indicator.dart';
+import 'package:shle_share/Screens/chat/chat.dart';
 import 'package:shle_share/models/my_book.dart';
 import 'package:flutter/material.dart';
 
@@ -10,10 +11,12 @@ class BookDetails extends StatelessWidget {
       {super.key,
       required this.book,
       required this.isFin,
-      required this.isOther});
+      required this.isOther,
+      required this.userId});
   final MyBook book;
   final bool isFin;
   final bool isOther;
+  final String userId;
 
   @override
   Widget build(BuildContext context) {
@@ -188,6 +191,19 @@ class BookDetails extends StatelessWidget {
                         ),
                         child: const Text('Remove Book'),
                       ),
+                    if (isOther)
+                      ElevatedButton.icon(
+                          onPressed: () {
+                            final meassage =
+                                'Hey I would like to Exchange one of my books with Your Book (${book.title})';
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => ChatScreen(
+                                      useId: userId,
+                                      text: meassage,
+                                    )));
+                          },
+                          icon: const Icon(Icons.outgoing_mail),
+                          label: const Text('Ask To Exhange'))
                   ],
                 ),
               ),

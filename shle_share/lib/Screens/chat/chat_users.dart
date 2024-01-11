@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:shle_share/Screens/chat/chat.dart';
-import 'package:shle_share/models/UserChatInfo.dart';
 
 class ChatUserList extends StatefulWidget {
   const ChatUserList({Key? key}) : super(key: key);
@@ -64,7 +63,7 @@ class _ChatUserListState extends State<ChatUserList> {
           final loadedUsers = userSnapshot.data!;
 
           return ListView.builder(
-            padding: EdgeInsets.only(left: 0, top: 10),
+            padding: const EdgeInsets.only(left: 0, top: 10),
             itemCount: loadedUsers.length,
             itemBuilder: (context, index) {
               final user = loadedUsers[index].data() as Map<String, dynamic>;
@@ -81,13 +80,7 @@ class _ChatUserListState extends State<ChatUserList> {
                   Navigator.of(context).push(
                     MaterialPageRoute(
                       builder: (context) => ChatScreen(
-                        user: UserChatInfo(
-                          username: user['username'] as String,
-                          name: user['full_name'] as String,
-                          userImgUrl: user['userPicUrl'] as String,
-                          userId: user['userId'] as String,
-                          userbio: '',
-                        ),
+                        useId: user['userId'] as String,
                       ),
                     ),
                   );

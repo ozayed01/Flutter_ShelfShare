@@ -1,18 +1,28 @@
+import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 
 class NewMessage extends StatefulWidget {
-  const NewMessage({super.key, required this.ChatRoomId});
+  const NewMessage({Key? key, required this.ChatRoomId, this.initialText})
+      : super(key: key);
   final String ChatRoomId;
+  final String? initialText;
+
   @override
-  State<NewMessage> createState() {
-    return _NewMessageState();
-  }
+  State<NewMessage> createState() => _NewMessageState();
 }
 
 class _NewMessageState extends State<NewMessage> {
-  final _messageController = TextEditingController();
+  final TextEditingController _messageController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.initialText != null) {
+      _messageController.text = widget.initialText!;
+      print('initState: Setting initial text: ${widget.initialText}');
+    }
+  }
 
   @override
   void dispose() {
@@ -87,6 +97,7 @@ class _NewMessageState extends State<NewMessage> {
 
   @override
   Widget build(BuildContext context) {
+    print('Building with text: ${_messageController.text}');
     return Padding(
       padding: const EdgeInsets.only(left: 15, right: 1, bottom: 30),
       child: Row(
@@ -95,6 +106,8 @@ class _NewMessageState extends State<NewMessage> {
             child: TextField(
               controller: _messageController,
               textCapitalization: TextCapitalization.sentences,
+              maxLines: null,
+              minLines: 1,
               autocorrect: true,
               enableSuggestions: true,
               decoration: InputDecoration(

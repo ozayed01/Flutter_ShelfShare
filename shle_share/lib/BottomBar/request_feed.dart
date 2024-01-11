@@ -3,8 +3,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:location/location.dart';
 import 'package:shle_share/models/UserChatInfo.dart';
+import 'package:shle_share/models/request.dart';
 import 'package:shle_share/widget/add_requst.dart';
-import 'package:shle_share/widget/request.dart';
+import 'package:shle_share/widget/request_view.dart';
 
 class RequestFeedScreen extends StatefulWidget {
   const RequestFeedScreen({Key? key}) : super(key: key);
@@ -128,7 +129,8 @@ class _RequestFeedScreenState extends State<RequestFeedScreen> {
             itemBuilder: (context, index) {
               final user = loadedUsers[index].data() as Map<String, dynamic>;
 
-              return Request(
+              return RequestView(
+                  request: Request(
                 bookimgUrl: user['book_image'],
                 bookDtails: [
                   user['book_name'],
@@ -147,7 +149,7 @@ class _RequestFeedScreenState extends State<RequestFeedScreen> {
                 requestLng: user['userLng'],
                 userLat: currentLat!,
                 userLng: currentLng!,
-              );
+              ));
             },
           );
         },

@@ -68,6 +68,7 @@ class _FinishedBookState extends State<FinishedBook> {
                   requestedBooks[index].data() as Map<String, dynamic>;
 
               return BookView(
+                userId: _userId,
                 id: bookData['book_id'],
                 title: bookData['book_name'],
                 bookImg: bookData['book_image'],
