@@ -89,46 +89,35 @@ class BookDetailsSearch extends StatelessWidget {
                           color: Theme.of(context).colorScheme.background),
                     ),
                     const SizedBox(height: 40),
-                    Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                      ElevatedButton.icon(
-                        onPressed: () {},
-                        style: ElevatedButton.styleFrom(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 30, vertical: 20),
-                        ),
-                        label: const Text('Add to Shelf'),
-                        icon: const Icon(Icons.add),
+                    const SizedBox(width: 10),
+                    ElevatedButton.icon(
+                      onPressed: () {
+                        FirebaseFirestore.instance
+                            .collection('book_shelf')
+                            .doc(userID)
+                            .collection('Finished')
+                            .add({
+                          'book_id': book.id,
+                          'book_name': book.title,
+                          'book_auther': book.bookAuthor,
+                          'book_image': book.bookImg,
+                          'book_description': book.bookDescription,
+                          'relase_date': book.relaseDate,
+                          'createdAt': Timestamp.now(),
+                        });
+                        ScaffoldMessenger.of(context).clearSnackBars();
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                                content: Text(
+                                    'The Book is Added to Finished Books')));
+                      },
+                      style: ElevatedButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 30, vertical: 20),
                       ),
-                      const SizedBox(width: 10),
-                      ElevatedButton.icon(
-                        onPressed: () {
-                          FirebaseFirestore.instance
-                              .collection('book_shelf')
-                              .doc(userID)
-                              .collection('Finished')
-                              .add({
-                            'book_id': book.id,
-                            'book_name': book.title,
-                            'book_auther': book.bookAuthor,
-                            'book_image': book.bookImg,
-                            'book_description': book.bookDescription,
-                            'relase_date': book.relaseDate,
-                            'createdAt': Timestamp.now(),
-                          });
-                          ScaffoldMessenger.of(context).clearSnackBars();
-                          ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                  content: Text(
-                                      'The Book is Added to Finished Books')));
-                        },
-                        style: ElevatedButton.styleFrom(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 30, vertical: 20),
-                        ),
-                        label: const Text('Already Read'),
-                        icon: const Icon(Icons.check),
-                      ),
-                    ])
+                      label: const Text('Already Read'),
+                      icon: const Icon(Icons.check),
+                    )
                   ],
                 ),
               ),

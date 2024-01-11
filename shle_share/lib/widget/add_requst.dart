@@ -3,8 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:books_finder/books_finder.dart';
 import 'package:location/location.dart';
+import 'package:shle_share/Book_finder/books_finder.dart';
 import 'package:shle_share/widget/book_input_picker.dart';
 
 final formatter = DateFormat.yMd();
@@ -71,6 +71,12 @@ class _addRequestState extends ConsumerState<AddRequest> {
   var Date = DateTime.now();
 
   String formattedDate(DateTime date) {
+    print('reached Date But an err');
+
+    if (date.year < 1000) {
+      date = DateTime(date.year + 2000, date.month, date.day);
+    }
+
     return formatter.format(date);
   }
 
@@ -85,16 +91,19 @@ class _addRequestState extends ConsumerState<AddRequest> {
         .collection('Users')
         .doc(user.uid)
         .get();
+    String releaseDate = book.info.publishedDate != null
+        ? formattedDate(book.info.publishedDate!)
+        : 'Not Available';
+    if (book.info.categories.isEmpty) {}
     FirebaseFirestore.instance.collection('Books').doc(book.id).set({
       'book_id': book.id,
       'book_name': book.info.title,
       'book_auther': book.info.authors[0],
       'book_image': '${book.info.imageLinks['thumbnail']}',
       'book_description': book.info.description,
-      'book_genra': (book.info.categories.length > 1)
-          ? book.info.categories[0] + ',' + book.info.categories[1]
-          : book.info.categories[0],
-      'relase_date': formattedDate(book.info.publishedDate!),
+      'book_genra':
+          (book.info.categories.isEmpty) ? 'No Genra' : book.info.categories[0],
+      'relase_date': releaseDate,
       'createdAt': Timestamp.now(),
     });
 
@@ -109,7 +118,7 @@ class _addRequestState extends ConsumerState<AddRequest> {
       'book_auther': book.info.authors[0],
       'book_image': '${book.info.imageLinks['thumbnail']}',
       'book_description': book.info.description,
-      'relase_date': formattedDate(book.info.publishedDate!),
+      'relase_date': releaseDate,
       'createdAt': Timestamp.now(),
     });
     FirebaseFirestore.instance.collection('Requests_feed').add({
@@ -125,7 +134,7 @@ class _addRequestState extends ConsumerState<AddRequest> {
       'book_name': book.info.title,
       'book_auther': book.info.authors[0],
       'book_image': '${book.info.imageLinks['thumbnail']}',
-      'relase_date': formattedDate(book.info.publishedDate!),
+      'relase_date': releaseDate,
       'createdAt': Timestamp.now(),
     });
     Navigator.pop(context);

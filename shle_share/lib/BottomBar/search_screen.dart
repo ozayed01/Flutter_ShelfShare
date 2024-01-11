@@ -1,4 +1,4 @@
-import 'package:books_finder/books_finder.dart';
+import 'package:shle_share/Book_finder/books_finder.dart';
 import 'package:flutter/material.dart';
 import 'package:shle_share/models/my_book.dart';
 import 'package:shle_share/widget/book_details_search.dart';
@@ -44,6 +44,9 @@ class _SearchScreenState extends State<SearchScreen> {
     }
 
     void _goTobook(BuildContext context, Book book) {
+      String releaseDate = book.info.publishedDate != null
+          ? formattedDate(book.info.publishedDate!)
+          : 'Not Available';
       Navigator.of(context).push(
         MaterialPageRoute(
           builder: (context) => BookDetailsSearch(
@@ -52,7 +55,7 @@ class _SearchScreenState extends State<SearchScreen> {
               title: book.info.title,
               bookImg: '${book.info.imageLinks['thumbnail']}',
               bookAuthor: book.info.authors[0],
-              relaseDate: formattedDate(book.info.publishedDate!),
+              relaseDate: releaseDate,
               bookDescription: book.info.description,
             ),
           ),

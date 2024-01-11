@@ -3,16 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shle_share/BottomBar/bottom_bar.dart';
-import 'package:shle_share/Screens/auth.dart';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:shle_share/Spalsh/Splash.dart';
+import 'package:shle_share/onBoarding/on_boarding.dart';
 import 'firebase_options.dart';
 
 var kColorScheme = ColorScheme.fromSeed(
   seedColor: const Color.fromARGB(255, 90, 63, 52),
 );
-var kDarkColorScheme =
-    ColorScheme.fromSeed(seedColor: Color.fromARGB(255, 123, 81, 48));
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -62,7 +61,7 @@ class MyApp extends StatelessWidget {
           if (snapshot.hasData) {
             return const BottomBar();
           }
-          return const AuthScreen();
+          return const OnboardingPage1();
         },
       ),
     );
