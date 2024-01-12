@@ -8,7 +8,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:shle_share/Screens/auth.dart';
 import 'package:shle_share/Spalsh/Splash.dart';
 import 'package:shle_share/firebase_options.dart';
-import 'package:shle_share/onBoarding/on_boarding.dart';
+
 
 var kColorScheme = ColorScheme.fromSeed(
   seedColor: const Color.fromARGB(255, 90, 63, 52),
