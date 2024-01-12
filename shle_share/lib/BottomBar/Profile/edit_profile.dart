@@ -60,10 +60,11 @@ class _EditProfileState extends State<EditProfile> {
     });
     if (widget.isFirst) {
       Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (_) => const OnboardingPage1()),
+        MaterialPageRoute(builder: (context) => const OnboardingPage1()),
       );
+    } else {
+      Navigator.of(context).pop();
     }
-    Navigator.of(context).pop();
   }
 
   @override
