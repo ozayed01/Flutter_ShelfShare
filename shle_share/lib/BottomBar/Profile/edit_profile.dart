@@ -32,7 +32,7 @@ class _EditProfileState extends State<EditProfile> {
   void _submit() async {
     final _isValid = _formKey.currentState!.validate();
 
-    if (!_isValid || _selectedImage == null) {
+    if (!_isValid) {
       return;
     }
     final user = FirebaseAuth.instance.currentUser!;
@@ -43,14 +43,21 @@ class _EditProfileState extends State<EditProfile> {
     final storageRef = FirebaseStorage.instance
         .ref()
         .child('user_image')
-        .child('@${user.uid}-ProfilePic.jpg');
-
-    await storageRef.putFile(_selectedImage!);
-    setState(() {
-      _isUploding = false;
-    });
-    final imageUrl = await storageRef.getDownloadURL();
-
+        .child('${user.uid}-Pic.jpg');
+    var imageUrl = '';
+    if (_selectedImage != null) {
+      await storageRef.putFile(_selectedImage!);
+      setState(() {
+        _isUploding = false;
+      });
+      imageUrl = await storageRef.getDownloadURL();
+    } else {
+      setState(() {
+        _isUploding = false;
+      });
+      imageUrl =
+          'https://cdn.vectorstock.com/i/preview-1x/08/19/gray-photo-placeholder-icon-design-ui-vector-35850819.jpg';
+    }
     await FirebaseFirestore.instance.collection('Users').doc(user.uid).set({
       'full_name': _enterdName,
       'username': _enteredUsername,

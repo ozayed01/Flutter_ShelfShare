@@ -47,7 +47,7 @@ class _AuthScreenState extends State<AuthScreen> {
       } else {
         final userInfo = await _firebase.createUserWithEmailAndPassword(
             email: _enteredEmail, password: _enteredConfPassword);
-        Navigator.of(context).push(MaterialPageRoute(
+        Navigator.of(context).pushReplacement(MaterialPageRoute(
           builder: (context) => EditProfile(isFirst: true),
         ));
       }

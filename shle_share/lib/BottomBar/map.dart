@@ -98,7 +98,7 @@ class _MapScreenState extends State<MapScreen> {
               position: LatLng(lat, lng),
               infoWindow: InfoWindow(
                 onTap: () {
-                  //go to request
+                 
                 },
                 title: document.data()['book_name'],
                 // ignore: prefer_interpolation_to_compose_strings

@@ -165,7 +165,8 @@ class _OnboardingPageState extends State<OnboardingPagePresenter> {
                                 fontSize: 16, fontWeight: FontWeight.bold)),
                         onPressed: () {
                           Navigator.of(context).pushReplacement(
-                            MaterialPageRoute(builder: (_) => BottomBar()),
+                            MaterialPageRoute(
+                                builder: (_) => const BottomBar()),
                           );
                         },
                         child: const Text("Skip")),
@@ -178,7 +179,8 @@ class _OnboardingPageState extends State<OnboardingPagePresenter> {
                       onPressed: () {
                         if (_currentPage == widget.pages.length - 1) {
                           Navigator.of(context).pushReplacement(
-                            MaterialPageRoute(builder: (_) => BottomBar()),
+                            MaterialPageRoute(
+                                builder: (_) => const BottomBar()),
                           );
                         } else {
                           _pageController.animateToPage(_currentPage + 1,
