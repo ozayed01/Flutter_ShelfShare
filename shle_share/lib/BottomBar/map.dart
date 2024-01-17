@@ -113,8 +113,8 @@ class _MapScreenState extends State<MapScreen> {
             createdAt: user['createdAt'],
             requestLat: user['userLat'],
             requestLng: user['userLng'],
-            userLat: currentLat!,
-            userLng: currentLng!,
+            userLat: 0.0,
+            userLng: 0.0,
           );
           _markers.add(
             Marker(
