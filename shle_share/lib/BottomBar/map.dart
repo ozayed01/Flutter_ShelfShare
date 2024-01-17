@@ -8,7 +8,6 @@ import 'package:http/http.dart' as http;
 import 'package:shle_share/models/UserChatInfo.dart';
 import 'package:shle_share/models/request.dart';
 import 'package:shle_share/widget/request_details.dart';
-import 'package:shle_share/widget/request_view.dart';
 
 class MapScreen extends StatefulWidget {
   @override
@@ -143,7 +142,7 @@ class _MapScreenState extends State<MapScreen> {
   @override
   Widget build(BuildContext context) {
     Widget content = (isLoading)
-        ? CircularProgressIndicator()
+        ? const CircularProgressIndicator()
         : GoogleMap(
             zoomControlsEnabled: false,
             zoomGesturesEnabled: true,
@@ -152,7 +151,7 @@ class _MapScreenState extends State<MapScreen> {
                 currentLat ?? 0.0,
                 currentLng ?? 0.0,
               ),
-              zoom: 13,
+              zoom: 10,
             ),
             markers: _markers,
           );

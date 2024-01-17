@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:shle_share/BottomBar/Profile/edit_profile.dart';
-import 'package:shle_share/Screens/auth.dart';
 
 class ProfileDrawr extends StatelessWidget {
   const ProfileDrawr({
@@ -72,9 +71,6 @@ class ProfileDrawr extends StatelessWidget {
             ),
             onTap: () async {
               await FirebaseAuth.instance.signOut();
-              Navigator.of(context).pushReplacement(
-                MaterialPageRoute(builder: (_) => const AuthScreen()),
-              );
             },
           ),
         ],

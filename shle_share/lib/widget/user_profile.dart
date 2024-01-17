@@ -8,16 +8,17 @@ class UserProfile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text('${user.name}\'s Profile'),
-        ),
-        body: ProfileScreen(
-          otherUserId: user.userId,
-          fullName: user.name,
-          username: user.username,
-          userImg: user.userImgUrl,
-          userBio: user.userbio,
-          IsOtherUser: true,
-        ));
+      appBar: AppBar(
+        title: Text('${user.name}\'s Profile'),
+      ),
+      body: ProfileScreen(
+        otherUserId: user.userId,
+        fullName: user.name,
+        username: user.username,
+        userImg: user.userImgUrl,
+        userBio: user.userbio,
+        IsOtherUser: true,
+      ),
+    );
   }
 }

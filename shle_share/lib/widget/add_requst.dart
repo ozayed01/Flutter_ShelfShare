@@ -3,9 +3,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:location/location.dart';
 import 'package:shle_share/Book_finder/books_finder.dart';
+import 'package:shle_share/models/UserChatInfo.dart';
 import 'package:shle_share/widget/book_input_picker.dart';
+import 'package:shle_share/widget/location_input.dart';
 
 final formatter = DateFormat.yMd();
 
@@ -19,47 +20,17 @@ class AddRequest extends ConsumerStatefulWidget {
 class _addRequestState extends ConsumerState<AddRequest> {
   final _requestTextController = TextEditingController();
   Book? _theBook;
+  PlaceLocation? _selectedLocation;
   @override
   void initState() {
-    _getCurrentLocation();
     super.initState();
   }
 
-  double? currentLng;
-  double? currentLat;
-  void _getCurrentLocation() async {
-    Location location = Location();
-
-    bool serviceEnabled;
-    PermissionStatus permissionGranted;
-    LocationData locationData;
-
-    serviceEnabled = await location.serviceEnabled();
-    if (!serviceEnabled) {
-      serviceEnabled = await location.requestService();
-      if (!serviceEnabled) {
-        return;
-      }
-    }
-
-    permissionGranted = await location.hasPermission();
-    if (permissionGranted == PermissionStatus.denied) {
-      permissionGranted = await location.requestPermission();
-      if (permissionGranted != PermissionStatus.granted) {
-        return;
-      }
-    }
-
-    locationData = await location.getLocation();
-    final lat = locationData.latitude;
-    final lng = locationData.longitude;
-    if (lat == null || lng == null) {
-      return;
-    }
+  void _getLocation(PlaceLocation location) async {
     setState(() {
-      currentLat = lat;
-      currentLng = lng;
+      _selectedLocation = location;
     });
+    print('location ${_selectedLocation!.address}');
   }
 
   void _updateSelectedBook(Book? book) {
@@ -129,8 +100,8 @@ class _addRequestState extends ConsumerState<AddRequest> {
       'userPicUrl': userInfo.data()!['userPicUrl'],
       'Bio': userInfo.data()!['Bio'],
       'userId': user.uid,
-      'userLat': currentLat,
-      'userLng': currentLng,
+      'userLat': _selectedLocation!.latitude,
+      'userLng': _selectedLocation!.longitude,
       'book_name': book.info.title,
       'book_auther': book.info.authors[0],
       'book_image': '${book.info.imageLinks['thumbnail']}',
@@ -178,6 +149,8 @@ class _addRequestState extends ConsumerState<AddRequest> {
             ),
             const SizedBox(height: 10),
             BookInputPicker(onBookPicked: _updateSelectedBook),
+            const SizedBox(height: 10),
+            LocationInput(onSelectedLocation: _getLocation),
             const SizedBox(height: 20),
             Row(
               children: [
