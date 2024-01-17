@@ -5,6 +5,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:typed_data';
 import 'dart:ui' as ui;
 import 'package:http/http.dart' as http;
+import 'package:shle_share/models/UserChatInfo.dart';
+import 'package:shle_share/models/request.dart';
+import 'package:shle_share/widget/request_details.dart';
+import 'package:shle_share/widget/request_view.dart';
 
 class MapScreen extends StatefulWidget {
   @override
@@ -92,18 +96,41 @@ class _MapScreenState extends State<MapScreen> {
         BitmapDescriptor customIcon = await getCustomMarker(bookImageUrl);
 
         setState(() {
+          final user = document.data();
+          final _userReq = Request(
+            bookimgUrl: user['book_image'],
+            bookDtails: [
+              user['book_name'],
+              user['book_auther'],
+              user['relase_date']
+            ],
+            user: UserChatInfo(
+                username: user['username'],
+                name: user['full_name'],
+                userImgUrl: user['userPicUrl'],
+                userId: user['userId'],
+                userbio: user['Bio']),
+            exhangeText: user['request_text'],
+            createdAt: user['createdAt'],
+            requestLat: user['userLat'],
+            requestLng: user['userLng'],
+            userLat: currentLat!,
+            userLng: currentLng!,
+          );
           _markers.add(
             Marker(
               markerId: MarkerId(document.id),
               position: LatLng(lat, lng),
               infoWindow: InfoWindow(
                 onTap: () {
-                 
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => RequestDetails(request: _userReq),
+                  ));
                 },
                 title: document.data()['book_name'],
                 // ignore: prefer_interpolation_to_compose_strings
-                snippet: "${"@" + document.data()['username']}  " +
-                    document.data()['book_auther'],
+                snippet:
+                    "${"@" + document.data()['username']}  ${document.data()['book_auther']}",
               ),
               icon: customIcon,
             ),
