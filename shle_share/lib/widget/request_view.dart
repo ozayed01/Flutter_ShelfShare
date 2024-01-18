@@ -39,10 +39,11 @@ class _RequestViewState extends State<RequestView> {
       try {
         final postQuerySnapshot = await firestore
             .collection('Requests_feed')
-            .where('userId', isEqualTo: userID)
+            .where('userId', isEqualTo: widget.request.user.userId)
             .where(
               'reqId',
-              isEqualTo: userID + '_' + widget.request.bookDtails[0],
+              isEqualTo:
+                  '${widget.request.user.userId}_${widget.request.bookDtails[0]}',
             )
             .limit(1)
             .get();
@@ -54,11 +55,13 @@ class _RequestViewState extends State<RequestView> {
 
           final bookQuerySnapshot = await firestore
               .collection('book_shelf')
-              .doc(userID)
+              .doc(widget.request.user.userId)
               .collection('Requested')
               .where(
                 'reqId',
-                isEqualTo: userID + '_' + widget.request.bookDtails[0],
+                isEqualTo: widget.request.user.userId +
+                    '_' +
+                    widget.request.bookDtails[0],
               )
               .limit(1)
               .get();
@@ -66,7 +69,7 @@ class _RequestViewState extends State<RequestView> {
           if (bookQuerySnapshot.docs.isNotEmpty) {
             final bookRef = firestore
                 .collection('book_shelf')
-                .doc(userID)
+                .doc(widget.request.user.userId)
                 .collection('Requested')
                 .doc(bookQuerySnapshot.docs.first.id);
 
