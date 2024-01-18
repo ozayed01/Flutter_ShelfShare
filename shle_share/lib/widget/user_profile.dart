@@ -18,6 +18,7 @@ class UserProfile extends StatelessWidget {
         userImg: user.userImgUrl,
         userBio: user.userbio,
         IsOtherUser: true,
+        isAdmin: false,
       ),
     );
   }

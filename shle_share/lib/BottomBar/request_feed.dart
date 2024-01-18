@@ -19,12 +19,27 @@ class _RequestFeedScreenState extends State<RequestFeedScreen> {
   bool isLoading = true;
   double? currentLng;
   double? currentLat;
+  bool _isAdmin = false;
 
   @override
   void initState() {
     super.initState();
     _getCurrentLocation();
+    isAdmin();
     usersStream = getUsersStream();
+  }
+
+  void isAdmin() async {
+    final user = FirebaseAuth.instance.currentUser!;
+    final userInfo = await FirebaseFirestore.instance
+        .collection('Users')
+        .doc(user.uid)
+        .get();
+    final isAdmin = userInfo.data()!['isAdmin'];
+
+    setState(() {
+      _isAdmin = isAdmin;
+    });
   }
 
   void _getCurrentLocation() async {
@@ -90,11 +105,14 @@ class _RequestFeedScreenState extends State<RequestFeedScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Request Feed'),
+        title: _isAdmin
+            ? const Text('Request Feed (Admin)')
+            : const Text('Request Feed'),
         actions: [
-          IconButton(
-              onPressed: _openAddRequestOverlay,
-              icon: const Icon(Icons.add_box_rounded))
+          if (!_isAdmin)
+            IconButton(
+                onPressed: _openAddRequestOverlay,
+                icon: const Icon(Icons.add_box_rounded))
         ],
       ),
       body: StreamBuilder<List<DocumentSnapshot>>(
@@ -130,26 +148,28 @@ class _RequestFeedScreenState extends State<RequestFeedScreen> {
               final user = loadedUsers[index].data() as Map<String, dynamic>;
 
               return RequestView(
-                  request: Request(
-                bookimgUrl: user['book_image'],
-                bookDtails: [
-                  user['book_name'],
-                  user['book_auther'],
-                  user['relase_date']
-                ],
-                user: UserChatInfo(
-                    username: user['username'],
-                    name: user['full_name'],
-                    userImgUrl: user['userPicUrl'],
-                    userId: user['userId'],
-                    userbio: user['Bio']),
-                exhangeText: user['request_text'],
-                createdAt: user['createdAt'],
-                requestLat: user['userLat'],
-                requestLng: user['userLng'],
-                userLat: currentLat!,
-                userLng: currentLng!,
-              ));
+                request: Request(
+                  bookimgUrl: user['book_image'],
+                  bookDtails: [
+                    user['book_name'],
+                    user['book_auther'],
+                    user['relase_date']
+                  ],
+                  user: UserChatInfo(
+                      username: user['username'],
+                      name: user['full_name'],
+                      userImgUrl: user['userPicUrl'],
+                      userId: user['userId'],
+                      userbio: user['Bio']),
+                  exhangeText: user['request_text'],
+                  createdAt: user['createdAt'],
+                  requestLat: user['userLat'],
+                  requestLng: user['userLng'],
+                  userLat: currentLat!,
+                  userLng: currentLng!,
+                ),
+                isAdmin: _isAdmin,
+              );
             },
           );
         },

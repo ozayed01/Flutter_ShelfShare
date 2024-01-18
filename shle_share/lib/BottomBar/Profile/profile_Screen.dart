@@ -1,31 +1,32 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:shle_share/BottomBar/Profile/finished_book.dart';
 import 'package:shle_share/BottomBar/Profile/profile_drawr.dart';
 import 'package:shle_share/BottomBar/Profile/requested_book.dart';
+import 'package:shle_share/BottomBar/Admin/users_admin.dart';
 
 class ProfileScreen extends StatelessWidget {
-  const ProfileScreen({
-    super.key,
-    required this.fullName,
-    required this.username,
-    required this.userImg,
-    this.userBio,
-    required this.IsOtherUser,
-    this.otherUserId,
-  });
+  const ProfileScreen(
+      {super.key,
+      required this.fullName,
+      required this.username,
+      required this.userImg,
+      this.userBio,
+      required this.IsOtherUser,
+      this.otherUserId,
+      required this.isAdmin});
   final String username;
   final String fullName;
   final String userImg;
   final String? userBio;
   final bool IsOtherUser;
+  final bool isAdmin;
   final String? otherUserId;
   @override
   Widget build(BuildContext context) {
     Widget content = DefaultTabController(
       length: 2,
       child: Scaffold(
-        endDrawer: ProfileDrawr(),
+        endDrawer: const ProfileDrawr(isAdmin: false),
         appBar: AppBar(
           title: const Text('Your Profile'),
         ),
@@ -147,6 +148,11 @@ class ProfileScreen extends StatelessWidget {
             ],
           ),
         ),
+      );
+    }
+    if (isAdmin) {
+      content = AdminUsersList(
+        AdminName: fullName,
       );
     }
     return content;

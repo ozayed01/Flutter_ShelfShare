@@ -11,9 +11,11 @@ class RequestView extends StatefulWidget {
   const RequestView({
     super.key,
     required this.request,
+    required this.isAdmin,
   });
 
   final Request request;
+  final bool isAdmin;
 
   @override
   State<RequestView> createState() => _RequestViewState();
@@ -24,6 +26,8 @@ class _RequestViewState extends State<RequestView> {
   Widget build(BuildContext context) {
     final userID = FirebaseAuth.instance.currentUser!.uid;
     final _sameUser = userID == widget.request.user.userId;
+    bool _isAdmin = widget.isAdmin;
+
     final List<String> details = ['Book: ', "Author: ", "Realase Date: "];
     for (int i = 0; i < 3; i++) {
       details[i] = "${details[i]}${widget.request.bookDtails[i]}.";
@@ -194,7 +198,7 @@ class _RequestViewState extends State<RequestView> {
                     ],
                   ),
                   const Spacer(),
-                  if (_sameUser)
+                  if (_sameUser || _isAdmin)
                     IconButton(
                         onPressed: _confirmDeleteDialog,
                         icon: const Icon(

@@ -63,7 +63,10 @@ class _EditProfileState extends State<EditProfile> {
       'username': _enteredUsername,
       'userPicUrl': imageUrl,
       'Bio': _enteredBio,
-      'userId': user.uid
+      'userId': user.uid,
+      'createdAt': Timestamp.now(),
+      'isAdmin': false,
+      'isActive': true,
     });
     if (widget.isFirst) {
       Navigator.of(context).pushReplacement(
@@ -202,7 +205,7 @@ class _EditProfileState extends State<EditProfile> {
                           if (value == null ||
                               value.trim().isEmpty ||
                               value.length <= 4) {
-                            return 'Please Enter a Valid Bio at least 4 chart.';
+                            return 'Please Enter a Valid Bio at least 5 chart.';
                           }
                           return null;
                         },

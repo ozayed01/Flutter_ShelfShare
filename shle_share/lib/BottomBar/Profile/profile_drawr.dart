@@ -1,11 +1,14 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:shle_share/BottomBar/Admin/support_tickets.dart';
 import 'package:shle_share/BottomBar/Profile/edit_profile.dart';
 
 class ProfileDrawr extends StatelessWidget {
   const ProfileDrawr({
     super.key,
+    required this.isAdmin,
   });
+  final bool isAdmin;
 
   @override
   Widget build(BuildContext context) {
@@ -30,32 +33,52 @@ class ProfileDrawr extends StatelessWidget {
                   width: 18,
                 ),
                 Text(
-                  'Account Preference',
-                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                  isAdmin ? 'Admin Preferences' : 'Account Preferences',
+                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
                         color: Theme.of(context).colorScheme.primary,
                       ),
                 )
               ],
             ),
           ),
-          ListTile(
-            leading: Icon(
-              Icons.person,
-              color: Theme.of(context).colorScheme.onBackground,
+          if (!isAdmin)
+            ListTile(
+              leading: Icon(
+                Icons.person,
+                color: Theme.of(context).colorScheme.onBackground,
+              ),
+              title: Text(
+                'Edit Profile',
+                style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                      color: Theme.of(context).colorScheme.onBackground,
+                      fontSize: 24,
+                    ),
+              ),
+              onTap: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => EditProfile(isFirst: false),
+                ));
+              },
             ),
-            title: Text(
-              'Edit Profile',
-              style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                    color: Theme.of(context).colorScheme.onBackground,
-                    fontSize: 24,
-                  ),
+          if (isAdmin)
+            ListTile(
+              leading: Icon(
+                Icons.info_outline,
+                color: Theme.of(context).colorScheme.onBackground,
+              ),
+              title: Text(
+                'Users Tickets',
+                style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                      color: Theme.of(context).colorScheme.onBackground,
+                      fontSize: 24,
+                    ),
+              ),
+              onTap: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => SupportTickts(),
+                ));
+              },
             ),
-            onTap: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => EditProfile(isFirst: false),
-              ));
-            },
-          ),
           const Spacer(),
           ListTile(
             leading: Icon(
