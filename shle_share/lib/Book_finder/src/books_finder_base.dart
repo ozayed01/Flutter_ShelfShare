@@ -52,8 +52,6 @@ Future<List<Book>> queryBooks(
 }) async {
   assert(query.isNotEmpty);
 
-  // assert(startIndex <= maxResults);
-
   var url = 'https://www.googleapis.com/books/v1/volumes?q=';
 
   if (queryType != null) url += queryType.name + ':';
