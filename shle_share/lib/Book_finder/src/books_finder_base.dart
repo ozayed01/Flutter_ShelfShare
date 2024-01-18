@@ -2,6 +2,8 @@
 
 import 'dart:convert';
 
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+
 import 'scripts/books.dart';
 import 'package:http/http.dart' as http;
 
@@ -60,7 +62,7 @@ Future<List<Book>> queryBooks(
       '${query.trim().replaceAll(' ', '+')}'
       '&maxResults=$maxResults'
       '&startIndex=$startIndex'
-      '&key=AIzaSyCz_b37v7rErXI6z7EgnzpHiDp2nXOEEVY';
+      '&key=${dotenv.env['google_books_APIKEY']}';
 
   if (langRestrict != null) q += '&langRestrict=$langRestrict';
   if (orderBy != null) {
