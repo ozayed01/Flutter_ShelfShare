@@ -209,38 +209,42 @@ class BookInfo {
     required this.canonicalVolumeLink,
   });
 
-  static BookInfo fromJson(
-    Map<String, dynamic> json, {
-    bool reschemeImageLinks = false,
-  }) {
-    final publishedDateArray =
-        ((json['publishedDate'] as String?) ?? '0000-00-00').split('-');
+  static BookInfo fromJson(Map<String, dynamic> json,
+      {bool reschemeImageLinks = false}) {
+    final publishedDateStr = json['publishedDate'] as String? ?? '0000-00-00';
+    final publishedDateArray = publishedDateStr.split('-');
 
-    // initialize datetime variable
-    DateTime? publishedDate;
-    if (publishedDateArray.isNotEmpty) {
-      // initialize date
-      int year = int.parse(publishedDateArray[0]);
-      int month = 1;
-      int day = 1;
+    int year = 0, month = 1, day = 1;
 
-      // now test the date string
-      if (publishedDateArray.length == 1) {
-        // assume we have only the year
+    if (publishedDateArray.length >= 1 && publishedDateArray[0].length == 4) {
+      try {
         year = int.parse(publishedDateArray[0]);
+      } catch (e) {
+        print('Invalid year format: ${publishedDateArray[0]}');
       }
-      if (publishedDateArray.length == 2) {
-        // assume we have the year and maybe the month (this could be just a speculative case)
-        year = int.parse(publishedDateArray[0]);
+    }
+
+    if (publishedDateArray.length >= 2 && publishedDateArray[1].length <= 2) {
+      try {
         month = int.parse(publishedDateArray[1]);
+      } catch (e) {
+        print('Invalid month format: ${publishedDateArray[1]}');
       }
-      if (publishedDateArray.length == 3) {
-        // assume we have year-month-day
-        year = int.parse(publishedDateArray[0]);
-        month = int.parse(publishedDateArray[1]);
+    }
+
+    if (publishedDateArray.length >= 3 && publishedDateArray[2].length <= 2) {
+      try {
         day = int.parse(publishedDateArray[2]);
+      } catch (e) {
+        print('Invalid day format: ${publishedDateArray[2]}');
       }
+    }
+
+    DateTime? publishedDate;
+    try {
       publishedDate = DateTime(year, month, day);
+    } catch (e) {
+      print('Error creating DateTime: $e');
     }
 
     final imageLinks = <String, Uri>{};

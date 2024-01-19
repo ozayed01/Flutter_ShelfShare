@@ -18,7 +18,8 @@ class BookView extends StatelessWidget {
       required this.bookDescription,
       required this.relaseDate,
       required this.isOther,
-      required this.userId});
+      required this.userId,
+      required this.isReq});
   final String id;
   final String title;
   final String bookImg;
@@ -28,6 +29,7 @@ class BookView extends StatelessWidget {
   final bool isFin;
   final bool isOther;
   final String userId;
+  final bool isReq;
 
   @override
   Widget build(BuildContext context) {
@@ -49,37 +51,65 @@ class BookView extends StatelessWidget {
       ));
     }
 
+    Widget content = Container(
+      color: Colors.black54,
+      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+      child: Text((isFin) ? "Finished" : "Requested",
+          textAlign: TextAlign.center,
+          style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                color: Colors.white,
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              )),
+    );
+    if (isReq) {
+      content = Container(
+        color: Colors.black54,
+        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+        child: Text('Recommended',
+            textAlign: TextAlign.center,
+            style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                  color: Colors.white,
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                )),
+      );
+    }
+
     return InkWell(
       onTap: () {
         _selectBook(context, book1);
       },
       child: Stack(children: [
-        Hero(
-          tag: id,
-          transitionOnUserGestures: true,
-          child: FadeInImage(
-            placeholder: MemoryImage(kTransparentImage),
-            image: NetworkImage(bookImg),
-            fit: BoxFit.cover,
-            height: 160 * 2,
-            width: 100 * 2,
+        if (!isReq)
+          Hero(
+            tag: id,
+            transitionOnUserGestures: true,
+            child: FadeInImage(
+              placeholder: MemoryImage(kTransparentImage),
+              image: NetworkImage(bookImg),
+              fit: BoxFit.cover,
+              height: 160 * 2,
+              width: 100 * 2,
+            ),
           ),
-        ),
+        if (isReq)
+          Hero(
+            tag: id,
+            transitionOnUserGestures: true,
+            child: FadeInImage(
+              placeholder: MemoryImage(kTransparentImage),
+              image: NetworkImage(bookImg),
+              fit: BoxFit.cover,
+              height: double.infinity,
+              width: 160,
+            ),
+          ),
         Positioned(
           bottom: 0,
           left: 0,
           right: 0,
-          child: Container(
-            color: Colors.black54,
-            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-            child: Text((isFin) ? "Finished" : "Requested",
-                textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                      color: Colors.white,
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    )),
-          ),
+          child: content,
         ),
       ]),
     );

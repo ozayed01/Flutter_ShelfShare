@@ -71,7 +71,6 @@ class _SupportTicktsState extends State<SupportTickts> {
                 future: fetchUserDetails(ticket.userId),
                 builder: (context, userSnapshot) {
                   if (!userSnapshot.hasData) {
-                    // Optionally, show a placeholder or progress indicator here
                     return ListTile(title: Text(ticket.ticketText));
                   }
 

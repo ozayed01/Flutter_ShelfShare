@@ -1,5 +1,6 @@
 import 'package:shle_share/Book_finder/books_finder.dart';
 import 'package:flutter/material.dart';
+import 'package:shle_share/BottomBar/book_recommendation.dart';
 import 'package:shle_share/models/my_book.dart';
 import 'package:shle_share/widget/book_details_search.dart';
 import 'package:transparent_image/transparent_image.dart';
@@ -63,11 +64,19 @@ class _SearchScreenState extends State<SearchScreen> {
       );
     }
 
-    Widget content = Center(
-        child: Text(
-      'No search resault yet...',
-      style: Theme.of(context).textTheme.bodyLarge,
-    ));
+    Widget content = Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        const SizedBox(height: 200),
+        Text(
+          'No search resault yet...',
+          textAlign: TextAlign.center,
+          style: Theme.of(context).textTheme.bodyLarge,
+        ),
+        const SizedBox(height: 200),
+        BookReq(),
+      ],
+    );
     if (isLoading && _searchBookList.isNotEmpty) {
       content = const Center(child: CircularProgressIndicator());
     }

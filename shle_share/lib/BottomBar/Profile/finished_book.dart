@@ -77,6 +77,7 @@ class _FinishedBookState extends State<FinishedBook> {
                 bookDescription: bookData['book_description'],
                 relaseDate: bookData['relase_date'],
                 isOther: isOther,
+                isReq: false,
               );
             },
           );

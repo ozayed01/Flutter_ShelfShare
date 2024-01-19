@@ -25,7 +25,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var first_time;
     return MaterialApp(
       themeMode: ThemeMode.light,
       theme: ThemeData().copyWith(
