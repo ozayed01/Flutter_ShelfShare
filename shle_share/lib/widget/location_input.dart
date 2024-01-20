@@ -96,12 +96,12 @@ class _locationInputState extends State<LocationInput> {
   @override
   Widget build(BuildContext context) {
     Widget content = Text(
-      'No Location is Picked',
+      'no Location is Picked',
       textAlign: TextAlign.center,
       style: Theme.of(context)
           .textTheme
           .bodyLarge!
-          .copyWith(color: Theme.of(context).colorScheme.onBackground),
+          .copyWith(color: Theme.of(context).colorScheme.primary),
     );
     if (_pickedLocation != null) {
       content = Image.network(
@@ -122,11 +122,9 @@ class _locationInputState extends State<LocationInput> {
             height: 170,
             width: double.infinity,
             decoration: BoxDecoration(
-              borderRadius: const BorderRadius.all(Radius.circular(20)),
               border: Border.all(
                 width: 1,
-                color:
-                    Theme.of(context).colorScheme.onBackground.withOpacity(0.6),
+                color: Theme.of(context).colorScheme.primary.withOpacity(0.2),
               ),
             ),
             child: content),
@@ -135,25 +133,13 @@ class _locationInputState extends State<LocationInput> {
           children: [
             TextButton.icon(
               onPressed: _getCurrentLocation,
-              icon: Icon(
-                Icons.location_on,
-                color: Theme.of(context).colorScheme.onBackground,
-              ),
-              label: Text(
-                'Get Current Location',
-                style: TextStyle(
-                    color: Theme.of(context).colorScheme.onBackground),
-              ),
+              icon: const Icon(Icons.location_on),
+              label: const Text('Get Cureent Location'),
             ),
             TextButton.icon(
               onPressed: _selectOnMap,
-              icon: Icon(Icons.map,
-                  color: Theme.of(context).colorScheme.onBackground),
-              label: Text(
-                'Select on map',
-                style: TextStyle(
-                    color: Theme.of(context).colorScheme.onBackground),
-              ),
+              icon: const Icon(Icons.map),
+              label: const Text('Select on map'),
             )
           ],
         )

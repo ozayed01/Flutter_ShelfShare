@@ -31,6 +31,7 @@ class _addRequestState extends ConsumerState<AddRequest> {
     setState(() {
       _selectedLocation = location;
     });
+    print('location ${_selectedLocation!.address}');
   }
 
   void _updateSelectedBook(Book? book) {
@@ -42,6 +43,8 @@ class _addRequestState extends ConsumerState<AddRequest> {
   var Date = DateTime.now();
 
   String formattedDate(DateTime date) {
+    print('reached Date But an err');
+
     if (date.year < 1000) {
       date = DateTime(date.year + 2000, date.month, date.day);
     }
@@ -52,7 +55,7 @@ class _addRequestState extends ConsumerState<AddRequest> {
   void _addPost(Book book) async {
     final enteredText = _requestTextController.text;
 
-    if (enteredText.isEmpty || _selectedLocation == null) {
+    if (enteredText.isEmpty) {
       return;
     }
     final user = FirebaseAuth.instance.currentUser!;
@@ -150,7 +153,7 @@ class _addRequestState extends ConsumerState<AddRequest> {
             BookInputPicker(onBookPicked: _updateSelectedBook),
             const SizedBox(height: 10),
             LocationInput(onSelectedLocation: _getLocation),
-            const SizedBox(height: 30),
+            const SizedBox(height: 20),
             Row(
               children: [
                 const Spacer(),

@@ -243,9 +243,6 @@ class _RequestViewState extends State<RequestView> {
                         for (var detail in details)
                           Text(
                             detail,
-                            softWrap: true,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
                             style: Theme.of(context).textTheme.titleMedium,
                           ),
                       ],

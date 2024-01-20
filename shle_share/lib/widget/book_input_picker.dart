@@ -74,18 +74,12 @@ class _BookInputPickerState extends State<BookInputPicker> {
                 children: [
                   Text(
                     _SelectedBook.info.title,
-                    softWrap: true,
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
                     style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                         color: Theme.of(context).colorScheme.onBackground),
                   ),
                   const SizedBox(height: 15),
                   Text(
                     _SelectedBook.info.authors[0],
-                    softWrap: true,
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
                     style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                         color: Theme.of(context).colorScheme.onBackground),
                   ),
