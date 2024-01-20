@@ -19,6 +19,7 @@ class AddRequest extends ConsumerStatefulWidget {
 
 class _addRequestState extends ConsumerState<AddRequest> {
   final _requestTextController = TextEditingController();
+
   Book? _theBook;
   PlaceLocation? _selectedLocation;
   @override
@@ -110,8 +111,9 @@ class _addRequestState extends ConsumerState<AddRequest> {
 
   @override
   void dispose() {
-    _requestTextController.dispose();
     super.dispose();
+    _requestTextController.dispose();
+    ;
   }
 
   @override
