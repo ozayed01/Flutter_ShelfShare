@@ -16,7 +16,7 @@ class AuthScreen extends StatefulWidget {
 class _AuthScreenState extends State<AuthScreen> {
   final _formKey = GlobalKey<FormState>();
   var _isSignIn = true;
-  var _showPassword = false;
+
   var _enteredEmail = '';
   var _enteredPassword = '';
   var _enteredConfPassword = '';
@@ -130,18 +130,6 @@ class _AuthScreenState extends State<AuthScreen> {
                                 'Password',
                                 style: TextStyle(fontSize: 17),
                               ),
-                              suffixIcon: IconButton(
-                                onPressed: () {
-                                  setState(() {
-                                    _showPassword = !_showPassword;
-                                  });
-                                },
-                                icon: Icon(
-                                  _showPassword
-                                      ? Icons.visibility_off
-                                      : Icons.visibility,
-                                ),
-                              ),
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(18),
                               ),
@@ -153,7 +141,7 @@ class _AuthScreenState extends State<AuthScreen> {
                               }
                               return null;
                             },
-                            obscureText: !_showPassword,
+                            obscureText: true,
                             onSaved: (newValue) {
                               _enteredPassword = newValue!;
                             },

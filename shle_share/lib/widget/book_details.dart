@@ -5,7 +5,6 @@ import 'package:scrollable_text_indicator/scrollable_text_indicator.dart';
 import 'package:shle_share/Screens/chat/chat.dart';
 import 'package:shle_share/models/my_book.dart';
 import 'package:flutter/material.dart';
-import 'package:shle_share/widget/add_requst.dart';
 
 class BookDetails extends StatelessWidget {
   const BookDetails(
@@ -13,12 +12,10 @@ class BookDetails extends StatelessWidget {
       required this.book,
       required this.isFin,
       required this.isOther,
-      required this.userId,
-      required this.isFromReq});
+      required this.userId});
   final MyBook book;
   final bool isFin;
   final bool isOther;
-  final bool isFromReq;
   final String userId;
 
   @override
@@ -185,7 +182,7 @@ class BookDetails extends StatelessWidget {
                           color: Theme.of(context).colorScheme.background),
                     ),
                     const SizedBox(height: 40),
-                    if (!isOther && !isFromReq)
+                    if (!isOther)
                       ElevatedButton(
                         onPressed: _deleteBook,
                         style: ElevatedButton.styleFrom(
@@ -206,16 +203,7 @@ class BookDetails extends StatelessWidget {
                                     )));
                           },
                           icon: const Icon(Icons.outgoing_mail),
-                          label: const Text('Ask To Exhange')),
-                    if (isFromReq)
-                      ElevatedButton(
-                        onPressed: () {},
-                        style: ElevatedButton.styleFrom(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 20, vertical: 20),
-                        ),
-                        child: const Text('Request Book'),
-                      ),
+                          label: const Text('Ask To Exhange'))
                   ],
                 ),
               ),

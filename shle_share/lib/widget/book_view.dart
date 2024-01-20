@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:shle_share/Book_finder/books_finder.dart';
 import 'package:shle_share/models/UserChatInfo.dart';
 import 'package:shle_share/models/my_book.dart';
 import 'package:shle_share/widget/book_details.dart';
@@ -41,7 +40,6 @@ class BookView extends StatelessWidget {
         bookAuthor: bookAuthor,
         bookDescription: bookDescription,
         relaseDate: relaseDate);
-
     String formattedDate(DateTime date) {
       return formatter.format(date);
     }
@@ -49,12 +47,7 @@ class BookView extends StatelessWidget {
     void _selectBook(BuildContext context, MyBook book) {
       Navigator.of(context).push(MaterialPageRoute(
         builder: (context) => BookDetails(
-          book: book,
-          isFin: isFin,
-          isOther: isOther,
-          userId: userId,
-          isFromReq: isReq,
-        ),
+            book: book, isFin: isFin, isOther: isOther, userId: userId),
       ));
     }
 
@@ -73,11 +66,11 @@ class BookView extends StatelessWidget {
       content = Container(
         color: Colors.black54,
         padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-        child: Text('Recommended to You',
+        child: Text('Recommended',
             textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.titleMedium!.copyWith(
                   color: Colors.white,
-                  fontSize: 12,
+                  fontSize: 16,
                   fontWeight: FontWeight.bold,
                 )),
       );
