@@ -75,14 +75,15 @@ class _SearchScreenState extends State<SearchScreen> {
           style: Theme.of(context).textTheme.bodyLarge,
         ),
         const SizedBox(height: 170),
-        Container(
-          color: Theme.of(context).colorScheme.primary,
-          child: Text('  Recommendations:',
-              style: Theme.of(context).textTheme.headlineSmall!.copyWith(
-                    color: Theme.of(context).colorScheme.onPrimary,
-                  )),
-        ),
-        BookReq(isSearch: widget.isfromReq),
+        if (!widget.isfromReq)
+          Container(
+            color: Theme.of(context).colorScheme.primary,
+            child: Text('  Recommendations:',
+                style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+                      color: Theme.of(context).colorScheme.onPrimary,
+                    )),
+          ),
+        if (!widget.isfromReq) BookReq(isSearch: widget.isfromReq),
       ],
     );
     if (isLoading && _searchBookList.isNotEmpty) {
