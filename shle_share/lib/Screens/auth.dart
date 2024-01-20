@@ -163,6 +163,18 @@ class _AuthScreenState extends State<AuthScreen> {
                             TextFormField(
                               controller: _ConfPasswordController,
                               decoration: InputDecoration(
+                                suffixIcon: IconButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      _showPassword = !_showPassword;
+                                    });
+                                  },
+                                  icon: Icon(
+                                    _showPassword
+                                        ? Icons.visibility_off
+                                        : Icons.visibility,
+                                  ),
+                                ),
                                 label: const Text(
                                   'Confirm Password',
                                   style: TextStyle(fontSize: 17),
