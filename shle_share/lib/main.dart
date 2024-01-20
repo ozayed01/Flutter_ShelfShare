@@ -38,7 +38,7 @@ class MyApp extends StatelessWidget {
               backgroundColor: kColorScheme.primary,
               foregroundColor: kColorScheme.onPrimary,
               padding:
-                  const EdgeInsets.symmetric(horizontal: 100, vertical: 20),
+                  const EdgeInsets.symmetric(horizontal: 110, vertical: 20),
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(15))),
         ),

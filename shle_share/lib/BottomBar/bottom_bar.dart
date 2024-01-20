@@ -110,12 +110,28 @@ class _BottomBarState extends State<BottomBar> {
               ElevatedButton(
                   onPressed: _openAddTicketOverlay,
                   child: const Text('Contact Support')),
+              const SizedBox(height: 20),
               IconButton(
                   onPressed: () {
                     Navigator.of(context).pushReplacement(MaterialPageRoute(
                         builder: (context) => const BottomBar()));
                   },
-                  icon: const Icon(Icons.refresh))
+                  icon: const Icon(
+                    Icons.refresh,
+                    size: 30,
+                  )),
+              const SizedBox(height: 20),
+              TextButton(
+                onPressed: () {
+                  FirebaseAuth.instance.signOut();
+                },
+                child: Text(
+                  'Sign Out',
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.error,
+                  ),
+                ),
+              ),
             ],
           ),
         )),

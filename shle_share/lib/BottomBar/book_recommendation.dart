@@ -95,6 +95,9 @@ class _BookReqState extends State<BookReq> {
         ScaffoldMessenger.of(context).clearSnackBars();
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
             content: Text('Err : No books added to your Finshed books')));
+        setState(() {
+          isLoading = false;
+        });
         return;
       } else {
         final res = await getBookRecommendations(booksName);
