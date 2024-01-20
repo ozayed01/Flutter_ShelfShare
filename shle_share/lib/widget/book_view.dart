@@ -47,7 +47,11 @@ class BookView extends StatelessWidget {
     void _selectBook(BuildContext context, MyBook book) {
       Navigator.of(context).push(MaterialPageRoute(
         builder: (context) => BookDetails(
-            book: book, isFin: isFin, isOther: isOther, userId: userId),
+            book: book,
+            isFin: isFin,
+            isOther: isOther,
+            isReq: isReq,
+            userId: userId),
       ));
     }
 

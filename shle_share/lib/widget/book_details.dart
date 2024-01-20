@@ -12,11 +12,13 @@ class BookDetails extends StatelessWidget {
       required this.book,
       required this.isFin,
       required this.isOther,
+      required this.isReq,
       required this.userId});
   final MyBook book;
   final bool isFin;
   final bool isOther;
   final String userId;
+  final bool isReq;
 
   @override
   Widget build(BuildContext context) {
@@ -182,7 +184,7 @@ class BookDetails extends StatelessWidget {
                           color: Theme.of(context).colorScheme.background),
                     ),
                     const SizedBox(height: 40),
-                    if (!isOther)
+                    if (!isOther && !isReq)
                       ElevatedButton(
                         onPressed: _deleteBook,
                         style: ElevatedButton.styleFrom(
@@ -203,7 +205,12 @@ class BookDetails extends StatelessWidget {
                                     )));
                           },
                           icon: const Icon(Icons.outgoing_mail),
-                          label: const Text('Ask To Exhange'))
+                          label: const Text('Ask To Exhange')),
+                    if (isReq)
+                      ElevatedButton.icon(
+                          onPressed: () {},
+                          icon: const Icon(Icons.add),
+                          label: const Text('Request')),
                   ],
                 ),
               ),

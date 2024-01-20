@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import 'package:intl/intl.dart';
 import 'package:shle_share/Book_finder/books_finder.dart';
 import 'package:shle_share/models/UserChatInfo.dart';
@@ -10,14 +10,14 @@ import 'package:shle_share/widget/location_input.dart';
 
 final formatter = DateFormat.yMd();
 
-class AddRequest extends ConsumerStatefulWidget {
+class AddRequest extends StatefulWidget {
   @override
-  ConsumerState<AddRequest> createState() {
+  State<AddRequest> createState() {
     return _addRequestState();
   }
 }
 
-class _addRequestState extends ConsumerState<AddRequest> {
+class _addRequestState extends State<AddRequest> {
   final _requestTextController = TextEditingController();
 
   Book? _theBook;
@@ -55,61 +55,73 @@ class _addRequestState extends ConsumerState<AddRequest> {
   void _addPost(Book book) async {
     final enteredText = _requestTextController.text;
 
-    if (enteredText.isEmpty) {
+    if (enteredText.isEmpty || _selectedLocation == null) {
+      // Optionally show a warning message to the user
       return;
     }
-    final user = FirebaseAuth.instance.currentUser!;
-    final userInfo = await FirebaseFirestore.instance
-        .collection('Users')
-        .doc(user.uid)
-        .get();
-    String releaseDate = book.info.publishedDate != null
-        ? formattedDate(book.info.publishedDate!)
-        : 'Not Available';
-    if (book.info.categories.isEmpty) {}
-    FirebaseFirestore.instance.collection('Books').doc(book.id).set({
-      'book_id': book.id,
-      'book_name': book.info.title,
-      'book_auther': book.info.authors[0],
-      'book_image': '${book.info.imageLinks['thumbnail']}',
-      'book_description': book.info.description,
-      'book_genra':
-          (book.info.categories.isEmpty) ? 'No Genra' : book.info.categories[0],
-      'relase_date': releaseDate,
-      'createdAt': Timestamp.now(),
-    });
+    try {
+      final user = FirebaseAuth.instance.currentUser!;
+      final userInfo = await FirebaseFirestore.instance
+          .collection('Users')
+          .doc(user.uid)
+          .get();
 
-    FirebaseFirestore.instance
-        .collection('book_shelf')
-        .doc(user.uid)
-        .collection('Requested')
-        .add({
-      'reqId': user.uid + '_' + book.info.title,
-      'book_id': book.id,
-      'book_name': book.info.title,
-      'book_auther': book.info.authors[0],
-      'book_image': '${book.info.imageLinks['thumbnail']}',
-      'book_description': book.info.description,
-      'relase_date': releaseDate,
-      'createdAt': Timestamp.now(),
-    });
-    FirebaseFirestore.instance.collection('Requests_feed').add({
-      'reqId': user.uid + '_' + book.info.title,
-      'request_text': enteredText,
-      'full_name': userInfo.data()!['full_name'],
-      'username': userInfo.data()!['username'],
-      'userPicUrl': userInfo.data()!['userPicUrl'],
-      'Bio': userInfo.data()!['Bio'],
-      'userId': user.uid,
-      'userLat': _selectedLocation!.latitude,
-      'userLng': _selectedLocation!.longitude,
-      'book_name': book.info.title,
-      'book_auther': book.info.authors[0],
-      'book_image': '${book.info.imageLinks['thumbnail']}',
-      'relase_date': releaseDate,
-      'createdAt': Timestamp.now(),
-    });
-    Navigator.pop(context);
+      String releaseDate = book.info.publishedDate != null
+          ? formattedDate(book.info.publishedDate!)
+          : 'Not Available';
+      if (book.info.categories.isEmpty) {}
+      FirebaseFirestore.instance.collection('Books').doc(book.id).set({
+        'book_id': book.id,
+        'book_name': book.info.title,
+        'book_auther': book.info.authors[0],
+        'book_image': '${book.info.imageLinks['thumbnail']}',
+        'book_description': book.info.description,
+        'book_genra': (book.info.categories.isEmpty)
+            ? 'No Genra'
+            : book.info.categories[0],
+        'relase_date': releaseDate,
+        'createdAt': Timestamp.now(),
+      });
+
+      FirebaseFirestore.instance
+          .collection('book_shelf')
+          .doc(user.uid)
+          .collection('Requested')
+          .add({
+        'reqId': user.uid + '_' + book.info.title,
+        'book_id': book.id,
+        'book_name': book.info.title,
+        'book_auther': book.info.authors[0],
+        'book_image': '${book.info.imageLinks['thumbnail']}',
+        'book_description': book.info.description,
+        'relase_date': releaseDate,
+        'createdAt': Timestamp.now(),
+      });
+      FirebaseFirestore.instance.collection('Requests_feed').add({
+        'reqId': user.uid + '_' + book.info.title,
+        'request_text': enteredText,
+        'full_name': userInfo.data()!['full_name'],
+        'username': userInfo.data()!['username'],
+        'userPicUrl': userInfo.data()!['userPicUrl'],
+        'Bio': userInfo.data()!['Bio'],
+        'userId': user.uid,
+        'userLat': _selectedLocation!.latitude,
+        'userLng': _selectedLocation!.longitude,
+        'book_name': book.info.title,
+        'book_auther': book.info.authors[0],
+        'book_image': '${book.info.imageLinks['thumbnail']}',
+        'relase_date': releaseDate,
+        'createdAt': Timestamp.now(),
+      });
+      if (!mounted) return;
+      Navigator.pop(context);
+    } catch (e) {
+      // Handle the error, maybe show a SnackBar with the error message
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error: ${e.toString()}')),
+      );
+    }
   }
 
   @override
