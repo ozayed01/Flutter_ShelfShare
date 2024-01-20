@@ -16,7 +16,7 @@ class AuthScreen extends StatefulWidget {
 class _AuthScreenState extends State<AuthScreen> {
   final _formKey = GlobalKey<FormState>();
   var _isSignIn = true;
-
+  var _showPassword = false;
   var _enteredEmail = '';
   var _enteredPassword = '';
   var _enteredConfPassword = '';

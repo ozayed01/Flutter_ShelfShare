@@ -81,7 +81,7 @@ class _SearchScreenState extends State<SearchScreen> {
                     color: Theme.of(context).colorScheme.onPrimary,
                   )),
         ),
-        BookReq(isSearch: widget.isfromReq),
+        BookReq(),
       ],
     );
     if (isLoading && _searchBookList.isNotEmpty) {
