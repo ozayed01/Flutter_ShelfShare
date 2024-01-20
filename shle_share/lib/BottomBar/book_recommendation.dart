@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:shle_share/Book_finder/books_finder.dart';
 import 'package:http/http.dart' as http;
+import 'package:shle_share/models/my_book.dart';
+import 'package:shle_share/widget/book_details.dart';
 import 'dart:convert';
 import 'package:shle_share/widget/book_view.dart';
 import 'package:intl/intl.dart';
@@ -16,12 +18,16 @@ String apiKey =
 int maxTokens = 150;
 
 class BookReq extends StatefulWidget {
+  const BookReq({super.key, required this.isSearch});
+  final bool isSearch;
+
   @override
   State<BookReq> createState() => _BookReqState();
 }
 
 class _BookReqState extends State<BookReq> {
   bool isLoading = false;
+
   List<String> userbooks = [];
   List<Book> RecBooks = [];
   Future<String> getBookRecommendations(List<String> finBooks) async {
@@ -120,10 +126,55 @@ class _BookReqState extends State<BookReq> {
     });
   }
 
+  Future<void> _confirmRecommendationDialog() async {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Recommendations'),
+          content: const Text(
+              'Our AI-Powered recommendations are based on your finished books, So if you want to get recommendations you need to add books to your finished books.'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () {
+                UserRec();
+                Navigator.of(context).pop();
+              },
+              child: const Text('Contenue'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    Widget content = TextButton(
-        onPressed: UserRec, child: const Text("Get Recommendations"));
+    Widget content = Container(
+      height: 270,
+      width: double.infinity,
+      child: Column(children: [
+        const SizedBox(height: 40),
+        const Text(
+          'You don\'t know what to search for?',
+          style: TextStyle(fontSize: 17),
+        ),
+        const SizedBox(height: 30),
+        ElevatedButton(
+          onPressed: _confirmRecommendationDialog,
+          child: const Text(
+            "Try our Recommendations",
+            style: TextStyle(fontSize: 13),
+          ),
+        ),
+      ]),
+    );
     if (isLoading) {
       content = Center(child: CircularProgressIndicator());
     }
@@ -144,7 +195,7 @@ class _BookReqState extends State<BookReq> {
               bookAuthor: bookData.info.authors.join(', '),
               bookDescription: bookData.info.description,
               relaseDate: '${formattedDate(bookData.info.publishedDate!)}',
-              isOther: true,
+              isOther: false,
               isReq: true,
             ),
           );

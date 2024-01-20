@@ -19,6 +19,7 @@ class SearchScreen extends StatefulWidget {
 class _SearchScreenState extends State<SearchScreen> {
   var isLoading = false;
   List<Book> _searchBookList = [];
+
   final _searchControllr = TextEditingController();
 
   void _loadItems() async {
@@ -73,8 +74,15 @@ class _SearchScreenState extends State<SearchScreen> {
           textAlign: TextAlign.center,
           style: Theme.of(context).textTheme.bodyLarge,
         ),
-        const SizedBox(height: 200),
-        BookReq(),
+        const SizedBox(height: 170),
+        Container(
+          color: Theme.of(context).colorScheme.primary,
+          child: Text('  Recommendations:',
+              style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+                    color: Theme.of(context).colorScheme.onPrimary,
+                  )),
+        ),
+        BookReq(isSearch: widget.isfromReq),
       ],
     );
     if (isLoading && _searchBookList.isNotEmpty) {
