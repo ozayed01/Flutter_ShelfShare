@@ -115,7 +115,12 @@ class _BottomBarState extends State<BottomBar> {
                     Navigator.of(context).pushReplacement(MaterialPageRoute(
                         builder: (context) => const BottomBar()));
                   },
-                  icon: const Icon(Icons.refresh))
+                  icon: const Icon(Icons.refresh)), 
+                  TextButton(onPressed: (){
+                    FirebaseAuth.instance.signOut();
+                  }, child:  const Text('Sign Out' , style: TextStyle(
+                    color: Colors.red
+                  ),))
             ],
           ),
         )),
