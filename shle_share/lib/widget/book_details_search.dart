@@ -106,16 +106,15 @@ class BookDetailsSearch extends StatelessWidget {
                           'createdAt': Timestamp.now(),
                         });
                         ScaffoldMessenger.of(context).clearSnackBars();
-                        ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                                content: Text(
-                                    'The Book is Added to Finished Books')));
+                        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                            content: Text(
+                                'The Book is Added to your Available Books')));
                       },
                       style: ElevatedButton.styleFrom(
                         padding: const EdgeInsets.symmetric(
                             horizontal: 30, vertical: 20),
                       ),
-                      label: const Text('Already Read'),
+                      label: const Text('Add to Available Books'),
                       icon: const Icon(Icons.check),
                     )
                   ],

@@ -73,6 +73,12 @@ class _EditProfileState extends State<EditProfile> {
         MaterialPageRoute(builder: (context) => const OnboardingPage1()),
       );
     } else {
+      ScaffoldMessenger.of(context).clearSnackBars();
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Profile Updated Successfully'),
+        ),
+      );
       Navigator.of(context).pop();
     }
   }
