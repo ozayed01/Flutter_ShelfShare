@@ -58,7 +58,7 @@ class BookView extends StatelessWidget {
     Widget content = Container(
       color: Colors.black54,
       padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-      child: Text((isFin) ? "Finished" : "Requested",
+      child: Text((isFin) ? "Available" : "Requested",
           textAlign: TextAlign.center,
           style: Theme.of(context).textTheme.titleMedium!.copyWith(
                 color: Colors.white,
