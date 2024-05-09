@@ -1,3 +1,5 @@
+![ShlefShare Image](https://ibb.co/7Kr2Vdd)
+
 # Introduction and Background
 
 ShelfShare is a book trading app designed to make reading more affordable and accessible. It offers easy book exchanges and promotes sustainable reading habits, with features including user-friendly profiles, geolocation services, in-app messaging, and AI recommendations. This project utlizes technology to enhance book accessibility and affordability, benefiting both readers and the environment.
