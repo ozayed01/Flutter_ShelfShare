@@ -10,7 +10,7 @@ This project has been developed as part of the graduation requirements for the I
 
 ShelfShare is a book trading app designed to make reading more affordable and accessible. It offers easy book exchanges and promotes sustainable reading habits, with features including user-friendly profiles, geolocation services, in-app messaging, and AI recommendations. This project utlizes technology to enhance book accessibility and affordability, benefiting both readers and the environment.
 
-## Objective 
+## Project Objective 
 
 This project aims to provide an efficient and affordable way to exchange books to:
 
