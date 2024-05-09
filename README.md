@@ -20,3 +20,12 @@ This project aims to provide an efficient and affordable way to exchange books t
 ## Download The app 
 
 *Badges will be here for IOS and Android*
+
+
+
+## Project Team
+- **Developers:**
+  - Osama Ali Alzayed
+  - Saleh Abdullah Alyahy
+- **Supervisor:**
+  - Dr.Salem AlJanah
