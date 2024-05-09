@@ -11,8 +11,7 @@ import 'package:intl/intl.dart';
 final formatter = DateFormat.yMd();
 
 const String openaiUrl = 'https://api.openai.com/v1/chat/completions';
-String apiKey =
-    '${dotenv.env['openAi_APIKEY']}'; // Replace with your actual API key
+String apiKey = '${dotenv.env['openAi_APIKEY']}';
 int maxTokens = 150;
 
 class BookReq extends StatefulWidget {
@@ -37,7 +36,7 @@ class _BookReqState extends State<BookReq> {
           'Authorization': 'Bearer $apiKey',
         },
         body: jsonEncode({
-          'model': 'gpt-3.5-turbo', // the model here
+          'model': 'gpt-3.5-turbo',
           'messages': [
             {
               'role': 'user',
@@ -54,16 +53,20 @@ class _BookReqState extends State<BookReq> {
         if (jsonResponse['choices'] != null &&
             jsonResponse['choices'].isNotEmpty) {
           var firstChoice = jsonResponse['choices'][0];
-
+          print('Response status: ${response.statusCode}');
+          print('Response body: ${response.body}');
           if (firstChoice['message']['content'] != null) {
             return firstChoice['message']['content'].trim();
           }
         }
         return 'No recommendations found.';
       } else {
+        print('Response status: ${response.statusCode}');
+        print('Response body: ${response.body}');
         return 'Failed to load recommendations';
       }
     } catch (e) {
+      print('Exception caught in getBookRecommendations: $e');
       return 'Exception caught in getBookRecommendations: $e';
     }
   }
@@ -147,7 +150,7 @@ class _BookReqState extends State<BookReq> {
                 UserRec();
                 Navigator.of(context).pop();
               },
-              child: const Text('Contenue'),
+              child: const Text('Continue'),
             ),
           ],
         );

@@ -11,7 +11,7 @@ class OnboardingPage1 extends StatelessWidget {
     return Scaffold(
       body: OnboardingPagePresenter(pages: [
         OnboardingPageModel(
-          title: 'Welcom to Shelf Share \nSwift & Simple way to Exchange Books',
+          title: 'Welcome to ShelfShare \nSwift & Simple way to Exchange Books',
           description:
               'Discover the joy of Exchanging books with others through our seamless Request Feed.',
           imageUrl: 'https://i.ibb.co/PCbtnvK/undraw-books-re-8gea-svg.png',
@@ -59,9 +59,8 @@ class OnboardingPagePresenter extends StatefulWidget {
 }
 
 class _OnboardingPageState extends State<OnboardingPagePresenter> {
-  // Store the currently visible page
   int _currentPage = 0;
-  // Define a controller for the pageview
+
   final PageController _pageController = PageController(initialPage: 0);
 
   @override
@@ -79,7 +78,6 @@ class _OnboardingPageState extends State<OnboardingPagePresenter> {
                   controller: _pageController,
                   itemCount: widget.pages.length,
                   onPageChanged: (idx) {
-                    // Change current page when pageview changes
                     setState(() {
                       _currentPage = idx;
                     });
