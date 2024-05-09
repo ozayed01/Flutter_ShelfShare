@@ -1,4 +1,4 @@
-<img src="https://i.ibb.co/7Kr2Vdd/shelf-share.png" alt="ShelfShare Image" width="500"/>
+<img src="*/shle_share/assets/images/ShelfShareReadme.png" alt="ShelfShare Image" width="500"/>
 
 
 
