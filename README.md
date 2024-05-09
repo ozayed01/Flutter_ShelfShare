@@ -28,8 +28,8 @@ This project aims to provide an efficient and affordable way to exchange books t
 
 
 ## Project Team
-this is 
-- **Developers:**
+
+- **Students:**
   - Osama Ali Alzayed
   - Saleh Abdullah Alyahy
 - **Supervisor:**
