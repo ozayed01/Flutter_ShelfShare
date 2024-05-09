@@ -17,6 +17,6 @@ This project aims to provide an efficient and affordable way to exchange books t
 • Use Artificial Intelligence (AI) to tailor book suggestions accoding to the users’ reading history to make the experiance more personal.
 
 
-## Dowenload The app 
+## Download The app 
 
-Badges will be here
+*Badges will be here for IOS and Android*
