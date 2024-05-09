@@ -16,7 +16,7 @@ class AuthScreen extends StatefulWidget {
 class _AuthScreenState extends State<AuthScreen> {
   final _formKey = GlobalKey<FormState>();
   var _isSignIn = true;
-  var _showPassword = false;
+  bool _isPasswordHidden = true;
   var _enteredEmail = '';
   var _enteredPassword = '';
   var _enteredConfPassword = '';
@@ -134,14 +134,26 @@ class _AuthScreenState extends State<AuthScreen> {
                                 borderRadius: BorderRadius.circular(18),
                               ),
                               prefixIcon: const Icon(Icons.password),
+                              suffixIcon: IconButton(
+                                icon: Icon(
+                                  _isPasswordHidden
+                                      ? Icons.visibility
+                                      : Icons.visibility_off,
+                                ),
+                                onPressed: () {
+                                  setState(() {
+                                    _isPasswordHidden = !_isPasswordHidden;
+                                  });
+                                },
+                              ),
                             ),
                             validator: (value) {
                               if (value == null || value.trim().length < 6) {
-                                return 'Please Enter a Valid Password it has to be 6+ charchters long ';
+                                return 'Please Enter a Valid Password it has to be 6+ characters long ';
                               }
                               return null;
                             },
-                            obscureText: true,
+                            obscureText: _isPasswordHidden,
                             onSaved: (newValue) {
                               _enteredPassword = newValue!;
                             },

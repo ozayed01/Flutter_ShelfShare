@@ -89,7 +89,7 @@ class _locationInputState extends State<LocationInput> {
     if (pickedlocatin == null) {
       return;
     }
-
+    print('pickedlocatin.latitude: ${pickedlocatin.latitude}');
     _savePlace(pickedlocatin.latitude, pickedlocatin.longitude);
   }
 
