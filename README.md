@@ -1,6 +1,10 @@
 <img src="shle_share/assets/images/ShelfShareReadme.png" alt="ShelfShare Image" />
 
 
+## About This Project
+This project has been developed as part of the graduation requirements for the Information Systems program at Imam Mohammad Ibn Saud University. It represents a collaborative effort to showcase our skills and knowledge acquired throughout our studies.
+
+
 
 ## Introduction and Background
 
@@ -21,9 +25,6 @@ This project aims to provide an efficient and affordable way to exchange books t
 
 *Badges will be here for IOS and Android*
 
-
-## About This Project
-This project has been developed as part of the graduation requirements for the Information Systems program at Imam Mohammad Ibn Saud University. It represents a collaborative effort to showcase our skills and knowledge acquired throughout our studies.
 
 
 ## Project Team
