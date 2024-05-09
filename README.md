@@ -1,4 +1,5 @@
-![ShelfShare Image](https://i.ibb.co/7Kr2Vdd/shelf-share.png)
+<img src="https://i.ibb.co/7Kr2Vdd/shelf-share.png" alt="ShelfShare Image" width="500"/>
+
 
 
 # Introduction and Background
