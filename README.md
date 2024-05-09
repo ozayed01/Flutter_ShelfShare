@@ -29,3 +29,9 @@ This project aims to provide an efficient and affordable way to exchange books t
   - Saleh Abdullah Alyahy
 - **Supervisor:**
   - Dr.Salem AlJanah
+
+## Contact Information
+If you have any questions or would like to reach out, please feel free to email me at:
+
+- **Osama Alzayed**
+  - Email: ozayed01@hotmail.com
