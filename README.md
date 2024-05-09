@@ -22,8 +22,12 @@ This project aims to provide an efficient and affordable way to exchange books t
 *Badges will be here for IOS and Android*
 
 
+## About This Project
+This project has been developed as part of the graduation requirements for the Information Systems program at Imam Mohammad Ibn Saud University. It represents a collaborative effort to showcase our skills and knowledge acquired throughout our studies.
+
 
 ## Project Team
+this is 
 - **Developers:**
   - Osama Ali Alzayed
   - Saleh Abdullah Alyahy
