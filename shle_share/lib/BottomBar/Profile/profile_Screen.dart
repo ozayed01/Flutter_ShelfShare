@@ -11,11 +11,13 @@ class ProfileScreen extends StatelessWidget {
       required this.username,
       required this.userImg,
       this.userBio,
+      required this.userId,
       required this.IsOtherUser,
       this.otherUserId,
       required this.isAdmin});
   final String username;
   final String fullName;
+  final String userId;
   final String userImg;
   final String? userBio;
   final bool IsOtherUser;
@@ -26,7 +28,7 @@ class ProfileScreen extends StatelessWidget {
     Widget content = DefaultTabController(
       length: 2,
       child: Scaffold(
-        endDrawer: const ProfileDrawr(isAdmin: false),
+        endDrawer: ProfileDrawr(isAdmin: false, userId: userId , ),
         appBar: AppBar(
           title: const Text('Your Profile'),
         ),

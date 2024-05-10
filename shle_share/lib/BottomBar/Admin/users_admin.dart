@@ -67,7 +67,7 @@ class _AdminUsersListState extends State<AdminUsersList> {
     }
 
     return Scaffold(
-      endDrawer: const ProfileDrawr(isAdmin: true),
+      endDrawer: const ProfileDrawr(isAdmin: true, userId: 'hj' , ),
       appBar: AppBar(
         title: Text(
           'Users List (Accessed As ${widget.AdminName})',

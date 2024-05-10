@@ -23,6 +23,7 @@ class _BottomBarState extends State<BottomBar> {
   var username = '';
   var userPic = '';
   var bio = '';
+  var userId = '';
   var isLoading = false;
   var isAdmin = false;
   var isActive = true;
@@ -47,6 +48,7 @@ class _BottomBarState extends State<BottomBar> {
         .doc(user.uid)
         .get();
     setState(() {
+      userId = user.uid;
       name = userInfo.data()!['full_name'];
       username = userInfo.data()!['username'];
       userPic = userInfo.data()!['userPicUrl'];
@@ -86,25 +88,26 @@ class _BottomBarState extends State<BottomBar> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const Icon(
-                Icons.report_problem_rounded,
-                color: Colors.red,
+                Icons.check_circle,
+                color: Colors.green,
                 size: 150,
               ),
               Text(
-                'Account Suspended',
+                'Your Account is successfully deleted',
+                textAlign: TextAlign.center,
                 style: Theme.of(context)
                     .textTheme
                     .headlineLarge!
-                    .copyWith(color: Colors.black, fontWeight: FontWeight.bold),
+                    .copyWith(color: Colors.black, fontWeight: FontWeight.bold ),
               ),
               const SizedBox(height: 20),
               Text(
-                'Your account has been suspended due to recent violations,If you believe this is an error, please Contact our Support.',
+                'All associated data has will be removed. If you wish to restore your account, please click the button below to submit a ticket.',
                 textAlign: TextAlign.center,
                 style: Theme.of(context)
                     .textTheme
                     .headlineSmall!
-                    .copyWith(color: Colors.black, fontSize: 15),
+                    .copyWith(color: Colors.black, fontSize: 13),
               ),
               const SizedBox(height: 100),
               ElevatedButton(
@@ -136,6 +139,7 @@ class _BottomBarState extends State<BottomBar> {
         }
         activePage = ProfileScreen(
           fullName: name,
+          userId: userId,
           username: username,
           userImg: userPic,
           userBio: bio,
@@ -178,6 +182,7 @@ class _BottomBarState extends State<BottomBar> {
           username: username,
           userImg: userPic,
           userBio: bio,
+          userId: userId,
           isAdmin: isAdmin,
           IsOtherUser: false,
         );

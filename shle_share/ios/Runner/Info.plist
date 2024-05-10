@@ -26,14 +26,10 @@
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
-	<key>NSCameraUsageDescription</key>
-	<string>take a photo </string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Allow to get your location</string>
-	<key>NSMicrophoneUsageDescription</key>
-	<string>record a video</string>
+	<string>Our app utilizes location services to enhance user experience by displaying the origin of requests and calculating their proximity to the user</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Pick a photo for gallary</string>
+	<string>Our app requires access to your device's photo library to enable you to select a profile picture.</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>

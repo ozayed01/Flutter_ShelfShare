@@ -12,6 +12,7 @@ class UserProfile extends StatelessWidget {
         title: Text('${user.name}\'s Profile'),
       ),
       body: ProfileScreen(
+        userId: user.userId,
         otherUserId: user.userId,
         fullName: user.name,
         username: user.username,

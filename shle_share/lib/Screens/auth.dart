@@ -123,7 +123,7 @@ class _AuthScreenState extends State<AuthScreen> {
                             },
                           ),
                           const SizedBox(height: 15),
-                          TextFormField(
+                             TextFormField(
                             controller: _passwordController,
                             decoration: InputDecoration(
                               label: const Text(
