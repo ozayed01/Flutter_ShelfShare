@@ -173,8 +173,8 @@ class _BookReqState extends State<BookReq> {
         ElevatedButton(
           onPressed: _confirmRecommendationDialog,
           child: const Text(
-            "Try our Recommendations",
-            style: TextStyle(fontSize: 13),
+            "Try our Recommendations!",
+            style: TextStyle(fontSize: 9),
           ),
         ),
       ]),

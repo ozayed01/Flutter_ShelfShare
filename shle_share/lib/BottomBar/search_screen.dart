@@ -64,26 +64,28 @@ class _SearchScreenState extends State<SearchScreen> {
       );
     }
 
-    Widget content = Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        const SizedBox(height: 200),
-        Text(
-          'No search resault yet...',
-          textAlign: TextAlign.center,
-          style: Theme.of(context).textTheme.bodyLarge,
-        ),
-        const SizedBox(height: 170),
-        if (!widget.isfromReq)
-          Container(
-            color: Theme.of(context).colorScheme.primary,
-            child: Text('  Recommendations:',
-                style: Theme.of(context).textTheme.headlineSmall!.copyWith(
-                      color: Theme.of(context).colorScheme.onPrimary,
-                    )),
+    Widget content = SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          const SizedBox(height: 200),
+          Text(
+            'No search resault yet...',
+            textAlign: TextAlign.center,
+            style: Theme.of(context).textTheme.bodyLarge,
           ),
-        if (!widget.isfromReq) const BookReq(isSearch: true),
-      ],
+          const SizedBox(height: 170),
+          if (!widget.isfromReq)
+            Container(
+              color: Theme.of(context).colorScheme.primary,
+              child: Text('  Recommendations:',
+                  style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+                        color: Theme.of(context).colorScheme.onPrimary,
+                      )),
+            ),
+          if (!widget.isfromReq) const BookReq(isSearch: true),
+        ],
+      ),
     );
     if (isLoading && _searchBookList.isNotEmpty) {
       content = const Center(child: CircularProgressIndicator());
@@ -163,44 +165,48 @@ class _SearchScreenState extends State<SearchScreen> {
         ),
       );
     }
-    var deviceWidth = MediaQuery.of(context).size.width;
 
-    return Scaffold(
-        appBar: AppBar(
-          title: SizedBox(
-            height: 40,
-            width: deviceWidth,
-            child: TextField(
-              onSubmitted: (value) {
-                _loadItems();
-              },
-              controller: _searchControllr,
-              style:
-                  TextStyle(color: Theme.of(context).colorScheme.onBackground),
-              decoration: InputDecoration(
-                filled: true,
-                hintText: 'Search',
-                prefixIcon: const Icon(
-                  Icons.search,
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        var deviceWidth = constraints.maxWidth;
+        return Scaffold(
+            appBar: AppBar(
+              title: SizedBox(
+                height: 40,
+                width: deviceWidth,
+                child: TextField(
+                  onSubmitted: (value) {
+                    _loadItems();
+                  },
+                  controller: _searchControllr,
+                  style: TextStyle(
+                      color: Theme.of(context).colorScheme.onBackground),
+                  decoration: InputDecoration(
+                    filled: true,
+                    hintText: 'Search',
+                    prefixIcon: const Icon(
+                      Icons.search,
+                    ),
+                    fillColor: Colors.white,
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide.none),
+                  ),
                 ),
-                fillColor: Colors.white,
-                border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: BorderSide.none),
               ),
+              actions: [
+                TextButton(
+                  onPressed: _loadItems,
+                  child: Text(
+                    'Search',
+                    style: TextStyle(
+                        color: Theme.of(context).colorScheme.background),
+                  ),
+                ),
+              ],
             ),
-          ),
-          actions: [
-            TextButton(
-              onPressed: _loadItems,
-              child: Text(
-                'Search',
-                style:
-                    TextStyle(color: Theme.of(context).colorScheme.background),
-              ),
-            ),
-          ],
-        ),
-        body: content);
+            body: content);
+      },
+    );
   }
 }

@@ -29,13 +29,11 @@
 	<key>NSCameraUsageDescription</key>
 	<string>take a photo </string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Allow to get your location</string>
+	<string>We use your location to determine the location of book exchange requests and calculate how far they are from you.</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>record a video</string>
-	<string>Our app utilizes location services to enhance user experience by displaying the origin of requests and calculating their proximity to the user</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Pick a photo for gallary</string>
-	<string>Our app requires access to your device's photo library to enable you to select a profile picture.</string>
+	<string>We requires access to your device's photo library to enable you to select a profile picture.</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>
