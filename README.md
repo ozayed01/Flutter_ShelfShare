@@ -24,7 +24,7 @@ This project aims to provide an efficient and affordable way to exchange books t
 ## Download The app 
 
 <a href="https://github.com/ozayed01/Flutter_ShelfShare/releases/tag/Beta">
-    <img src="shle_share/assets/images/Download Android APK Badge.png" alt="Android APK"/>
+    <img src="shle_share/assets/images/Download Android APK Badge.png" alt="Android APK" hight= '200' width = '200'/>
 </a>
 
 
