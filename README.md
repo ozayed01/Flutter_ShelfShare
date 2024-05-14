@@ -23,7 +23,7 @@ This project aims to provide an efficient and affordable way to exchange books t
 
 ## Download The app 
 
-<img src="shle_share/assets/images/Download Android APK Badge.png" alt="Android APK" />
+[![Download Android APK](shle_share/assets/images/Download Android APK Badge.png)](https://github.com/your_username/your_repository/releases/latest/download/your_apk_filename.apk)
 
 
 
