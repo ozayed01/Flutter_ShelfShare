@@ -23,7 +23,7 @@ This project aims to provide an efficient and affordable way to exchange books t
 
 ## Download The app 
 
-*Badges will be here for IOS and Android*
+<img src="shle_share/assets/images/Download Android APK Badge.png" alt="Android APK" />
 
 
 
